@@ -4,16 +4,17 @@ import java.io.File;
 
 public class ArgumentReader {
 
+	private static final String USAGE_STRING = "Usage:\n-i path : path to the decompiled project\n-o path : path to the result js file\n-f filter : java package to filter by (to show all dependencies pass '-f nofilter')";
+	
 	private String[] args;
 	
 	public ArgumentReader(String[] args) {
 		this.args = args;
 	}
-	
+
 	public Arguments read() {
 		if (args.length != 4 && args.length != 6) {
-			System.err.println(
-					"Usage:\n-i path : path to the decompiled project\n-o path : path to the result json file\n-f filter : java package to filter by\n-i and -o are mandatory");
+			System.err.println(USAGE_STRING);
 			return null;
 		}
 		String projectPath = null, resultPath = null, filter = null;
@@ -30,9 +31,14 @@ public class ArgumentReader {
 				}
 			}
 		}
-		if (projectPath == null || resultPath == null) {
-			System.err.println("Arguments are incorrect");
+		if (projectPath == null || resultPath == null || filter == null) {
+			System.err.println("Arguments are incorrect!");
+			System.err.println(USAGE_STRING);
 			return null;
+		}
+		if (filter.equals("nofilter")) {
+			filter = null;
+			System.out.println("Warning! Processing without filter.");
 		}
 		File projectFile = new File(projectPath);
 		if (!projectFile.exists()) {
