@@ -4,6 +4,9 @@ Android dependency visualizer. It's tool that helps to visualize current state o
 ##Theory
 Class coupling is one of the significant code metrics which shows how easy is to change your code. Actually the architecture of microservices is based on the idea that the modules should be low-coupled so you are able to easily replace one module with another one with the same interface. This tool helps to view whole picture of your project. Check yourself!
 
+##Requirements
+You need at least **Java 7** to run `jar` files.
+
 ##Usage
 ###Fast way
 I've prepared helpful scripts for you. All you need to do is to clone this repository (or download and unpack release archive) and type the next command in your command line:  
