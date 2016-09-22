@@ -48,7 +48,7 @@ I suggest to use your package name as filter however you may omit it.
 ## Examples
 
 Here the sample of good architecture with low class coupling:  
-![Good sample](image-good-example.jpg)
+![Good sample](image_good_example.jpg)
 
 And this one reminds a spaghetti:  
 ![Good sample](image-bad-example.jpg)
