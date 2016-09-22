@@ -60,7 +60,7 @@ Does your project look like the first or the second picture? :)
 
 ## Notes
 
-Aware! This tool cannot analyze apks generated with **instant run**. This is a limitation of `apktool` running under the hood.
+Aware! This tool cannot analyze apks generated with **instant run**. This is a limitation of `apktool` running under the hood.  
 If you have troubles look through [troubleshooting](https://github.com/alexzaitsev/apk-dependency-graph/wiki/Troubleshooting) wiki page or create issue in this repository.
 
 ## Credits
