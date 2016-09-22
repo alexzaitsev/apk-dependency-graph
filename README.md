@@ -48,10 +48,10 @@ I suggest to use your package name as filter however you may omit it.
 ## Examples
 
 Here the sample of good architecture with low class coupling:  
-image here
+![Good sample](image-good-example.jpg)
 
 And this one reminds a spaghetti:  
-image here
+![Good sample](image-bad-example.jpg)
 
 Does your project look like the first or the second picture? :)
 
