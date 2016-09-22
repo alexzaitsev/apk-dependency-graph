@@ -1,33 +1,13 @@
 <!DOCTYPE html>
+<meta charset="utf-8">
 <head>
 
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		
 	<title>Apk dependency graph</title>
 	<meta name="author" content="Alex Zaitsev">
 	<meta name="keywords" content="apk, android, dependency, dependencies, vizualization, graph, chart, classes, java">
 	<meta name="description" content="Android dependency visualizer. It's a tool that helps to visualize current state of your project. It's really easy to see how tight your classes are coupled.">
-		
-	<link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-icon-57x57.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="/images/favicons/apple-icon-60x60.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="/images/favicons/apple-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="/images/favicons/apple-icon-76x76.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="/images/favicons/apple-icon-114x114.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="/images/favicons/apple-icon-120x120.png">
-	<link rel="apple-touch-icon" sizes="144x144" href="/images/favicons/apple-icon-144x144.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="/images/favicons/apple-icon-152x152.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-icon-180x180.png">
-	<link rel="icon" type="imageimages/favicons/png" sizes="192x192"  href="/images/favicons/android-icon-192x192.png">
-	<link rel="icon" type="imageimages/favicons/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
-	<link rel="icon" type="imageimages/favicons/png" sizes="96x96" href="/images/favicons/favicon-96x96.png">
-	<link rel="icon" type="imageimages/favicons/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
-	<link rel="manifest" href="/images/favicons/manifest.json">
-	<meta name="msapplication-TileColor" content="#ffffff">
-	<meta name="msapplication-TileImage" content="/images/favicons/ms-icon-144x144.png">
-	<meta name="theme-color" content="#ffffff">
-		
-    <link rel="stylesheet" type="text/css" href="dependency.css">
+
+    <link rel="stylesheet" type="text/css" href="Scripts/dependency.css">
     <link rel="stylesheet" href="Scripts/sidr/stylesheets/jquery.sidr.dark.css">
     <style type="text/css" media="screen">
         body {
@@ -46,11 +26,6 @@
         #sidr {
             width: 700px;
         }
-		
-		#form {
-			float: right;
-			background-color: transparent; !important
-		}
     </style>
 </head>
 <body>
@@ -66,13 +41,15 @@
 <!-- ================================================= -->
 
 <form id="form">
-	<a id="simple-menu" class="editor-button" href="#sidr">Live editor</a><br>
     <label><input type="range" name="circle_size" min="1" max="50" value="15"/> Circle size</label><br>
     <label><input type="range" name="charge_multiplier" min="1" max="500" value="100"/> Charge multiplier</label><br>
     <label><input type="range" name="link_strength" min="0.1" max="100" value="7"/> Link strength</label><br>
     <label><input type="checkbox" name="show_texts_near_circles"/> Show names</label><br>
     <input id="search_input" placeholder="Type regexp to filter nodes" style="width:100%;"><br>
+
 </form>
+
+<a id="simple-menu" class="editor-button" href="#sidr">Live editor</a>
 
 <div id="chart">
     <!-- Here the SVG will be placed-->
@@ -256,8 +233,7 @@ force.start()
             .attr("marker-end", "url(#default)")
             .style("stroke-width", function (d) {
                 return 1;
-            })
-			.style("stroke", "#3B3B3B");
+            });
 
     //  ===================================================
     //  ===============  NODES SETUP     ==================
