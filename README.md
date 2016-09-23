@@ -62,7 +62,7 @@ And this one looks like a spaghetti:
 
 Does your project look like the first or the second picture? :)
 
-## Notes
+## Troubleshooting
 
 Aware! This tool cannot analyze apks generated with **instant run**. This is a limitation of `apktool` running under the hood.  
 If you have troubles look through [troubleshooting](https://github.com/alexzaitsev/apk-dependency-graph/wiki/Troubleshooting) wiki page or create an issue in this repository.
