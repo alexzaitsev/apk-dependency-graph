@@ -17,7 +17,7 @@ run.bat full\path\to\the\apk\app-release.apk com.example.test
 where `run.bat` is a path to script in your local repository, `full\path\to\the\apk\app-release.apk` is a full path to the apk file you want to analize, `com.example.test` is a filter. **We recommend to use your package name as a filter so you will avoid unnecessary dependencies in your graph. If you don't want to filter just pass `nofilter`.**  
 *For Unix*:
 ```
-run.sh full/path/to/the/apk/app-release.apk com.example.test
+./run.sh full/path/to/the/apk/app-release.apk com.example.test
 ```
 Wait until the command finishes:
 ```
