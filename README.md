@@ -53,7 +53,7 @@ I suggest to use your package name as filter. If you don't want to filter just p
 Here the sample of good architecture with low class coupling:  
 ![Good sample](image-good-example.jpg)
 
-And this one reminds a spaghetti:  
+And this one looks like a spaghetti:  
 ![Good sample](image-bad-example.jpg)
 
 Does your project look like the first or the second picture? :)
