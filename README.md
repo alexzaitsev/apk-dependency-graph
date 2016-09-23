@@ -47,7 +47,7 @@ java -jar apktool_2.2.0.jar d path-to-apk.apk -o path-to-folder-with-decompiled-
 ```
 After this run `analyzer`:  
 ```
-java -jar apk_dependency_graph_0.0.2.jar -i path-to-folder-with-decompiled-files -o analyzed.js -f com.example.test
+java -jar apk_dependency_graph_0.0.3.jar -i path-to-folder-with-decompiled-files -o analyzed.js -f com.example.test
 ```
 I suggest to use your package name as filter. If you don't want to filter just pass `nofilter`.
 
