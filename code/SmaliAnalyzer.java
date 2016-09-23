@@ -80,18 +80,21 @@ public class SmaliAnalyzer {
 			Set<String> dependencyNames = new HashSet<>();
 
 			for (String line; (line = br.readLine()) != null;) {
-				classNames.clear();
-
-				parseAndAddClassNames(classNames, line);
-
-				// filtering
-				for (String fullClassName : classNames) {
-					if (fullClassName != null && isFilterOk(fullClassName)) {
-						String simpleClassName = getClassSimpleName(fullClassName);
-						if (isClassOk(simpleClassName, fileName)) {
-							dependencyNames.add(simpleClassName);
+				try {
+					classNames.clear();
+	
+					parseAndAddClassNames(classNames, line);
+	
+					// filtering
+					for (String fullClassName : classNames) {
+						if (fullClassName != null && isFilterOk(fullClassName)) {
+							String simpleClassName = getClassSimpleName(fullClassName);
+							if (isClassOk(simpleClassName, fileName)) {
+								dependencyNames.add(simpleClassName);
+							}
 						}
 					}
+				} catch (Exception e) {
 				}
 			}
 

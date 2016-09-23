@@ -17,4 +17,4 @@ Set outPath=%~dp0\%Name:~0,-4%
 Set jsonPath=%~dp0\analyzed.js
 
 java -jar %~dp0\apktool_2.2.0.jar d %1 -o %outPath% -f
-java -jar %~dp0\apk_dependency_graph_0.0.2.jar -i %outPath% -o %jsonPath% -f %2
+java -jar %~dp0\apk_dependency_graph_0.0.3.jar -i %outPath% -o %jsonPath% -f %2

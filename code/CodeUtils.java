@@ -3,15 +3,15 @@ package code;
 public class CodeUtils {
 
 	public static boolean isClassR(String className) {
-		return className.equals("R") || className.startsWith("R$");
+		return className != null && className.equals("R") || className.startsWith("R$");
 	}
 
 	public static boolean isClassGenerated(String className) {
-		return className.contains("$$");
+		return className != null && className.contains("$$");
 	}
 
 	public static boolean isClassInner(String className) {
-		return className.contains("$") && !isClassAnonymous(className) && !isClassGenerated(className);
+		return className != null && className.contains("$") && !isClassAnonymous(className) && !isClassGenerated(className);
 	}
 
 	public static String getOuterClass(String className) {
@@ -19,7 +19,7 @@ public class CodeUtils {
 	}
 
 	public static boolean isClassAnonymous(String className) {
-		return className.contains("$")
+		return className != null && className.contains("$")
 				&& StringUtils.isNumber(className.substring(className.lastIndexOf("$") + 1, className.length()));
 	}
 
