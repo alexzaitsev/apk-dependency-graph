@@ -62,6 +62,10 @@ And this one looks like a spaghetti:
 
 Does your project look like the first or the second picture? :)
 
+## Demo
+
+Watch [demo video](https://www.youtube.com/watch?v=rw501tvT4ko).
+
 ## Troubleshooting
 
 Aware! This tool cannot analyze apks generated with **instant run**. This is a limitation of `apktool` running under the hood.  
