@@ -2,9 +2,6 @@
 
 Android dependency visualizer. It's tool that helps to visualize current state of your project. It's really easy to see how tight your classes are coupled.
 
-## Hashtag
-Share your awesome architecture using `#apkdependencyvizualizer` hashtag!
-
 ##Theory
 Class coupling is one of the significant code metrics which shows how easy is to change your code. Actually the architecture of microservices is based on the idea that the modules should be low-coupled so you are able to easily replace one module with another one with the same interface. This tool helps to view whole picture of your project. Check yourself!
 
@@ -65,6 +62,9 @@ Does your project look like the first or the second picture? :)
 ## Demo
 
 Watch [demo video](https://www.youtube.com/watch?v=rw501tvT4ko).
+
+## Hashtag
+Share your awesome architecture using `#apkdependencyvizualizer` hashtag!
 
 ## Troubleshooting
 
