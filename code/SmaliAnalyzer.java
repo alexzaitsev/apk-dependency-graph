@@ -31,6 +31,8 @@ public class SmaliAnalyzer {
 		if (projectFolder.exists()) {
 			traverseSmaliCode(projectFolder);
 			return true;
+		} else if (isInstantRunEnabled()){
+			System.err.println("Enabled Instant Run feature detected. We cannot decompile it. Please, disable Instant Run and rebuild your app.");
 		} else {
 			System.err.println(arguments.getFilter() == null ? "Smali folder cannot be absent!" : "Please check your filter!");
 		}
@@ -50,6 +52,19 @@ public class SmaliAnalyzer {
 		return new File(pathToAnalyze);
 	}
 
+	private boolean isInstantRunEnabled() {
+		File unknownFolder = new File(arguments.getProjectPath() + File.separator + "unknown");
+		if (unknownFolder.exists()) {
+			for (File file : unknownFolder.listFiles()) {
+				if (file.getName().equals("instant-run.zip")) {
+					return true;
+				}
+			}
+			
+		}
+		return false;
+	}
+	
 	private void traverseSmaliCode(File folder) {
 		File[] listOfFiles = folder.listFiles();
 		for (int i = 0; i < listOfFiles.length; i++) {
