@@ -1,8 +1,6 @@
-# apk-dependency-graph
-Android dependency visualizer. It's tool that helps to visualize current state of your project. It's really easy to see how tight your classes are coupled.
+![version](https://img.shields.io/badge/version-0.0.3-brightgreen.svg)
 
-## Hashtag
-`#apkdependencyvizualizer`
+Android dependency visualizer. It's tool that helps to visualize current state of your project. It's really easy to see how tight your classes are coupled.
 
 ##Theory
 Class coupling is one of the significant code metrics which shows how easy is to change your code. Actually the architecture of microservices is based on the idea that the modules should be low-coupled so you are able to easily replace one module with another one with the same interface. This tool helps to view whole picture of your project. Check yourself!
@@ -47,7 +45,7 @@ java -jar apktool_2.2.0.jar d path-to-apk.apk -o path-to-folder-with-decompiled-
 ```
 After this run `analyzer`:  
 ```
-java -jar apk_dependency_graph_0.0.2.jar -i path-to-folder-with-decompiled-files -o analyzed.js -f com.example.test
+java -jar apk_dependency_graph_0.0.3.jar -i path-to-folder-with-decompiled-files -o analyzed.js -f com.example.test
 ```
 I suggest to use your package name as filter. If you don't want to filter just pass `nofilter`.
 
@@ -61,9 +59,16 @@ And this one looks like a spaghetti:
 
 Does your project look like the first or the second picture? :)
 
-## Notes
+## Demo
 
-Aware! This tool cannot analyze apks generated with **instant run**. This is a limitation of `apktool` running under the hood.  
+Watch [demo video](https://www.youtube.com/watch?v=rw501tvT4ko).
+
+## Hashtag
+Share your awesome architecture using `#apkdependencyvizualizer` hashtag!
+
+## Troubleshooting
+
+Aware! **This tool cannot analyze apks generated with enabled instant run feature**. This is a limitation of `apktool` running under the hood.  
 If you have troubles look through [troubleshooting](https://github.com/alexzaitsev/apk-dependency-graph/wiki/Troubleshooting) wiki page or create an issue in this repository.
 
 ## Credits
