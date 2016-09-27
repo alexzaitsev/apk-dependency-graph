@@ -1,4 +1,4 @@
-![version](https://img.shields.io/badge/version-0.0.3-brightgreen.svg)
+![version](https://img.shields.io/badge/version-0.0.4-brightgreen.svg)
 
 Android dependency visualizer. It's tool that helps to visualize current state of your project. It's really easy to see how tight your classes are coupled.
 
