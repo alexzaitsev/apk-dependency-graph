@@ -1,4 +1,4 @@
-![version](https://img.shields.io/badge/version-0.0.3-brightgreen.svg)
+[![version](https://img.shields.io/badge/version-0.0.4-brightgreen.svg)](https://github.com/alexzaitsev/apk-dependency-graph/releases/tag/0.0.4) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-apk--dependency--graph-blue.svg?style=flat)](http://android-arsenal.com/details/1/4411)
 
 Android dependency visualizer. It's tool that helps to visualize current state of your project. It's really easy to see how tight your classes are coupled.
 
@@ -45,7 +45,7 @@ java -jar apktool_2.2.0.jar d path-to-apk.apk -o path-to-folder-with-decompiled-
 ```
 After this run `analyzer`:  
 ```
-java -jar apk_dependency_graph_0.0.3.jar -i path-to-folder-with-decompiled-files -o analyzed.js -f com.example.test
+java -jar apk_dependency_graph_0.0.4.jar -i path-to-folder-with-decompiled-files -o analyzed.js -f com.example.test
 ```
 I suggest to use your package name as filter. If you don't want to filter just pass `nofilter`.
 
