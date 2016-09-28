@@ -10,4 +10,4 @@ outPath=${dir}"/"${xpref}
 jsonPath=${dir}"/analyzed.js" 
 
 eval "java -jar ${dir}'/apktool_2.2.0.jar' d ${fileName} -o ${outPath} -f"
-eval "java -jar ${dir}'/apk_dependency_graph_0.0.4.jar' -i ${outPath} -o ${jsonPath} -f $2"
+eval "java -jar ${dir}'/apk_dependency_graph_0.0.5.jar' -i ${outPath} -o ${jsonPath} -f $2"
