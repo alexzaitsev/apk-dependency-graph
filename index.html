@@ -69,7 +69,6 @@ function regex_based_coloring(d) {
   var className = d.name
   
   var rules = ["Magical", "Mapp", "^NS", "^UI",  "^NI", "AF", ""];
-//   var rules = ["ViewController", "View"]
   
   for (var i = 0; i &lt; rules.length; i++) {
     var re = new RegExp(rules[i], "");
@@ -83,8 +82,13 @@ function regex_based_coloring(d) {
 // Filling out with default coloring
 node.style("fill", default_coloring)
 // node.style("fill", regex_based_coloring)
-  
-force.start()
+
+//actions.deselect_selected_node();
+//var filterRegex = "(^R$)|(^R\\$)|(.*\\$_ViewBinding$)|(.*\\$\\$ViewInjector$)";
+//live_filter_graph(new RegExp(filterRegex, ""), "filtered", true);
+
+force.start();
+
     </pre>
 </div>
 
