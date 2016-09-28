@@ -1,4 +1,4 @@
-![version](https://img.shields.io/badge/version-0.0.4-brightgreen.svg) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-apk--dependency--graph-blue.svg?style=flat)](http://android-arsenal.com/details/1/4411)
+[![version](https://img.shields.io/badge/version-0.0.4-brightgreen.svg)](https://github.com/alexzaitsev/apk-dependency-graph/releases/tag/0.0.4) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-apk--dependency--graph-blue.svg?style=flat)](http://android-arsenal.com/details/1/4411)
 
 Android dependency visualizer. It's tool that helps to visualize current state of your project. It's really easy to see how tight your classes are coupled.
 
