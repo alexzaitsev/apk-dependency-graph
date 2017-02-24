@@ -15,6 +15,7 @@ import code.io.Arguments;
 public class SmaliAnalyzer {
 
 	private Arguments arguments;
+	private String filterAsPath;
 
 	public SmaliAnalyzer(Arguments arguments) {
 		this.arguments = arguments;
@@ -27,6 +28,7 @@ public class SmaliAnalyzer {
 	}
 
 	public boolean run() {
+		filterAsPath = arguments.getFilter().replaceAll("\\.", File.separator);
 		File projectFolder = getProjectFolder();
 		if (projectFolder.exists()) {
 			traverseSmaliCode(projectFolder);
@@ -40,16 +42,7 @@ public class SmaliAnalyzer {
 	}
 
 	private File getProjectFolder() {
-		File projectFile = new File(arguments.getProjectPath());
-		String pathToAnalyze = projectFile.getAbsolutePath() + File.separator + "smali";
-		if (arguments.getFilter() != null) {
-			String[] packageParts = arguments.getFilter().split("\\.");
-			for (int i = 0; i < packageParts.length; i++) {
-				pathToAnalyze += File.separator + packageParts[i];
-			}
-		}
-
-		return new File(pathToAnalyze);
+		return new File(arguments.getProjectPath());
 	}
 
 	private boolean isInstantRunEnabled() {
@@ -68,17 +61,19 @@ public class SmaliAnalyzer {
 	private void traverseSmaliCode(File folder) {
 		File[] listOfFiles = folder.listFiles();
 		for (int i = 0; i < listOfFiles.length; i++) {
-			if (listOfFiles[i].isFile()) {
-				if (listOfFiles[i].getName().endsWith(".smali")) {
-					processSmaliFile(listOfFiles[i]);
+			File currentFile = listOfFiles[i];
+			if (currentFile.isFile()) {
+				if (currentFile.getName().endsWith(".smali") && currentFile.getAbsolutePath().contains(filterAsPath)) {
+					processSmaliFile(currentFile);
 				}
-			} else if (listOfFiles[i].isDirectory()) {
-				traverseSmaliCode(listOfFiles[i]);
+			} else if (currentFile.isDirectory()) {
+				traverseSmaliCode(currentFile);
 			}
 		}
 	}
 
 	private void processSmaliFile(File file) {
+		System.out.println(file.getAbsolutePath());
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 
 			String fileName = file.getName().substring(0, file.getName().lastIndexOf("."));
