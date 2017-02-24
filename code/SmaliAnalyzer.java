@@ -73,7 +73,6 @@ public class SmaliAnalyzer {
 	}
 
 	private void processSmaliFile(File file) {
-		System.out.println(file.getAbsolutePath());
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 
 			String fileName = file.getName().substring(0, file.getName().lastIndexOf("."));
