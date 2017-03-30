@@ -3,3 +3,5 @@
 .project
 *.class
 analyzed.js
+.idea
+META-INF

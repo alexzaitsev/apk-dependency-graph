@@ -24,7 +24,10 @@ public class SmaliAnalyzer {
 	private Map<String, Set<String>> dependencies = new HashMap<>();
 
 	public Map<String, Set<String>> getDependencies() {
-		return dependencies;
+		if (!arguments.ignoreInnerClasses()) {
+			return dependencies;
+		}
+		return getFilteredDependencies();
 	}
 
 	public boolean run() {
@@ -203,5 +206,23 @@ public class SmaliAnalyzer {
 			// if this class is already added - update its dependencies
 			depList.addAll(dependenciesList);
 		}
+	}
+
+	private Map<String,Set<String>> getFilteredDependencies() {
+		Map<String, Set<String>> filteredDependencies = new HashMap<>();
+		for (String key : dependencies.keySet()) {
+			if (!key.contains("$")) {
+				Set<String> dependencySet = new HashSet<>();
+				for (String dependency : dependencies.get(key)) {
+					if (!dependency.contains("$")) {
+						dependencySet.add(dependency);
+					}
+				}
+				if (dependencySet.size() > 0) {
+					filteredDependencies.put(key, dependencySet);
+				}
+			}
+		}
+		return filteredDependencies;
 	}
 }
