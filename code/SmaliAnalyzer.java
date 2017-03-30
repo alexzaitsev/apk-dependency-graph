@@ -28,7 +28,12 @@ public class SmaliAnalyzer {
 	}
 
 	public boolean run() {
-		filterAsPath = arguments.getFilter().replaceAll("\\.", File.separator);
+		String filter = arguments.getFilter();
+		if (filter == null) {
+			System.err.println("Please check your filter!");
+			return false;
+		}
+		filterAsPath = filter.replaceAll("\\.", File.separator);
 		File projectFolder = getProjectFolder();
 		if (projectFolder.exists()) {
 			traverseSmaliCode(projectFolder);
@@ -36,7 +41,7 @@ public class SmaliAnalyzer {
 		} else if (isInstantRunEnabled()){
 			System.err.println("Enabled Instant Run feature detected. We cannot decompile it. Please, disable Instant Run and rebuild your app.");
 		} else {
-			System.err.println(arguments.getFilter() == null ? "Smali folder cannot be absent!" : "Please check your filter!");
+			System.err.println("Smali folder cannot be absent!");
 		}
 		return false;
 	}
