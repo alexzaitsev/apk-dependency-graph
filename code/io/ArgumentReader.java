@@ -4,7 +4,11 @@ import java.io.File;
 
 public class ArgumentReader {
 
-	private static final String USAGE_STRING = "Usage:\n-i path : path to the decompiled project\n-o path : path to the result js file\n-f filter : java package to filter by (to show all dependencies pass '-f nofilter')";
+	private static final String USAGE_STRING = "Usage:\n" +
+			"-i path : path to the decompiled project\n" +
+			"-o path : path to the result js file\n" +
+			"-f filter : java package to filter by (to show all dependencies pass '-f nofilter')\n" +
+			"-d boolean : if set it will skip inner class processing (the ones creating ClassName$InnerClass files)";
 	
 	private String[] args;
 	
@@ -13,21 +17,22 @@ public class ArgumentReader {
 	}
 
 	public Arguments read() {
-		if (args.length != 4 && args.length != 6) {
+		if (args.length != 5 && args.length != 8) {
 			System.err.println(USAGE_STRING);
 			return null;
 		}
 		String projectPath = null, resultPath = null, filter = null;
+		boolean ignoreInnerClasses = false;
 		for (int i = 0; i < args.length; i++) {
 			if (i < args.length - 1) {
 				if (args[i].equals("-i")) {
 					projectPath = args[i + 1];
-				}
-				if (args[i].equals("-o")) {
+				} else if (args[i].equals("-o")) {
 					resultPath = args[i + 1];
-				}
-				if (args[i].equals("-f")) {
+				} else if (args[i].equals("-f")) {
 					filter = args[i + 1];
+				} else if (args[i].equals("-d")) {
+					ignoreInnerClasses = Boolean.valueOf(args[i + 1]);
 				}
 			}
 		}
@@ -49,6 +54,9 @@ public class ArgumentReader {
 			System.err.println(projectPath + " must be a directory!");
 			return null;
 		}
-		return new Arguments(projectPath, resultPath, filter);
+		if (ignoreInnerClasses) {
+			System.out.println("Warning! Processing without inner classes.");
+		}
+		return new Arguments(projectPath, resultPath, filter, ignoreInnerClasses);
 	}
 }
