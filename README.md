@@ -2,14 +2,14 @@
 
 Android dependency visualizer. It's tool that helps to visualize current state of your project. It's really easy to see how tight your classes are coupled.
 
-##Theory
+## Theory
 Class coupling is one of the significant code metrics which shows how easy is to change your code. Actually the architecture of microservices is based on the idea that the modules should be low-coupled so you are able to easily replace one module with another one with the same interface. This tool helps to view whole picture of your project. Check yourself!
 
-##Requirements
+## Requirements
 You need at least **Java 7** to run `jar` files.
 
-##Usage
-###Fast way
+## Usage
+### Fast way
 I've prepared helpful scripts for you. All you need to do is to clone this repository (or download and unpack release archive) and type the next command in your command line:  
 *For Windows*:
 ```
@@ -37,7 +37,7 @@ Success! Now open index.html in your browser.
 ```
 It will decompile your apk and create apk-file-name folder in the same folder where the script is. After this it will analyze the smali code and generate `analyzed.js` file which contains all dependencies.   
 **Now open `index.html` in your browser and enjoy!**
-###Long way
+### Long way
 If you don't want to use `run` scripts you can do all the stuff from the command line by yourself.  
 Firsly, decompile your apk with the `apktool` jar:  
 ```

@@ -15,6 +15,7 @@ import code.io.Arguments;
 public class SmaliAnalyzer {
 
 	private Arguments arguments;
+	private String filterAsPath;
 
 	public SmaliAnalyzer(Arguments arguments) {
 		this.arguments = arguments;
@@ -23,10 +24,19 @@ public class SmaliAnalyzer {
 	private Map<String, Set<String>> dependencies = new HashMap<>();
 
 	public Map<String, Set<String>> getDependencies() {
-		return dependencies;
+		if (!arguments.ignoreInnerClasses()) {
+			return dependencies;
+		}
+		return getFilteredDependencies();
 	}
 
 	public boolean run() {
+		String filter = arguments.getFilter();
+		if (filter == null) {
+			System.err.println("Please check your filter!");
+			return false;
+		}
+		filterAsPath = filter.replaceAll("\\.", File.separator);
 		File projectFolder = getProjectFolder();
 		if (projectFolder.exists()) {
 			traverseSmaliCode(projectFolder);
@@ -34,22 +44,13 @@ public class SmaliAnalyzer {
 		} else if (isInstantRunEnabled()){
 			System.err.println("Enabled Instant Run feature detected. We cannot decompile it. Please, disable Instant Run and rebuild your app.");
 		} else {
-			System.err.println(arguments.getFilter() == null ? "Smali folder cannot be absent!" : "Please check your filter!");
+			System.err.println("Smali folder cannot be absent!");
 		}
 		return false;
 	}
 
 	private File getProjectFolder() {
-		File projectFile = new File(arguments.getProjectPath());
-		String pathToAnalyze = projectFile.getAbsolutePath() + File.separator + "smali";
-		if (arguments.getFilter() != null) {
-			String[] packageParts = arguments.getFilter().split("\\.");
-			for (int i = 0; i < packageParts.length; i++) {
-				pathToAnalyze += File.separator + packageParts[i];
-			}
-		}
-
-		return new File(pathToAnalyze);
+		return new File(arguments.getProjectPath());
 	}
 
 	private boolean isInstantRunEnabled() {
@@ -68,12 +69,13 @@ public class SmaliAnalyzer {
 	private void traverseSmaliCode(File folder) {
 		File[] listOfFiles = folder.listFiles();
 		for (int i = 0; i < listOfFiles.length; i++) {
-			if (listOfFiles[i].isFile()) {
-				if (listOfFiles[i].getName().endsWith(".smali")) {
-					processSmaliFile(listOfFiles[i]);
+			File currentFile = listOfFiles[i];
+			if (currentFile.isFile()) {
+				if (currentFile.getName().endsWith(".smali") && currentFile.getAbsolutePath().contains(filterAsPath)) {
+					processSmaliFile(currentFile);
 				}
-			} else if (listOfFiles[i].isDirectory()) {
-				traverseSmaliCode(listOfFiles[i]);
+			} else if (currentFile.isDirectory()) {
+				traverseSmaliCode(currentFile);
 			}
 		}
 	}
@@ -204,5 +206,23 @@ public class SmaliAnalyzer {
 			// if this class is already added - update its dependencies
 			depList.addAll(dependenciesList);
 		}
+	}
+
+	private Map<String,Set<String>> getFilteredDependencies() {
+		Map<String, Set<String>> filteredDependencies = new HashMap<>();
+		for (String key : dependencies.keySet()) {
+			if (!key.contains("$")) {
+				Set<String> dependencySet = new HashSet<>();
+				for (String dependency : dependencies.get(key)) {
+					if (!dependency.contains("$")) {
+						dependencySet.add(dependency);
+					}
+				}
+				if (dependencySet.size() > 0) {
+					filteredDependencies.put(key, dependencySet);
+				}
+			}
+		}
+		return filteredDependencies;
 	}
 }
