@@ -30,6 +30,7 @@ You need at least **Java 7** to run `apktool` and `apk-dependency-graph` `jar` f
 
 ### Fast way
 I've prepared helpful scripts for you. All you need to do is to clone this repository (or download and unpack release archive) and type the next command in your command line:  
+
 *For Windows*:
 ```
 run.bat full\path\to\the\apk\app-release.apk com.example.test true
@@ -39,6 +40,7 @@ or
 run.bat full\path\to\the\apk\app-release.apk nofilter false
 ```
 where `run.bat` is a path to script in your local repository, `full\path\to\the\apk\app-release.apk` is a full path to the apk file you want to analize, `com.example.test` is a filter. **We recommend to use your package name as a filter so you will avoid unnecessary dependencies in your graph. If you don't want to filter just pass `nofilter`.** The last argument defines whether you want to skip inner classes on your graph (_true_ to skip, _false_ otherwise).  
+
 *For Unix*:
 ```
 ./run.sh full/path/to/the/apk/app-release.apk com.example.test true
@@ -107,6 +109,6 @@ I have used `gui/index.html` of that project. Thanks Paul for the great tool.
 
 ## Contributors
 
-I want to say thank you to people who made even tiny pull request. This project is intended to improve current state of Android architecture all over the world so each detail is important. Below you can find a list of people who have found some time to improve this tool:
+I want to say thank you to all the people who made even tiny pull request. This project is intended to improve current state of Android architecture all over the world so each detail is important. Below you can find a list of people who have found some time to improve this tool:
 
 * [WarrenFaith](https://github.com/WarrenFaith)
