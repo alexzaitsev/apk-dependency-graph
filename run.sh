@@ -1,13 +1,12 @@
 #!/bin/bash
-if [ $# -eq 0 ]; then echo "You must set full apk path as parameter"; exit 1; fi
-if [ $# -eq 1 ]; then echo "You must set filter as the second parameter. We suggest to use your package name (com.example.test). If you don't want to use filter, just pass 'nofilter'"; exit 1; fi
+if [ $# -lt 3 ]; then echo "This script requires the next parameters:"; echo "- absolute path to apk file"; echo "- filter (can be a package name or 'nofilter' string)"; echo "- true or false (where true means that you want to see inner classes on your graph)"; echo "Examples:"; echo "./run.sh full/path/to/the/apk/app-release.apk com.example.test true"; echo "./run.sh full/path/to/the/apk/app-release.apk nofilter false"; exit 1; fi
 fileName="$1"
 xbase=${fileName##*/}
 xpref=${xbase%.*}
 
 dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 outPath=${dir}"/"${xpref}
-jsonPath=${dir}"/analyzed.js" 
+jsonPath=${dir}"/gui/analyzed.js" 
  
-eval "java -jar ${dir}'/apktool_2.2.0.jar' d ${fileName} -o ${outPath} -f"
-eval "java -jar ${dir}'/apk_dependency_graph_0.0.5.jar' -i ${outPath} -o ${jsonPath} -f $2"
+eval "java -jar ${dir}'/lib/apktool_2.2.0.jar' d ${fileName} -o ${outPath} -f"
+eval "java -jar ${dir}'/build/jar/apk-dependency-graph.jar' -i ${outPath} -o ${jsonPath} -f $2 -d $3"

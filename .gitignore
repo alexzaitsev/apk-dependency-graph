@@ -6,3 +6,4 @@ analyzed.js
 .DS_Store
 .idea
 META-INF
+build/classes
