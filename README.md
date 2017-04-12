@@ -13,7 +13,7 @@ This project consists of the several parts:
 * src, build (apk-dependency-graph)
 * gui (d3)
 * run scripts  
-###### To get more information please check our wiki page.
+###### To get more information please check our [wiki page](https://github.com/alexzaitsev/apk-dependency-graph/wiki).
 
 ## Compile 
 
