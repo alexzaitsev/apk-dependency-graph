@@ -23,7 +23,7 @@ For %%A in ("%filename%") do (
     Set Name=%%~nxA
 )
 
-Set outPath=%~dp0\%Name:~0,-4%
+Set outPath=%~dp0\output\%Name:~0,-4%
 Set jsonPath=%~dp0\gui\analyzed.js
 
 java -jar %~dp0\lib\apktool_2.2.0.jar d %1 -o %outPath% -f

@@ -14,7 +14,7 @@ xbase=${fileName##*/}
 xpref=${xbase%.*}
 
 dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-outPath=${dir}"/"${xpref}
+outPath=${dir}"/output/"${xpref}
 jsonPath=${dir}"/gui/analyzed.js" 
  
 eval "java -jar ${dir}'/lib/apktool_2.2.0.jar' d ${fileName} -o ${outPath} -f"
