@@ -45,6 +45,8 @@
     <label><input type="range" name="charge_multiplier" min="1" max="500" value="100"/> Charge multiplier</label><br>
     <label><input type="range" name="link_strength" min="0.1" max="100" value="7"/> Link strength</label><br>
     <label><input type="checkbox" name="show_texts_near_circles"/> Show names</label><br>
+    <label><input type="checkbox" checked="true" name="show_inactive_paths"/> Show inactive paths</label><br>
+    <label><input type="checkbox" checked="true" name="show_inactive_nodes"/> Show inactive nodes</label><br>
     <input id="search_input" placeholder="Type regexp to filter nodes" style="width:100%;"><br>
 
 </form>
@@ -143,6 +145,8 @@ force.start();
 
     // you can set it to true, but this will not help to understanf what's going on
     var show_texts_near_circles = false;
+    var show_inactive_paths = true;
+    var show_inactive_nodes = true;
     var default_max_texts_length = 100;
 
     var charge_multiplier = 200;
@@ -289,6 +293,37 @@ force.start();
             });
 
     //  ===================================================
+    //  ===============  LINK CLASS UPDATE    =============
+    //  ===================================================
+
+    function updateLinkVisibilities() {
+        var paths = document.getElementsByClassName("link")
+        for (i = 0; i < paths.length; i++) {
+            var clazz = "link";
+            var isActive = paths[i].className.baseVal.includes("dependants") || paths[i].className.baseVal.includes("dependency")
+            if (isActive) {
+                clazz += paths[i].className.baseVal.includes("dependants") ? " dependants" : "";
+                clazz += paths[i].className.baseVal.includes("dependency") ? " dependency" : "";
+            } else {
+                clazz += !show_inactive_paths || !show_inactive_nodes ? " hidden" : "";
+            }
+            paths[i].className.baseVal = clazz;
+        }
+    }
+
+    function updateNodeVisibilities() {
+        var nodes = document.getElementsByClassName("node")
+        for (i = 0; i < nodes.length; i++) {
+            var clazz = "node";
+            var isFiltered = nodes[i].className.baseVal.includes("filtered")
+            if (isFiltered) {
+                clazz += " filtered";
+                clazz += !show_inactive_nodes ? " hidden" : "";
+            }
+            nodes[i].className.baseVal = clazz;
+        }
+    }
+    //  ===================================================
     //  ===============  FORCE UPDATE        =============
     //  ===================================================
 
@@ -299,6 +334,8 @@ force.start();
         if (show_texts_near_circles) {
             text.attr("transform", transform);
         }
+        updateLinkVisibilities();
+        updateNodeVisibilities();
     });
 
     //  ===================================================
@@ -352,26 +389,30 @@ force.start();
             force.linkDistance(function (l) {
                 return radius(l.source) + radius(l.target) + default_link_distance;
             });
-            force.start();
         }
 
         if (this.name == "charge_multiplier") {
             charge_multiplier = parseInt(this.value);
-            force.start();
         }
 
         if (this.name == "link_strength") {
             default_link_strength = parseInt(this.value) / 10;
             force.linkStrength(default_link_strength);
-            force.start();
         }
 
         if (this.name == "show_texts_near_circles") {
             text.attr("visibility", this.checked ? "visible" : "hidden");
             show_texts_near_circles = this.checked;
-            force.start();
         }
 
+        if (this.name == "show_inactive_paths") {
+            show_inactive_paths = this.checked;
+        }
+
+        if (this.name == "show_inactive_nodes") {
+            show_inactive_nodes = this.checked;
+        }
+        force.start();
     });
 </script>
 
