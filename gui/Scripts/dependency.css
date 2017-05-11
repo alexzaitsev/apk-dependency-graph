@@ -5,6 +5,10 @@
   stroke-opacity:0.3;
 }
 
+.node.hidden {
+  visibility : hidden;
+}
+
 text.filtered {
   fill-opacity:0;
   stroke-opacity:0;
@@ -14,6 +18,10 @@ text.filtered {
   stroke: #ddd;
   fill-opacity:0.1;
   stroke-opacity:0.1;
+}
+
+.link.hidden {
+  visibility : hidden;
 }
 
 .link.dependency {

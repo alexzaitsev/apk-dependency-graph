@@ -5,14 +5,14 @@ public class Arguments {
 	private String projectPath;
 	private String resultPath;
 	private String filter;
-	private boolean ignoreInnerClasses;
+	private boolean withInnerClasses;
 	
-	public Arguments(String projectPath, String resultPath, String filter, boolean ignoreInnerClasses) {
+	public Arguments(String projectPath, String resultPath, String filter, boolean withInnerClasses) {
 		super();
 		this.projectPath = projectPath;
 		this.resultPath = resultPath;
 		this.filter = filter;
-		this.ignoreInnerClasses = ignoreInnerClasses;
+		this.withInnerClasses = withInnerClasses;
 	}
 	public String getProjectPath() {
 		return projectPath;
@@ -32,10 +32,10 @@ public class Arguments {
 	public void setFilter(String filter) {
 		this.filter = filter;
 	}
-	public boolean ignoreInnerClasses() {
-		return ignoreInnerClasses;
+	public boolean withInnerClasses() {
+		return withInnerClasses;
 	}
-	public void setIgnoreInnerClasses(boolean ignoreInnerClasses) {
-		this.ignoreInnerClasses = ignoreInnerClasses;
+	public void setWithInnerClasses(boolean withInnerClasses) {
+		this.withInnerClasses = withInnerClasses;
 	}
 }

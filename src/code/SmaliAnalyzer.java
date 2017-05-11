@@ -24,7 +24,7 @@ public class SmaliAnalyzer {
 	private Map<String, Set<String>> dependencies = new HashMap<>();
 
 	public Map<String, Set<String>> getDependencies() {
-		if (!arguments.ignoreInnerClasses()) {
+		if (arguments.withInnerClasses()) {
 			return dependencies;
 		}
 		return getFilteredDependencies();

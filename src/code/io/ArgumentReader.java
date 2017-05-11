@@ -8,7 +8,7 @@ public class ArgumentReader {
 			"-i path : path to the decompiled project\n" +
 			"-o path : path to the result js file\n" +
 			"-f filter : java package to filter by (to show all dependencies pass '-f nofilter')\n" +
-			"-d boolean : if set it will skip inner class processing (the ones creating ClassName$InnerClass files)";
+			"-d boolean : if true it will contain inner class processing (the ones creating ClassName$InnerClass files)";
 	
 	private String[] args;
 	
@@ -22,7 +22,7 @@ public class ArgumentReader {
 			return null;
 		}
 		String projectPath = null, resultPath = null, filter = null;
-		boolean ignoreInnerClasses = false;
+		boolean withInnerClasses = false;
 		for (int i = 0; i < args.length; i++) {
 			if (i < args.length - 1) {
 				if (args[i].equals("-i")) {
@@ -32,7 +32,7 @@ public class ArgumentReader {
 				} else if (args[i].equals("-f")) {
 					filter = args[i + 1];
 				} else if (args[i].equals("-d")) {
-					ignoreInnerClasses = Boolean.valueOf(args[i + 1]);
+					withInnerClasses = Boolean.valueOf(args[i + 1]);
 				}
 			}
 		}
@@ -54,9 +54,9 @@ public class ArgumentReader {
 			System.err.println(projectPath + " must be a directory!");
 			return null;
 		}
-		if (ignoreInnerClasses) {
+		if (!withInnerClasses) {
 			System.out.println("Warning! Processing without inner classes.");
 		}
-		return new Arguments(projectPath, resultPath, filter, ignoreInnerClasses);
+		return new Arguments(projectPath, resultPath, filter, withInnerClasses);
 	}
 }
