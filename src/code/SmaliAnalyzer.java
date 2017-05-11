@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import code.io.Arguments;
 
@@ -36,7 +38,10 @@ public class SmaliAnalyzer {
 			System.err.println("Please check your filter!");
 			return false;
 		}
-		filterAsPath = filter.replaceAll("\\.", File.separator);
+
+		String replacement = Matcher.quoteReplacement(File.separator);
+		String searchString = Pattern.quote(".");
+		filterAsPath = filter.replaceAll(searchString, replacement);
 		File projectFolder = getProjectFolder();
 		if (projectFolder.exists()) {
 			traverseSmaliCode(projectFolder);
