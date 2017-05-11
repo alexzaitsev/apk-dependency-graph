@@ -47,25 +47,28 @@
 <!-- ===========ACTUAL HTML           ================ -->
 <!-- ================================================= -->
 
-<form id="form">
-    <p class="range-field"><input type="range" id="circle_size" name="circle_size" min="1" max="50" value="15"/>
-    <label for="circle_size">Circle size</label></p>
-
-    <p class="range-field"><input type="range" id="charge_multiplier" name="charge_multiplier" min="1" max="500" value="100"/>
-    <label for="charge_multiplier">Charge multiplier</label></p>
-
-    <p class="range-field"><input type="range" id="link_strength" name="link_strength" min="1" max="100" value="7"/>
-    <label for="link_strength">Link strength</label></p>
-    
-    <input type="checkbox" name="show_texts_near_circles" id="show_texts_near_circles"/>
-    <label for="show_texts_near_circles">Show names</label><br/>
-
-    <input type="checkbox" name="show_inactive_elements" id="show_inactive_elements" checked="true"/>
-    <label for="show_inactive_elements">Show inactive elements</label> <span class="tooltipped " data-position="left" data-delay="50" data-html="true" data-tooltip="If this is active, you will see every node and link.<br>If this is not active, you will see no links when no<br> node is selected and when a node is selected you<br>will only see direct links from and to that selected node"><i class="material-icons" style="vertical-align: middle;font-size:18px">help</i></span>
-    <input id="search_input" placeholder="Type regexp to filter nodes" style="width:100%;"><br>
-</form>
-
 <a id="simple-menu" class="waves-effect waves-light btn" href="#sidr"><i class="material-icons right">reorder</i>Live editor</a>
+
+<div>
+    <div id="form-background"></div>
+    <form>
+        <p class="range-field"><input type="range" id="circle_size" name="circle_size" min="1" max="50" value="15"/>
+        <label for="circle_size">Circle size</label></p>
+
+        <p class="range-field"><input type="range" id="charge_multiplier" name="charge_multiplier" min="1" max="500" value="100"/>
+        <label for="charge_multiplier">Charge multiplier</label></p>
+
+        <p class="range-field"><input type="range" id="link_strength" name="link_strength" min="1" max="100" value="7"/>
+        <label for="link_strength">Link strength</label></p>
+        
+        <input type="checkbox" name="show_texts_near_circles" id="show_texts_near_circles"/>
+        <label for="show_texts_near_circles">Show names</label><br/>
+
+        <input type="checkbox" name="show_inactive_elements" id="show_inactive_elements" checked="true"/>
+        <label for="show_inactive_elements">Show inactive elements</label> <span class="tooltipped " data-position="left" data-delay="50" data-html="true" data-tooltip="If this is active, you will see every node and link.<br>If this is not active, you will see no links when no<br> node is selected and when a node is selected you<br>will only see direct links from and to that selected node"><i class="material-icons" style="vertical-align: middle;font-size:18px">help</i></span>
+        <input id="search_input" placeholder="Type regexp to filter nodes" style="width:100%;"><br>
+    </form>
+</div>
 
 <div id="chart">
     <!-- Here the SVG will be placed-->
