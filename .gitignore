@@ -6,6 +6,7 @@ analyzed.js
 .DS_Store
 .idea
 META-INF
-build/classes
+build
 output
 test.*
+apk-dependency-graph-scripts-*.zip
