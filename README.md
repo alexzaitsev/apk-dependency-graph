@@ -29,7 +29,7 @@ You need at least **Java 7** to run `apktool` and `apk-dependency-graph` `jar` f
 ## Usage
 
 ### Fast way
-I've prepared helpful scripts for you. All you need to do is to clone this repository (or download and unpack release archive) and type the next command in your command line:  
+I've prepared helpful scripts for you. All you need to do is to download and unpack [the latest release](https://github.com/alexzaitsev/apk-dependency-graph/releases) and type the next command in your command line:  
 
 *For Windows*:
 ```
