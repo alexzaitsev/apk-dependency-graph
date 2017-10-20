@@ -1,4 +1,4 @@
-[![version](https://img.shields.io/badge/version-0.1.2-brightgreen.svg)](https://github.com/alexzaitsev/apk-dependency-graph/releases/tag/0.1.2) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-apk--dependency--graph-blue.svg?style=flat)](http://android-arsenal.com/details/1/4411)
+[![version](https://img.shields.io/badge/version-0.1.3-brightgreen.svg)](https://github.com/alexzaitsev/apk-dependency-graph/releases/tag/0.1.3) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-apk--dependency--graph-blue.svg?style=flat)](http://android-arsenal.com/details/1/4411)
 
 Android dependency visualizer. It's a tool that helps to visualize current state of your project. It's really easy to see how tight your classes are coupled.
 
@@ -51,7 +51,7 @@ or
 ```  
 Wait until the command finishes:
 ```
-I: Using Apktool 2.2.0 on app-release.apk
+I: Using Apktool 2.3.0 on app-release.apk
 I: Loading resource table...
 I: Decoding AndroidManifest.xml with resources...
 I: Loading resource table from file: C:\Users\username\AppData\Local\apktool\framework\1.apk
@@ -70,7 +70,7 @@ It will decompile your apk and create `apk-file-name` folder in the same folder 
 If you don't want to use `run` scripts you can do all the stuff from the command line by yourself.  
 Firsly, decompile your apk with the `apktool` jar:  
 ```
-java -jar apktool_2.2.0.jar d path-to-apk.apk -o path-to-folder-with-decompiled-files -f
+java -jar apktool_2.3.0.jar d path-to-apk.apk -o path-to-folder-with-decompiled-files -f
 ```
 After this run `apk-dependency-graph`:  
 ```
