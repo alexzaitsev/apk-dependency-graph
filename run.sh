@@ -17,5 +17,5 @@ dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 outPath=${dir}"/output/"${xpref}
 jsonPath=${dir}"/gui/analyzed.js" 
  
-eval "java -jar ${dir}'/lib/apktool_2.2.0.jar' d ${fileName} -o ${outPath} -f"
+eval "java -jar ${dir}'/lib/apktool_2.3.0.jar' d ${fileName} -o ${outPath} -f"
 eval "java -jar ${dir}'/build/jar/apk-dependency-graph.jar' -i ${outPath} -o ${jsonPath} -f $2 -d $3"
