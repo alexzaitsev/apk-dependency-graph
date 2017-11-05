@@ -115,3 +115,7 @@ I want to say thank you to all the people who made even tiny pull request. This 
 
 ##### Btw we still need contributors!  
 Yes, we really need you man! We always have something to do and have special label for such issues. If you want to add or edit something on this tool - [welcome](https://github.com/alexzaitsev/apk-dependency-graph/issues?q=is%3Aissue+is%3Aopen+label%3A%22contributors+wanted%22)!
+
+## Dependency Injection Graph
+
+If you're looking for an Android Studio plugin that allows to display graph of dependency injections - please check out [this repository](https://github.com/kaygisiz/Dependency-Injection-Graph). It's based on current project and available in [Jetbrains repository](https://plugins.jetbrains.com/plugin/10107-dependency-injection-graph).
