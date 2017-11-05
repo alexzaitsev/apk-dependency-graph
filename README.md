@@ -102,6 +102,8 @@ Share your awesome architecture using `#apkdependencyvizualizer` hashtag!
 Aware! **This tool cannot analyze apks generated with enabled instant run feature**. This is a limitation of `apktool` running under the hood.  
 If you have troubles look through [troubleshooting](https://github.com/alexzaitsev/apk-dependency-graph/wiki/Troubleshooting) wiki page or create an issue in this repository.
 
+---
+
 ## Credits
 
 There is the same tool for iOS: https://github.com/PaulTaykalo/objc-dependency-visualizer   
