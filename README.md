@@ -1,4 +1,5 @@
-[![version](https://img.shields.io/badge/version-0.1.3-brightgreen.svg)](https://github.com/alexzaitsev/apk-dependency-graph/releases/tag/0.1.3) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-apk--dependency--graph-blue.svg?style=flat)](http://android-arsenal.com/details/1/4411)
+[![version](https://img.shields.io/badge/version-0.1.3-brightgreen.svg)](https://github.com/alexzaitsev/apk-dependency-graph/releases/tag/0.1.3) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-apk--dependency--graph-blue.svg?style=flat)](http://android-arsenal.com/details/1/4411) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Android%20dependency%20visualizer&url=https://github.com/alexzaitsev/apk-dependency-graph&hashtags=android,dependency,coupling,graph,visualize,apktool,developer)
+
 
 Android dependency visualizer. It's a tool that helps to visualize current state of your project. It's really easy to see how tight your classes are coupled.
 
@@ -116,8 +117,11 @@ I want to say thank you to all the people who made even tiny pull request. This 
 * [WarrenFaith](https://github.com/WarrenFaith)
 
 ##### Btw we still need contributors!  
-Yes, we really need you man! We always have something to do and have special label for such issues. If you want to add or edit something on this tool - [welcome](https://github.com/alexzaitsev/apk-dependency-graph/issues?q=is%3Aissue+is%3Aopen+label%3A%22contributors+wanted%22)!
+Yes, we really need you man! We always have something to do and have special label for such issues. If you want to add or edit something on this tool - [welcome](https://github.com/alexzaitsev/apk-dependency-graph/issues?q=is%3Aissue+is%3Aopen+label%3A%22contributors+wanted%22)!  
 
 ## Dependency Injection Graph
 
 If you're looking for an Android Studio plugin that allows to display graph of dependency injections - please check out [this repository](https://github.com/kaygisiz/Dependency-Injection-Graph). It's based on current project and available in [Jetbrains repository](https://plugins.jetbrains.com/plugin/10107-dependency-injection-graph).
+
+## Share a link to our repository
+[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Android%20dependency%20visualizer&url=https://github.com/alexzaitsev/apk-dependency-graph&hashtags=android,dependency,coupling,graph,visualize,apktool,developer)
