@@ -115,6 +115,7 @@ I have used `gui/index.html` of that project. Thanks Paul for the great tool.
 I want to say thank you to all the people who made even tiny pull request. This project is intended to improve current state of Android architecture all over the world so each detail is important. Below you can find a list of people who have found some time to improve this tool:
 
 * [WarrenFaith](https://github.com/WarrenFaith)
+* [victorrattis](https://github.com/victorrattis)
 
 ##### Btw we still need contributors!  
 Yes, we really need you man! We always have something to do and have special label for such issues. If you want to add or edit something on this tool - [welcome](https://github.com/alexzaitsev/apk-dependency-graph/issues?q=is%3Aissue+is%3Aopen+label%3A%22contributors+wanted%22)!  
