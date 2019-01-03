@@ -1,10 +1,12 @@
-<project name="apk-dependency-graph" basedir="." default="main">
+<project xmlns:ivy="antlib:org.apache.ivy.ant"
+        name="apk-dependency-graph" basedir="." default="main">
 
     <property name="src.dir" value="src"/>
     <property name="build.dir"   value="build"/>
     <property name="classes.dir" value="${build.dir}/classes"/>
     <property name="jar.dir"     value="${build.dir}/jar"/>
     <property name="main-class"  value="code.Main"/>
+    <property name="lib.dir"     value="lib" />
 
     <target name="clean">
         <delete dir="${build.dir}"/>
@@ -12,7 +14,11 @@
 
     <target name="compile">
         <mkdir dir="${classes.dir}"/>
-        <javac srcdir="${src.dir}" destdir="${classes.dir}"/>
+        <javac
+            srcdir="${src.dir}"
+            destdir="${classes.dir}"
+            classpathref="external-libraries-classpath"
+            includeantruntime="false" />
     </target>
 
     <target name="jar" depends="compile">
@@ -21,6 +27,11 @@
             <manifest>
                 <attribute name="Main-Class" value="${main-class}"/>
             </manifest>
+            <zipgroupfileset dir="${basedir}/">
+                <include name="${lib.dir}/**/*.jar" />
+                <exclude name="${lib.dir}/**/*sources.jar"/>
+                <exclude name="${lib.dir}/**/*javadoc.jar"/>
+            </zipgroupfileset>
         </jar>
     </target>
 
@@ -30,6 +41,41 @@
 
     <target name="clean-build" depends="clean,jar"/>
 
-    <target name="main" depends="clean,run"/>
+    <target name="main" depends="clean,resolve,run"/>
 
+    <!-- target: resolve -->
+    <property name="ivy.install.version" value="2.2.0" />
+    <condition property="ivy.home" value="${env.IVY_HOME}">
+      <isset property="env.IVY_HOME" />
+    </condition>
+    <property name="ivy.home" value="${user.home}/.ant" />
+    <property name="ivy.jar.dir" value="${ivy.home}/libs" />
+    <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar" />
+
+    <target name="download-ivy">
+        <mkdir dir="${ivy.jar.dir}"/>
+        <get src="http://repo2.maven.org/maven2/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar"
+             dest="${ivy.jar.file}" usetimestamp="true"/>
+    </target>
+
+    <target name="init-ivy" depends="download-ivy">
+        <path id="ivy.lib.path">
+            <fileset dir="${ivy.jar.dir}" includes="*.jar"/>
+        </path>
+        <taskdef resource="org/apache/ivy/ant/antlib.xml"
+                 uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
+    </target>
+
+    <target name="resolve" description="--> retreive dependencies with ivy" depends="init-ivy">
+        <ivy:retrieve/>
+    </target>
+
+    <!-- path: external libraries classpath, we don't need sources and javadoc -->
+    <path id="external-libraries-classpath">
+        <fileset dir="${basedir}/">
+            <include name="${lib.dir}/*.jar" />
+            <exclude name="${lib.dir}/*sources.jar"/>
+            <exclude name="${lib.dir}/*javadoc.jar"/>
+        </fileset>
+    </path>
 </project>

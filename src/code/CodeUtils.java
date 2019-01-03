@@ -1,5 +1,7 @@
 package code;
 
+import code.util.StringUtils;
+
 public class CodeUtils {
 
 	public static boolean isClassR(String className) {
