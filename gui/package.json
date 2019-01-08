@@ -1,0 +1,30 @@
+{
+  "name": "apk-dependecy-graph",
+  "version": "1.0.0",
+  "description": "Android dependency visualizer. It's a tool that helps to visualize current state of your project. It's really easy to see how tight your classes are coupled.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --prune=true --out=release-builds",
+    "package-win": "electron-packager . ApkDendepency --overwrite --platform=win32 --arch=ia32 --icon=assets/icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"CryptoApp\"",
+    "package-linux": "electron-packager . ApkDendepency --overwrite --platform=linux --arch=x64 --icon=assets/icons/png/1024x1024.png --prune=true --out=release-builds",
+    "package-all": "npm run package-linux & package-win & package-mac"
+  },
+  "repository": "",
+  "keywords": [
+    "Electron",
+    "apk",
+    "android",
+    "dependency",
+    "vizualization",
+    "graph",
+    "java"
+  ],
+  "author": "Alex Zaitsev",
+  "license": "Apache-2.0",
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^4.0.1",
+    "electron-packager": "^13.0.1"
+  }
+}
