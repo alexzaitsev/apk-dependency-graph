@@ -1,4 +1,4 @@
-[![version](https://img.shields.io/badge/version-0.1.4-brightgreen.svg)](https://github.com/alexzaitsev/apk-dependency-graph/releases/tag/0.1.4) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-apk--dependency--graph-blue.svg?style=flat)](http://android-arsenal.com/details/1/4411) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Android%20dependency%20visualizer&url=https://github.com/alexzaitsev/apk-dependency-graph&hashtags=android,dependency,coupling,graph,visualize,apktool,developer)
+[![version](https://img.shields.io/badge/version-0.1.4-brightgreen.svg)](https://github.com/alexzaitsev/apk-dependency-graph/releases/tag/0.1.4) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-apk--dependency--graph-blue.svg?style=flat)](http://android-arsenal.com/details/1/4411) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Android%20dependency%20visualizer&url=https://github.com/alexzaitsev/apk-dependency-graph&hashtags=android,dependency,coupling,graph,visualize,baksmali,developer)
 
 
 Android dependency visualizer. It's a tool that helps to visualize current state of your project. It's really easy to see how tight your classes are coupled.
@@ -10,7 +10,7 @@ Class coupling is one of the significant code metrics which shows how easy is to
 ## Project structure
 
 This project consists of the several parts:
-* lib (apktool)
+* lib (baksmali)
 * src, build (apk-dependency-graph)
 * gui (d3)
 * run scripts  
@@ -25,7 +25,7 @@ From terminal just move to the parent folder of the project and run `ant` comman
 
 ## Run
 
-You need at least **Java 7** to run `apktool` and `apk-dependency-graph` `jar` files.
+You need at least **Java 7** to run `apk-dependency-graph` `jar` file.
 
 ## Usage
 
@@ -52,32 +52,10 @@ or
 ```  
 Wait until the command finishes:
 ```
-I: Using Apktool 2.3.0 on app-release.apk
-I: Loading resource table...
-I: Decoding AndroidManifest.xml with resources...
-I: Loading resource table from file: C:\Users\username\AppData\Local\apktool\framework\1.apk
-I: Regular manifest package...
-I: Decoding file-resources...
-I: Decoding values */* XMLs...
-I: Baksmaling classes.dex...
-I: Copying assets and libs...
-I: Copying unknown files...
-I: Copying original files...
+Baksmaling classes.dex...
 Success! Now open index.html in your browser.
 ```
 It will decompile your apk and create `apk-file-name` folder in the same folder where the script is. After this it will analyze the smali code and generate `gui/analyzed.js` file which contains all dependencies.   
-**Now open `gui/index.html` in your browser and enjoy!**
-### Long way
-If you don't want to use `run` scripts you can do all the stuff from the command line by yourself.  
-Firsly, decompile your apk with the `apktool` jar:  
-```
-java -jar apktool_2.3.0.jar d path-to-apk.apk -o path-to-folder-with-decompiled-files -f
-```
-After this run `apk-dependency-graph`:  
-```
-java -jar build/jar/apk-dependency-graph.jar -i path-to-folder-with-decompiled-files -o analyzed.js -f com.example.test -d true
-```
-I suggest to use your package name as a filter. If you don't want to filter just pass `nofilter`.  
 **Now open `gui/index.html` in your browser and enjoy!**
 
 ## Examples
@@ -97,11 +75,6 @@ Watch [demo video](https://www.youtube.com/watch?v=rw501tvT4ko).
 ## Hashtag
 
 Share your awesome architecture using `#apkdependencyvizualizer` hashtag!
-
-## Troubleshooting
-
-Aware! **This tool cannot analyze apks generated with enabled instant run feature**. This is a limitation of `apktool` running under the hood.  
-If you have troubles look through [troubleshooting](https://github.com/alexzaitsev/apk-dependency-graph/wiki/Troubleshooting) wiki page or create an issue in this repository.
 
 ---
 
@@ -125,4 +98,4 @@ Yes, we really need you man! We always have something to do and have special lab
 If you're looking for an Android Studio plugin that allows to display graph of dependency injections - please check out [this repository](https://github.com/kaygisiz/Dependency-Injection-Graph). It's based on current project and available in [Jetbrains repository](https://plugins.jetbrains.com/plugin/10107-dependency-injection-graph).
 
 ## Share a link to our repository
-[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Android%20dependency%20visualizer&url=https://github.com/alexzaitsev/apk-dependency-graph&hashtags=android,dependency,coupling,graph,visualize,apktool,developer)
+[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Android%20dependency%20visualizer&url=https://github.com/alexzaitsev/apk-dependency-graph&hashtags=android,dependency,coupling,graph,visualize,baksmali,developer)

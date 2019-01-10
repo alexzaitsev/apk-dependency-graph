@@ -8,7 +8,8 @@ public class ArgumentReader {
 			"-i path : path to the decompiled project\n" +
 			"-o path : path to the result js file\n" +
 			"-f filter : java package to filter by (to show all dependencies pass '-f nofilter')\n" +
-			"-d boolean : if true it will contain inner class processing (the ones creating ClassName$InnerClass files)";
+			"-d boolean : if true it will contain inner class processing (the ones creating ClassName$InnerClass files)\n" +
+            "-a path : path to the apk file";
 	
 	private String[] args;
 	
@@ -17,11 +18,8 @@ public class ArgumentReader {
 	}
 
 	public Arguments read() {
-		if (args.length != 5 && args.length != 8) {
-			System.err.println(USAGE_STRING);
-			return null;
-		}
 		String projectPath = null, resultPath = null, filter = null;
+        String apkPath = null;
 		boolean withInnerClasses = false;
 		for (int i = 0; i < args.length; i++) {
 			if (i < args.length - 1) {
@@ -33,10 +31,13 @@ public class ArgumentReader {
 					filter = args[i + 1];
 				} else if (args[i].equals("-d")) {
 					withInnerClasses = Boolean.valueOf(args[i + 1]);
-				}
+				} else if (args[i].equals("-a")) {
+                    apkPath = args[i + 1];
+                }
 			}
 		}
-		if (projectPath == null || resultPath == null || filter == null) {
+		if (projectPath == null || resultPath == null || filter == null ||
+                apkPath == null) {
 			System.err.println("Arguments are incorrect!");
 			System.err.println(USAGE_STRING);
 			return null;
@@ -45,18 +46,17 @@ public class ArgumentReader {
 			filter = null;
 			System.out.println("Warning! Processing without filter.");
 		}
-		File projectFile = new File(projectPath);
-		if (!projectFile.exists()) {
-			System.err.println(projectPath + " doesn't exist!");
-			return null;
-		}
-		if (!projectFile.isDirectory()) {
-			System.err.println(projectPath + " must be a directory!");
-			return null;
-		}
 		if (!withInnerClasses) {
 			System.out.println("Warning! Processing without inner classes.");
 		}
-		return new Arguments(projectPath, resultPath, filter, withInnerClasses);
+
+        File apkFile = new File(apkPath);
+        if (!apkFile.exists()) {
+            System.out.println(apkFile + " is not found!");
+            return null;
+        }
+
+        return new Arguments(
+                apkPath, projectPath, resultPath, filter, withInnerClasses);
 	}
 }

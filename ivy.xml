@@ -1,0 +1,7 @@
+<ivy-module version="2.0">
+    <info organisation="org.apache" module="apk-dependency-graph"/>
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.smali/baksmali -->
+        <dependency org="org.smali" name="baksmali" rev="2.2.5"/>
+    </dependencies>
+</ivy-module>

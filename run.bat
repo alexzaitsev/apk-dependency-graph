@@ -26,5 +26,4 @@ For %%A in ("%filename%") do (
 Set outPath=%~dp0\output\%Name:~0,-4%
 Set jsonPath=%~dp0\gui\analyzed.js
 
-java -jar %~dp0\lib\apktool_2.3.4.jar d %1 -o %outPath% -f
-java -jar %~dp0\build\jar\apk-dependency-graph.jar -i %outPath% -o %jsonPath% -f %2 -d %3
+java -jar %~dp0\build\jar\apk-dependency-graph.jar -i %outPath% -o %jsonPath% -f %2 -d %3 -a %1
