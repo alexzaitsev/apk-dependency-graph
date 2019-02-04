@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link rel="stylesheet" href="home.css">
+    </head>
+    <body class="body-page">
+        <div id="drag-file">
+            <p id="drag-title">Drag your APK here!</p>
+        </div>
+
+        <div class="input-field">
+        <input id="input-filter"
+            placeholder="Enter filter"
+            id="first_name"
+            type="text"
+            class="validate">
+        </div>
+
+        <label>
+            <input id="checkbox-inner-class"
+                type="checkbox"
+                class="filled-in"
+                checked="checked" />
+            <span>Show Inner Classes</span>
+        </label>
+
+        <a id="btn-preview"
+            class="btn-large">
+            PREVIEW
+        </a>
+
+        <br/>
+        <script src="home.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Loading component -->
+        <div id="preview-loading" class="preview-loading center-element">
+            <div class="preloader-wrapper  active center-element">
+                <div class="spinner-layer spinner-green-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div><div class="gap-patch">
+                        <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,49 @@
+#drag-file {
+    color: #868686;
+    text-align: center;
+    height:150px;
+    border: 2px dashed;
+    font-size: 20px;
+    border-radius: 20px;
+    border-color: #2bbbad;
+
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+}
+
+#drag-title {
+    position: relative;
+    top: 22%;
+}
+
+#btn-preview {
+    width: 100%;
+    margin-top: 23px;
+}
+
+.body-page {
+    margin-top: 21px;
+    margin-bottom: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.center-element {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.preview-loading {
+    background: #86868686;
+    border-radius: 15px;
+    width: 70px;
+    height: 70px;
+    visibility: hidden;
+}

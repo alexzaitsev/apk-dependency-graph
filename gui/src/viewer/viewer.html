@@ -2,22 +2,28 @@
 <meta charset="utf-8">
 <head>
 
-	<title>Apk dependency graph</title>
-	<meta name="author" content="Alex Zaitsev">
-	<meta name="keywords" content="apk, android, dependency, dependencies, vizualization, graph, chart, classes, java">
-	<meta name="description" content="Android dependency visualizer. It's a tool that helps to visualize current state of your project. It's really easy to see how tight your classes are coupled.">
+    <title>Apk dependency graph</title>
+    <meta name="author" content="Alex Zaitsev">
+    <meta name="keywords" content="apk, android, dependency, dependencies, vizualization, graph, chart, classes, java">
+    <meta name="description" content="Android dependency visualizer. It's a tool that helps to visualize current state of your project. It's really easy to see how tight your classes are coupled.">
 
-    <link rel="stylesheet" type="text/css" href="Scripts/dependency.css">
-    <link rel="stylesheet" href="Scripts/sidr/stylesheets/jquery.sidr.dark.css">
+    <link rel="stylesheet" type="text/css" href="../../Scripts/dependency.css">
+    <link rel="stylesheet" href="../../Scripts/sidr/stylesheets/jquery.sidr.dark.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Allow import works for both browser and electron with the same code -->
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
-    <script type="text/javascript" src="Scripts/sidr/jquery.sidr.js"></script>
-    <script type="text/javascript" src="Scripts/underscore/underscore-min.js"></script>
-    <script type="text/javascript" src="Scripts/d3/d3.v3.js"></script>
+    <script type="text/javascript" src="../../Scripts/sidr/jquery.sidr.js"></script>
+    <script type="text/javascript" src="../../Scripts/underscore/underscore-min.js"></script>
+    <script type="text/javascript" src="../../Scripts/d3/d3.v3.js"></script>
+
+    <script>if (window.module) module = window.module;</script>
 
     <style type="text/css" media="screen">
         body {
@@ -41,7 +47,7 @@
 <body>
 <!--script type="text/javascript" src="Scripts/jquery/jquery-2.1.4.min.js"></script-->
 
-<script type="text/javascript" src="analyzed.js"></script>
+<script type="text/javascript" src="../../analyzed.js"></script>
 
 <!-- ================================================= -->
 <!-- ===========ACTUAL HTML           ================ -->
@@ -75,27 +81,27 @@
 </div>
 
 <div id="sidr">
-  <pre id="editor">
+<pre id="editor">
 // This one is used by default
 // Groups are set based on the Prefixes
 function default_coloring(d) {
-  return color(d.group); 
+return color(d.group); 
 }
 
 // This function will group nodes based on the
 // Rgular expressions you've provided
 function regex_based_coloring(d) {
-  var className = d.name
-  
-  var rules = ["Magical", "Mapp", "^NS", "^UI",  "^NI", "AF", ""];
-  
-  for (var i = 0; i &lt; rules.length; i++) {
+var className = d.name
+
+var rules = ["Magical", "Mapp", "^NS", "^UI",  "^NI", "AF", ""];
+
+for (var i = 0; i &lt; rules.length; i++) {
     var re = new RegExp(rules[i], "");
     if (className.match(re)) {
-      return color(i + 1)
+    return color(i + 1)
     }
-  }
-  return "black";
+}
+return "black";
 }
 
 // Filling out with default coloring
@@ -111,7 +117,7 @@ force.start();
     </pre>
 </div>
 
-<script src="Scripts/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../Scripts/ace/ace.js" type="text/javascript" charset="utf-8"></script>
 <script>
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/twilight");
@@ -141,10 +147,9 @@ force.start();
     });
 </script>
 
-<script src="Scripts/graph-actions-select-compiled.js"></script>
-<script src="Scripts/parse-compiled.js"></script>
+<script src="../../Scripts/graph-actions-select-compiled.js"></script>
+<script src="../../Scripts/parse-compiled.js"></script>
 <script>
-
     //  ===================================================
     //  =============== CONFIGURABLE PARAMS  ==============
     //  ===================================================
@@ -381,8 +386,8 @@ force.start();
     }
 
     /*
-     Window resize update
-     */
+    Window resize update
+    */
     w.onresize = function () {
         x = w.innerWidth || e.clientWidth || g.clientWidth;
         y = w.innerHeight || e.clientHeight || g.clientHeight;
@@ -475,3 +480,5 @@ force.start();
         }
     });
 </script>
+
+</body>

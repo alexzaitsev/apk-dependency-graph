@@ -1,0 +1,17 @@
+
+# Default Dependency directories of a NodeJS project.
+node_modules
+
+# Decoding output directory of the APKs. The application uses this dir
+# to send the decode results there.
+output
+
+# Internal Library directoy of the project, where the
+# apk-dependency-graph.jar stay.
+lib
+
+# Dependency analyze file, used the UI project to show the depedency graph.
+analyzed.js
+
+# Package release output directory of the Electron application for publishing.
+release-builds
