@@ -12,11 +12,19 @@
     -khtml-user-select: none;
     -webkit-user-select: none;
     -o-user-select: none;
+
+    display: flex;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 #drag-title {
-    position: relative;
-    top: 22%;
+    margin: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* Set the maximum number of lines */
+    max-height: 4.8em;
+    line-height: 1.2em;
 }
 
 #btn-preview {

@@ -1,13 +1,17 @@
 
 const { ApkDependencyAnalyzer } = require('./apk-dependency-analyzer-controller')
+const FileExplorerDialog = require('./file-explorer-dialog')
 
 class HomePage {
     constructor() {
         this.isPreviewProcessing = false
         this.selectedFile = undefined
+        this.fileExplorer = undefined
     }
 
     onload() {
+        this.fileExplorer = new FileExplorerDialog()
+
         let buttonPreview =  document.getElementById('btn-preview')
         buttonPreview.onclick = this.onClickPreview.bind(this);
         
@@ -19,11 +23,22 @@ class HomePage {
             e.preventDefault()
             let file = e.dataTransfer.files[0]
             if (file != undefined) {
-                this.selectedFile = file.path
-                 document.getElementById('drag-title').textContent = file.path
+                this.selectCurrentFilePath(file.path)
             }
             return false
         }
+
+        holder.onclick = () => {
+            this.fileExplorer.show()
+                .then((result) => {
+                    this.selectCurrentFilePath(result)
+                })
+        }
+    }
+
+    selectCurrentFilePath(filePath) {
+        this.selectedFile = filePath
+        document.getElementById('drag-title').textContent = filePath
     }
 
     isInnerClass() {
