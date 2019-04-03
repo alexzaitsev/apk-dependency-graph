@@ -1,16 +1,20 @@
 
 const { ApkDependencyAnalyzer } = require('./apk-dependency-analyzer-controller')
 const FileExplorerDialog = require('./file-explorer-dialog')
+const Store = require('./../util/store')
+const fs = require('fs')
 
 class HomePage {
     constructor() {
         this.isPreviewProcessing = false
         this.selectedFile = undefined
         this.fileExplorer = undefined
+        this.userPreference = undefined
     }
 
     onload() {
         this.fileExplorer = new FileExplorerDialog()
+        this.userPreference = new Store({configName: 'user-preference', defaults: {}})
 
         let buttonPreview =  document.getElementById('btn-preview')
         buttonPreview.onclick = this.onClickPreview.bind(this);
@@ -34,21 +38,56 @@ class HomePage {
                     this.selectCurrentFilePath(result)
                 })
         }
+
+        this.innerClassElement = document.getElementById('checkbox-inner-class')
+        this.inputFilterElement = document.getElementById('input-filter')
+        this.dragTitleElement = document.getElementById('drag-title')
+
+        this.userPreference.load(() => {
+            this.restorePreviousValues()
+        })
+
+        let self = this;
+        this.innerClassElement.onchange = function() {
+            self.userPreference.set("inner-class", this.checked)
+        }
+        this.inputFilterElement.onchange = () => {
+            this.userPreference.set("input-filter", this.inputFilterElement.value)
+        }
+    }
+
+    restorePreviousValues() {
+        let apkFile = this.userPreference.get("apk-file")
+        fs.exists(apkFile, (exists) => {
+            if (exists && apkFile !== undefined) {
+                this.dragTitleElement.textContent = apkFile
+                this.selectedFile = apkFile
+            }
+        });
+
+        let innerClass = this.userPreference.get("inner-class");
+        if (innerClass !== undefined) {
+            this.innerClassElement.checked = innerClass
+        }
+
+        let inputFilter = this.userPreference.get("input-filter")
+        if (inputFilter !== undefined) {
+            this.inputFilterElement.value = inputFilter
+        }
     }
 
     selectCurrentFilePath(filePath) {
         this.selectedFile = filePath
-        document.getElementById('drag-title').textContent = filePath
+        this.dragTitleElement.textContent = filePath
+        this.userPreference.set("apk-file", filePath)
     }
 
     isInnerClass() {
-        let checkbox =  document.getElementById('checkbox-inner-class')
-        return checkbox.checked ? true : false
+        return this.innerClassElement !== undefined && this.innerClassElement.checked
     }
 
     getFilterValue() {
-        let inputFilter =  document.getElementById('input-filter')
-        return inputFilter !== undefined ? inputFilter.value : ""
+        return this.inputFilterElement !== undefined ? this.inputFilterElement.value : ""
     }
 
     onClickPreview() {

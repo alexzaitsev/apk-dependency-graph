@@ -33,6 +33,7 @@
 }
 
 .body-page {
+    overflow: hidden;
     margin-top: 21px;
     margin-bottom: 16px;
     padding-left: 16px;
