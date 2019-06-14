@@ -96,6 +96,7 @@ I want to say thank you to all the people who made even tiny pull request. This 
 
 * [WarrenFaith](https://github.com/WarrenFaith)
 * [victorrattis](https://github.com/victorrattis)
+* [SupinePandora43] (https://github.com/SupinePandora43)
 
 ##### Btw we still need contributors!  
 Yes, we really need you man! We always have something to do and have special label for such issues. If you want to add or edit something on this tool - [welcome](https://github.com/alexzaitsev/apk-dependency-graph/issues?q=is%3Aissue+is%3Aopen+label%3A%22contributors+wanted%22)!  
