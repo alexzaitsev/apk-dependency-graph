@@ -19,9 +19,16 @@ This project consists of the several parts:
 ## Compile 
 
 To compile `build/jar/apk-dependency-graph.jar` you need:
-* **ant 1.9.9** or newer.
+* **ant 1.9.9**/**Gradle 5.0** or newer.
 * at least **Java 5**  
+
+*For Ant*:
+
 From terminal just move to the parent folder of the project and run `ant` command. Classes will be generated to `build/classes` folder and jar file will appear onto `build/jar` folder.
+
+*For Gradle*:
+
+from terminal run command `gradle build`
 
 ## Run
 

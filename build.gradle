@@ -1,0 +1,8 @@
+ant.importBuild 'build.xml'
+
+task build {
+    dependsOn resolve
+    dependsOn jar
+    // https://stackoverflow.com/a/32909428/9765252
+    tasks.findByName('jar').mustRunAfter 'resolve'
+}

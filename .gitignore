@@ -10,6 +10,7 @@ build
 output
 test.*
 apk-dependency-graph-scripts-*.zip
-
+.ant
+.gradle
 # lib/ directory where the dependencies are downloaded by Ivy Apache.
 lib
