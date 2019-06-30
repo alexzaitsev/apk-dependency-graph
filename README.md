@@ -27,7 +27,7 @@ From terminal just move to the parent folder of the project and run `ant` comman
 
 *For Gradle*:
 
-from terminal run command `gradle build`
+From terminal run command `gradle build`.
 
 ## Run
 
