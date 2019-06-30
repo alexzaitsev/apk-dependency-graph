@@ -1,4 +1,4 @@
-[![version](https://img.shields.io/badge/version-0.1.5-brightgreen.svg)](https://github.com/alexzaitsev/apk-dependency-graph/releases/tag/0.1.5) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-apk--dependency--graph-blue.svg?style=flat)](http://android-arsenal.com/details/1/4411) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Android%20dependency%20visualizer&url=https://github.com/alexzaitsev/apk-dependency-graph&hashtags=android,dependency,coupling,graph,visualize,baksmali,developer)
+[![version](https://img.shields.io/badge/version-0.1.5-brightgreen.svg)](https://github.com/alexzaitsev/apk-dependency-graph/releases/tag/0.1.5) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-apk--dependency--graph-blue.svg?style=flat)](http://android-arsenal.com/details/1/4411)
 
 
 Android dependency visualizer. It's a tool that helps to visualize current state of your project. It's really easy to see how tight your classes are coupled.
@@ -10,10 +10,9 @@ Class coupling is one of the significant code metrics which shows how easy is to
 ## Project structure
 
 This project consists of the several parts:
-* lib (baksmali)
-* src, build (apk-dependency-graph)
 * gui (d3)
-* run scripts  
+* src (apk-dependency-graph)
+
 ###### To get more information please check our [wiki page](https://github.com/alexzaitsev/apk-dependency-graph/wiki).
 
 ## Compile 
@@ -32,7 +31,7 @@ from terminal run command `gradle build`
 
 ## Run
 
-You need at least **Java 7** to run `apk-dependency-graph` `jar` file.
+You need at least **Java 8** to run `apk-dependency-graph` `jar` file.
 
 ## Usage
 
@@ -79,10 +78,6 @@ Does your project look like the first or the second picture? :)
 
 Watch [demo video](https://www.youtube.com/watch?v=rw501tvT4ko).
 
-## Hashtag
-
-Share your awesome architecture using `#apkdependencyvizualizer` hashtag!
-
 ---
 
 ## Credits
@@ -105,5 +100,3 @@ Yes, we really need you man! We always have something to do and have special lab
 
 If you're looking for an Android Studio plugin that allows to display graph of dependency injections - please check out [this repository](https://github.com/kaygisiz/Dependency-Injection-Graph). It's based on current project and available in [Jetbrains repository](https://plugins.jetbrains.com/plugin/10107-dependency-injection-graph).
 
-## Share a link to our repository
-[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Android%20dependency%20visualizer&url=https://github.com/alexzaitsev/apk-dependency-graph&hashtags=android,dependency,coupling,graph,visualize,baksmali,developer)
