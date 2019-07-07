@@ -9,7 +9,7 @@ script: ./gradlew build
 branches:
   only:
     - master                           # master
-    - /[0-9]+\.[0-9]+\.[0-9]+(.*)?/  # TAG
+    - /[0-9]+\.[0-9]+\.[0-9]+(.*)?/    # TAG
 
 before_deploy:                         # Create Archive
  - rm -fr build/classes/
