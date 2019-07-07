@@ -1,4 +1,8 @@
 language: java
 jdk: openjdk8
-before_script: chmod +x ./gradlew
+install: skip
+before_script:
+- tree
+- chmod +x ./gradlew
 script: ./gradlew build
+after_script: tree
