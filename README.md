@@ -1,6 +1,6 @@
 # Apk Dependency Graph
 
-[![Build Status](https://travis-ci.com/alexzaitsev/apk-dependency-graph.svg?branch=master)](https://travis-ci.com/alexzaitsev/apk-dependency-graph)
+[![Build Status](https://travis-ci.org/alexzaitsev/apk-dependency-graph.svg?branch=master)](https://travis-ci.org/alexzaitsev/apk-dependency-graph)
 [![version](https://img.shields.io/badge/version-0.1.5-brightgreen.svg)](https://github.com/alexzaitsev/apk-dependency-graph/releases/tag/0.1.5) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-apk--dependency--graph-blue.svg?style=flat)](http://android-arsenal.com/details/1/4411)
 
 Android dependency visualizer. It's a tool that helps to visualize current state of your project. It's really easy to see how tight your classes are coupled.
