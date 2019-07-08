@@ -1,0 +1,25 @@
+language: java
+jdk: openjdk8
+
+install: skip
+
+before_script: chmod +x ./gradlew
+script: ./gradlew build
+
+branches:
+  only:
+    - master                           # master
+    - /[0-9]+\.[0-9]+\.[0-9]+(.*)?/    # TAG
+
+before_deploy:                         # Create Archive
+ - rm -fr build/classes/
+ - zip -r apk-dependency-graph-scripts-$TRAVIS_TAG.zip run.bat run.sh lib/ gui/ build/
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN               # More options > Settings > Environment Variables
+  skip_cleanup: true
+  file: apk-dependency-graph-scripts-$TRAVIS_TAG.zip
+  name: $TRAVIS_TAG
+  on:
+    branch: master
+    tags: true
