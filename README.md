@@ -5,23 +5,23 @@
 
 Android dependency visualizer. It's a tool that helps to visualize current state of your project. It's really easy to see how tight your classes are coupled.
 
-* [Apk Dependency Graph](#Apk-Dependency-Graph)
-  * [Theory](#Theory)
-  * [Project structure](#Project-structure)
-  * [Compile](#Compile)
-    * [Requirements](#Requirements)
-    * [Gradle](#Gradle)
-      * [5.0 or newer](#50-or-newer)
-      * [via Wrapper](#via-Wrapper)
-    * [Ant](#Ant)
-  * [Run](#Run)
-  * [Usage](#Usage)
-    * [Fast way](#Fast-way)
-  * [Examples](#Examples)
-  * [Demo](#Demo)
-  * [Credits](#Credits)
-  * [Contributors](#Contributors)
-  * [Dependency Injection Graph](#Dependency-Injection-Graph)
+**Table of contents**
+* [Theory](#Theory)
+* [Project structure](#Project-structure)
+* [Compile](#Compile)
+  * [Requirements](#Requirements)
+  * [Gradle](#Gradle)
+    * [5.0 or newer](#50-or-newer)
+    * [via Wrapper](#via-Wrapper)
+  * [Ant](#Ant)
+* [Run](#Run)
+* [Usage](#Usage)
+  * [Fast way](#Fast-way)
+* [Examples](#Examples)
+* [Demo](#Demo)
+* [Credits](#Credits)
+* [Contributors](#Contributors)
+* [Dependency Injection Graph](#Dependency-Injection-Graph)
 
 ## Theory
 
