@@ -1,0 +1,7 @@
+'dagger-butterknife.json' is a default filterset that is shipped with the releases.
+It filters Dagger and ButterKnife classes.
+
+The file contains json array of RegExps.
+You may extend this array of create a set of your own filter files similar to this one.
+
+Read Usage part of Readme for the details.

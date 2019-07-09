@@ -4,16 +4,16 @@ public class Arguments {
     private String apkFilePath;
     private String projectPath;
     private String resultPath;
-    private String filter;
+    private String packageFilter;
     private boolean withInnerClasses;
 
     public Arguments(String apkPath, String projectPath, String resultPath,
-            String filter, boolean withInnerClasses) {
+            String packageFilter, boolean withInnerClasses) {
         super();
         this.apkFilePath = apkPath;
         this.projectPath = projectPath;
         this.resultPath = resultPath;
-        this.filter = filter;
+        this.packageFilter = packageFilter;
         this.withInnerClasses = withInnerClasses;
     }
     public String getProjectPath() {
@@ -28,11 +28,11 @@ public class Arguments {
     public void setResultPath(String resultPath) {
         this.resultPath = resultPath;
     }
-    public String getFilter() {
-        return filter;
+    public String getPackageFilter() {
+        return packageFilter;
     }
-    public void setFilter(String filter) {
-        this.filter = filter;
+    public void setPackageFilter(String packageFilter) {
+        this.packageFilter = packageFilter;
     }
     public boolean withInnerClasses() {
         return withInnerClasses;

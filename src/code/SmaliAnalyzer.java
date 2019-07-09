@@ -33,9 +33,9 @@ public class SmaliAnalyzer {
 	}
 
 	public boolean run() {
-		String filter = arguments.getFilter();
+		String filter = arguments.getPackageFilter();
 		if (filter == null) {
-			System.err.println("Please check your filter!");
+			System.err.println("Please check your package filter!");
 			return false;
 		}
 
@@ -109,7 +109,7 @@ public class SmaliAnalyzer {
 	
 					// filtering
 					for (String fullClassName : classNames) {
-						if (fullClassName != null && isFilterOk(fullClassName)) {
+						if (fullClassName != null && areFiltersOk(fullClassName)) {
 							String simpleClassName = getClassSimpleName(fullClassName);
 							if (isClassOk(simpleClassName, fileName)) {
 								dependencyNames.add(simpleClassName);
@@ -198,8 +198,10 @@ public class SmaliAnalyzer {
 		return endIndex;
 	}
 
-	private boolean isFilterOk(String className) {
-		return arguments.getFilter() == null || className.startsWith(arguments.getFilter().replaceAll("\\.", "/"));
+	private boolean areFiltersOk(String className) {
+		boolean packageFilterIsOk = arguments.getPackageFilter() == null || 
+			className.startsWith(arguments.getPackageFilter().replaceAll("\\.", "/"));
+		return packageFilterIsOk;
 	}
 
 	private void addDependencies(String className, Set<String> dependenciesList) {
