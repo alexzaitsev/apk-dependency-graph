@@ -3,6 +3,8 @@ package code;
 import code.decode.ApkSmaliDecoderController;
 import code.io.ArgumentReader;
 import code.io.Arguments;
+import code.io.FiltersReader;
+import code.io.Filters;
 import code.io.Writer;
 import code.util.FileUtils;
 
@@ -13,7 +15,12 @@ public class Main {
     public static void main(String[] args) {
         Arguments arguments = new ArgumentReader(args).read();
         if (arguments == null) {
+            System.err.println("Arguments cannot be null!");
             return;
+        }
+        Filters filters = null;
+        if (arguments.getFiltersPath() != null) {
+            filters = new FiltersReader(arguments.getFiltersPath()).read();
         }
 
         // Delete the output directory for a better decoding result.

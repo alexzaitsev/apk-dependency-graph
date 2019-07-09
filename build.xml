@@ -1,7 +1,7 @@
 <project xmlns:ivy="antlib:org.apache.ivy.ant"
         name="apk-dependency-graph" basedir="." default="main">
 
-    <property name="src.dir" value="src"/>
+    <property name="src.dir"     value="src"/>
     <property name="build.dir"   value="build"/>
     <property name="classes.dir" value="${build.dir}/classes"/>
     <property name="jar.dir"     value="${build.dir}/jar"/>

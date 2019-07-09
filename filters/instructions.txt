@@ -1,7 +1,12 @@
-'filters.json' is a default filterset that is shipped with the releases.
-It filters Dagger and ButterKnife classes.
+'default.json' is a default filterset that is shipped with the releases.
 
-The file contains json array of RegExps.
-You may extend this array of create a set of your own filter files similar to this one.
+It consists of the next filters:
+package-name      - Java package to filter by, e.g. "com.mysite.myandroidapp". Empty by default.
+filter-inner      - If false it will contain inner class processing (the ones creating ClassName$InnerClass files). True by default.
+ignored-classes   - The list of regexps that will be applied to class names. 
+                    If class name matches any of provided regexps - it will be ignored. 
+                    By default it filters Dagger and ButterKnife classes.
+
+You may extend this file or create a set of your own filter files for each project.
 
 Read Usage part of Readme for the details.

@@ -6,18 +6,14 @@ public class ArgumentReader {
 
 	private static final String ARG_PROJ = "-i";
 	private static final String ARG_RES_JS = "-o";
-	private static final String ARG_PACK_F = "-pf";
-	private static final String ARG_FILTER = "-f";
-	private static final String ARG_INNER = "-d";
 	private static final String ARG_APK = "-a";
+	private static final String ARG_FILTER = "-f";
 
 	private static final String USAGE_STRING = "Usage:\n" +
 			ARG_PROJ + " path : path to the decompiled project\n" +
 			ARG_RES_JS + " path : path to the result js file\n" +
-			ARG_PACK_F + " package-filter : java package to filter by (to show all dependencies pass '" + ARG_PACK_F + " nofilter')\n" +
-			ARG_FILTER + " filters : path to the filters.json file\n" +
-			ARG_INNER + " boolean : if true it will contain inner class processing (the ones creating ClassName$InnerClass files)\n" +
-			ARG_APK + " path : path to the apk file";
+			ARG_APK + " path : path to the apk file\n" +
+			ARG_FILTER + " filters : path to the your_filterset.json file";
 	
 	private String[] args;
 	
@@ -26,9 +22,7 @@ public class ArgumentReader {
 	}
 
 	public Arguments read() {
-		String projectPath = null, resultPath = null, packageFilter = null, filtersPath = null;
-        String apkPath = null;
-		boolean withInnerClasses = false;
+		String projectPath = null, resultPath = null, apkPath = null, filtersPath = null;
 
 		for (int i = 0; i < args.length; i++) {
 			if (i < args.length - 1) {
@@ -36,10 +30,6 @@ public class ArgumentReader {
 					projectPath = args[i + 1];
 				} else if (args[i].equals(ARG_RES_JS)) {
 					resultPath = args[i + 1];
-				} else if (args[i].equals(ARG_PACK_F)) {
-					packageFilter = args[i + 1];
-				} else if (args[i].equals(ARG_INNER)) {
-					withInnerClasses = Boolean.valueOf(args[i + 1]);
 				} else if (args[i].equals(ARG_APK)) {
                     apkPath = args[i + 1];
                 } else if (args[i].equals(ARG_FILTER)) {
@@ -47,45 +37,30 @@ public class ArgumentReader {
 				}
 			}
 		}
-		if (projectPath == null || resultPath == null || packageFilter == null ||
-                apkPath == null) {
-			System.err.println("Arguments are incorrect!");
+		if (projectPath == null || resultPath == null || apkPath == null) {
+			System.err.println(ARG_PROJ + ", " + ARG_RES_JS + " and " + ARG_APK + " must be provided!");
 			System.err.println(USAGE_STRING);
 			return null;
 		}
-		if (packageFilter.equals("nofilter")) {
-			packageFilter = null;
-			System.out.println("Warning! Processing without package filter.");
-		}
-		if (!withInnerClasses) {
-			System.out.println("Warning! Processing without inner classes.");
-		}
 
-		String[] filesToCheck = new String[] {projectPath, apkPath, filtersPath};
-		if (!checkFiles(filesToCheck)) {
+		if (!checkFiles(new String[] {apkPath})) {
+			return null;
+		}
+		if (filtersPath != null && !checkFiles(new String[] {filtersPath})) {
 			return null;
 		}
 
-		String filterRegex = parseFilters(filtersPath);
-
-		return new Arguments(apkPath, projectPath, resultPath, packageFilter, 
-			withInnerClasses, filterRegex);
+		return new Arguments(apkPath, projectPath, resultPath, filtersPath);
 	}
 
 	private boolean checkFiles(String[] files) {
 		for (String fileName: files) {
 			File file = new File(fileName);
 			if (!file.exists()) {
-				System.out.println(file + " is not found!");
+				System.err.println(file + " is not found!");
 				return false;
 			}
 		}
 		return true;
-	}
-
-	private String parseFilters(String filterFile) {
-		
-
-		return "(^R$)|(^R\\$)|(.*\\$_ViewBinding$)|(.*\\$\\$ViewInjector$)"; // TODO
 	}
 }
