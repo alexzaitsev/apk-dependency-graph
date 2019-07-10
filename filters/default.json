@@ -1,5 +1,5 @@
 {
     "package-name": "",
-    "filter-inner": true,
-    "ignored-classes": ["Dagger", "Injector", ".*\\$_ViewBinding$"]
+    "show-inner-classes": false,
+    "ignored-classes": [".*Dagger.*", ".*Injector.*", ".*\\$_ViewBinding$", ".*_Factory$"]
 }

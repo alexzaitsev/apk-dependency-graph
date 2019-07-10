@@ -1,11 +1,11 @@
 'default.json' is a default filterset that is shipped with the releases.
 
 It consists of the next filters:
-package-name      - Java package to filter by, e.g. "com.mysite.myandroidapp". Empty by default.
-filter-inner      - If false it will contain inner class processing (the ones creating ClassName$InnerClass files). True by default.
-ignored-classes   - The list of regexps that will be applied to class names. 
-                    If class name matches any of provided regexps - it will be ignored. 
-                    By default it filters Dagger and ButterKnife classes.
+package-name       - Java package to filter by, e.g. "com.mysite.myandroidapp". Empty by default.
+show-inner-classes - If true it will contain inner class processing (the ones creating ClassName$InnerClass files). False by default.
+ignored-classes    - The list of regexps that will be applied to class names. 
+                     If class name matches any of provided regexps - it will be ignored. 
+                     By default it filters Dagger and ButterKnife classes.
 
 You may extend this file or create a set of your own filter files for each project.
 

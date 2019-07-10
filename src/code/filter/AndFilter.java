@@ -32,4 +32,15 @@ public class AndFilter<T> extends Filter<T> {
         }
         return true;
     }
+
+    public String toString() {
+        StringBuilder builder = new StringBuilder(getClass().getSimpleName());
+        builder.append("[");
+        for (int i = 0; i < filters.size(); i++) {
+            builder.append(filters.get(i).toString());
+            if (i != filters.size() - 1) builder.append(", ");
+        }
+        builder.append("]");
+        return builder.toString();
+    }
 }

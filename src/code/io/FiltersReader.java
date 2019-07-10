@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 public class FiltersReader {
 
     private static final String FILTER_PACKAGE_NAME = "package-name";
-	private static final String FILTER_INNER = "filter-inner";
+	private static final String FILTER_SHOW_INNER = "show-inner-classes";
     private static final String FILTER_IGNORED_CLASSES = "ignored-classes";
     
     private String filtersFilePath;
@@ -21,7 +21,7 @@ public class FiltersReader {
      */
     public Filters read() {
         String packageName = null;
-        boolean filterInner = Filters.DEFAULT_PROCESS_INNER;
+        boolean showInnerClasses = Filters.DEFAULT_PROCESS_INNER;
         String[] ignoredClassesArr = null;
 
 		try {
@@ -33,8 +33,8 @@ public class FiltersReader {
 				if (rawParam.contains(FILTER_PACKAGE_NAME)) {
                     packageName = rawParam.trim().split(":")[1].trim().replace("\"", "");
                 }
-                if (rawParam.contains(FILTER_INNER)) {
-                    filterInner = Boolean.valueOf(rawParam.trim().split(":")[1].trim().replace("\"", ""));
+                if (rawParam.contains(FILTER_SHOW_INNER)) {
+                    showInnerClasses = Boolean.valueOf(rawParam.trim().split(":")[1].trim().replace("\"", ""));
                 }
             }
             String ignoredClasses = mainObject.substring(mainObject.indexOf('[') + 1, mainObject.lastIndexOf(']'));
@@ -51,10 +51,10 @@ public class FiltersReader {
         if (packageName == null || packageName.isEmpty()) {
             System.out.println("Warning! Processing without package filter.");
         }
-        if (!filterInner) {
+        if (showInnerClasses) {
             System.out.println("Warning! Processing including inner classes.");
         }
 
-        return new Filters(packageName, filterInner, ignoredClassesArr);
+        return new Filters(packageName, showInnerClasses, ignoredClassesArr);
 	}
 }

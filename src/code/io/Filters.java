@@ -2,7 +2,7 @@ package code.io;
 
 public class Filters {
 
-    public static final boolean DEFAULT_PROCESS_INNER = true;
+    public static final boolean DEFAULT_PROCESS_INNER = false;
 
     private String packageName = null;
     private boolean processingInner = DEFAULT_PROCESS_INNER;

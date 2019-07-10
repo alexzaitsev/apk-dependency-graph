@@ -9,9 +9,6 @@ public class RegexFilter extends Filter<String> {
     }
 
     public RegexFilter(String[] regex) {
-        for (int i = 0; i < regex.length; i++) {
-            regex[i] = "(" + regex[i] + ")";
-        }
         this.regex = String.join("|", regex);
     }
 
@@ -19,6 +16,12 @@ public class RegexFilter extends Filter<String> {
      * @return true if String matches the given regex, false otherwise
      */
     public boolean filter(String obj) {
-        return !obj.matches(regex);
+        return obj.matches(regex);
+    }
+
+    public String toString() {
+        StringBuilder builder = new StringBuilder(getClass().getSimpleName());
+        builder.append("{").append(regex).append("}");
+        return builder.toString();
     }
 }

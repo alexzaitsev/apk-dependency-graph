@@ -37,8 +37,8 @@ public class Main {
             arguments.getApkFilePath(), arguments.getProjectPath());
 
         // Analyze the decoded files and create the result file.
-        Filter<String> pathFilter = filters == null ? null : getPathFilter(filters);
-        Filter<String> classFilter = filters == null ? null : getClassFilter(filters);
+        Filter<String> pathFilter = filters == null ? null : makePathFilter(filters);
+        Filter<String> classFilter = filters == null ? null : makeClassFilter(filters);
         SmaliAnalyzer analyzer = new SmaliAnalyzer(arguments, filters, 
                                                    pathFilter, classFilter);
 
@@ -49,7 +49,7 @@ public class Main {
         }
     }
 
-    private static Filter<String> getPathFilter(Filters inputFilters) {
+    private static Filter<String> makePathFilter(Filters inputFilters) {
         if (inputFilters.getPackageName() == null || inputFilters.getPackageName().isEmpty()) {
             return null;
         }
@@ -58,10 +58,13 @@ public class Main {
 		String searchString = Pattern.quote(".");
         String packageNameAsPath = inputFilters.getPackageName().replaceAll(searchString, replacement);
         
-        return new RegexFilter("." + packageNameAsPath + ".");
+        RegexFilter filter = new RegexFilter(".*" + packageNameAsPath + ".*");
+        
+        System.out.println("makePathFilter: " + filter.toString());
+        return filter;
     }
 
-    private static Filter<String> getClassFilter(Filters inputFilters) {
+    private static Filter<String> makeClassFilter(Filters inputFilters) {
         String[] ignoredClasses = inputFilters.getIgnoredClasses();
         InverseRegexFilter ignoredClassesFilter = new InverseRegexFilter(ignoredClasses);
 
@@ -72,6 +75,7 @@ public class Main {
             andFilter.addFilter(new RegexFilter(packageNameRegex));
         }
 
+        System.out.println("makeClassFilter: " + andFilter.toString());
         return andFilter;
     }
 }
