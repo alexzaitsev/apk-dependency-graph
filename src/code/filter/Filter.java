@@ -10,5 +10,5 @@ public abstract class Filter<T> {
      * 
      * @return true if object satisfies conditions, false otherwise
      */
-    public boolean filter(T obj);
+    public abstract boolean filter(T obj);
 }

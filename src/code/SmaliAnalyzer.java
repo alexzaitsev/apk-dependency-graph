@@ -9,48 +9,49 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import code.io.Arguments;
 import code.io.Filters;
+import code.filter.Filter;
+
+import static code.util.CodeUtils.isClassR;
+import static code.util.CodeUtils.isClassGenerated;
+import static code.util.CodeUtils.isClassInner;
+import static code.util.CodeUtils.getOuterClass;
+import static code.util.CodeUtils.isClassAnonymous;
+import static code.util.CodeUtils.getAnonymousNearestOuter;
+import static code.util.CodeUtils.getEndGenericIndex;
+import static code.util.CodeUtils.getClassSimpleName;
 
 public class SmaliAnalyzer {
 
 	private Arguments arguments;
+	private Filters filters;
 	private Filter<String> pathFilter;
 	private Filter<String> classFilter;
 
-	private String filterAsPath;
-
-	public SmaliAnalyzer(Arguments arguments, Filter<String> pathFilter,
-		Filter<String> classFilter) {
+	public SmaliAnalyzer(Arguments arguments, 
+						 Filters filters,
+						 Filter<String> pathFilter,
+						 Filter<String> classFilter) {
 		this.arguments = arguments;
+		this.filters = filters;
 		this.pathFilter = pathFilter;
 		this.classFilter = classFilter;
 	}
 
-	/*
 	private Map<String, Set<String>> dependencies = new HashMap<>();
 
 	public Map<String, Set<String>> getDependencies() {
-		if (arguments.withInnerClasses()) {
+		if (filters == null || filters.isProcessingInner()) {
 			return dependencies;
 		}
 		return getFilteredDependencies();
 	}
-	*/
 
 	public boolean run() {
-		String filter = arguments.getPackageFilter();
-		if (filter == null) {
-			System.err.println("Please check your package filter!");
-			return false;
-		}
-
-		String replacement = Matcher.quoteReplacement(File.separator);
-		String searchString = Pattern.quote(".");
-		filterAsPath = filter.replaceAll(searchString, replacement);
+		System.out.println("Analyzing dependencies...");
+		
 		File projectFolder = getProjectFolder();
 		if (projectFolder.exists()) {
 			traverseSmaliCode(projectFolder);
@@ -58,7 +59,7 @@ public class SmaliAnalyzer {
 		} else if (isInstantRunEnabled()){
 			System.err.println("Enabled Instant Run feature detected. We cannot decompile it. Please, disable Instant Run and rebuild your app.");
 		} else {
-			System.err.println("Smali folder cannot be absent!");
+			System.err.println(projectFolder + " cannot be absent!");
 		}
 		return false;
 	}
@@ -75,7 +76,6 @@ public class SmaliAnalyzer {
 					return true;
 				}
 			}
-			
 		}
 		return false;
 	}
@@ -84,8 +84,8 @@ public class SmaliAnalyzer {
 		File[] listOfFiles = folder.listFiles();
 		for (int i = 0; i < listOfFiles.length; i++) {
 			File currentFile = listOfFiles[i];
-			if (currentFile.isFile()) {
-				if (currentFile.getName().endsWith(".smali") && currentFile.getAbsolutePath().contains(filterAsPath)) {
+			if (currentFile.isFile() && currentFile.getName().endsWith(".smali")) {
+				if (pathFilter == null || pathFilter.filter(currentFile.getAbsolutePath())) {
 					processSmaliFile(currentFile);
 				}
 			} else if (currentFile.isDirectory()) {
@@ -99,12 +99,12 @@ public class SmaliAnalyzer {
 
 			String fileName = file.getName().substring(0, file.getName().lastIndexOf("."));
 			
-			if (CodeUtils.isClassR(fileName)) {
+			if (isClassR(fileName)) {
 				return;
 			}
 			
-			if (CodeUtils.isClassAnonymous(fileName)) {
-				fileName = CodeUtils.getAnonymousNearestOuter(fileName);
+			if (isClassAnonymous(fileName)) {
+				fileName = getAnonymousNearestOuter(fileName);
 			}
 
 			Set<String> classNames = new HashSet<>();
@@ -118,9 +118,7 @@ public class SmaliAnalyzer {
 	
 					// filtering
 					for (String fullClassName : classNames) {
-						if (fullClassName != null && 
-							isPackageFilterOk(fullClassName) &&
-							areFiltersOk(fullClassName)) {
+						if (fullClassName != null && classFilter.filter(fullClassName)) {
 
 							String simpleClassName = getClassSimpleName(fullClassName);
 							if (isClassOk(simpleClassName, fileName)) {
@@ -133,8 +131,8 @@ public class SmaliAnalyzer {
 			}
 
 			// inner/nested class always depends on the outer class
-			if (CodeUtils.isClassInner(fileName)) {
-				dependencyNames.add(CodeUtils.getOuterClass(fileName));
+			if (isClassInner(fileName)) {
+				dependencyNames.add(getOuterClass(fileName));
 			}
 
 			if (!dependencyNames.isEmpty()) {
@@ -146,16 +144,6 @@ public class SmaliAnalyzer {
 			System.err.println("Cannot read " + file.getAbsolutePath());
 		}
 	}
-
-	private String getClassSimpleName(String fullClassName) {
-		String simpleClassName = fullClassName.substring(fullClassName.lastIndexOf("/") + 1,
-				fullClassName.length());
-		int startGenericIndex = simpleClassName.indexOf("<");
-		if (startGenericIndex != -1) {
-			simpleClassName = simpleClassName.substring(0, startGenericIndex);
-		}
-		return simpleClassName;
-	}
 	
 	/**
 	 * The last filter. Do not show anonymous classes (their dependencies belongs to outer class), 
@@ -165,8 +153,8 @@ public class SmaliAnalyzer {
 	 * @return true if class is good with these conditions
 	 */
 	private boolean isClassOk(String simpleClassName, String fileName) {
-		return !CodeUtils.isClassAnonymous(simpleClassName) && !CodeUtils.isClassGenerated(simpleClassName)
-				&& !fileName.equals(simpleClassName) && !CodeUtils.isClassR(simpleClassName);
+		return !isClassAnonymous(simpleClassName) && !isClassGenerated(simpleClassName)
+				&& !fileName.equals(simpleClassName) && !isClassR(simpleClassName);
 	}
 	
 	private void parseAndAddClassNames(Set<String> classNames, String line) {
@@ -198,26 +186,7 @@ public class SmaliAnalyzer {
 
 			classNames.add(className);
 		}
-	}
-
-	private int getEndGenericIndex(String line, int startGenericIndex) {
-		int endIndex = line.indexOf(">", startGenericIndex);
-		for (int i = endIndex + 2; i < line.length(); i += 2) {
-			if (line.charAt(i) == '>') {
-				endIndex = i;
-			}
-		}
-		return endIndex;
-	}
-
-	private boolean isPackageFilterOk(String className) {
-		return arguments.getPackageFilter() == null || 
-			className.startsWith(arguments.getPackageFilter().replaceAll("\\.", "/"));
-	}
-
-	private boolean areFiltersOk(String className) {
-		return true; // TODO
-	}
+	}	
 
 	private void addDependencies(String className, Set<String> dependenciesList) {
 		Set<String> depList = dependencies.get(className);

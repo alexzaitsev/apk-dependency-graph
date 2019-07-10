@@ -16,6 +16,9 @@ public class FiltersReader {
         this.filtersFilePath = filtersFilePath;
     }
 
+    /**
+     * Parses the your_filterset.json file and produces Filters object
+     */
     public Filters read() {
         String packageName = null;
         boolean filterInner = Filters.DEFAULT_PROCESS_INNER;
@@ -37,7 +40,7 @@ public class FiltersReader {
             String ignoredClasses = mainObject.substring(mainObject.indexOf('[') + 1, mainObject.lastIndexOf(']'));
             ignoredClassesArr = ignoredClasses.split(",");
             for (int i = 0; i < ignoredClassesArr.length; i++) {
-                ignoredClassesArr[i] = "(" + ignoredClassesArr[i].replace("\"", "").trim() + ")";
+                ignoredClassesArr[i] = ignoredClassesArr[i].replace("\"", "").trim();
             }
 		} catch (Exception e) {
 			System.err.println("An error happened during " + filtersFilePath + " processing!");
@@ -52,7 +55,6 @@ public class FiltersReader {
             System.out.println("Warning! Processing including inner classes.");
         }
 
-        String filterRegex = String.join("|", ignoredClassesArr);
-        return new Filters(packageName, filterInner, filterRegex);
+        return new Filters(packageName, filterInner, ignoredClassesArr);
 	}
 }

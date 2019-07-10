@@ -15,6 +15,10 @@ public class AndFilter<T> extends Filter<T> {
         this.filters = new ArrayList<>(Arrays.asList(filters));
     }
 
+    public void addFilter(Filter<T> filter) {
+        filters.add(filter);
+    }
+
     /**
      * Filters the given object
      * 

@@ -1,6 +1,4 @@
-package code;
-
-import code.util.StringUtils;
+package code.util;
 
 public class CodeUtils {
 
@@ -37,5 +35,25 @@ public class CodeUtils {
 			}
 		}
 		return null;
+	}
+
+	public static int getEndGenericIndex(String line, int startGenericIndex) {
+		int endIndex = line.indexOf(">", startGenericIndex);
+		for (int i = endIndex + 2; i < line.length(); i += 2) {
+			if (line.charAt(i) == '>') {
+				endIndex = i;
+			}
+		}
+		return endIndex;
+	}
+
+	public static String getClassSimpleName(String fullClassName) {
+		String simpleClassName = fullClassName.substring(fullClassName.lastIndexOf("/") + 1,
+				fullClassName.length());
+		int startGenericIndex = simpleClassName.indexOf("<");
+		if (startGenericIndex != -1) {
+			simpleClassName = simpleClassName.substring(0, startGenericIndex);
+		}
+		return simpleClassName;
 	}
 }
