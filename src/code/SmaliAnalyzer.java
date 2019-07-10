@@ -13,16 +13,24 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import code.io.Arguments;
+import code.io.Filters;
 
 public class SmaliAnalyzer {
 
 	private Arguments arguments;
+	private Filter<String> pathFilter;
+	private Filter<String> classFilter;
+
 	private String filterAsPath;
 
-	public SmaliAnalyzer(Arguments arguments) {
+	public SmaliAnalyzer(Arguments arguments, Filter<String> pathFilter,
+		Filter<String> classFilter) {
 		this.arguments = arguments;
+		this.pathFilter = pathFilter;
+		this.classFilter = classFilter;
 	}
 
+	/*
 	private Map<String, Set<String>> dependencies = new HashMap<>();
 
 	public Map<String, Set<String>> getDependencies() {
@@ -31,6 +39,7 @@ public class SmaliAnalyzer {
 		}
 		return getFilteredDependencies();
 	}
+	*/
 
 	public boolean run() {
 		String filter = arguments.getPackageFilter();

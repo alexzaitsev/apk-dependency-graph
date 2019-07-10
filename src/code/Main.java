@@ -7,6 +7,8 @@ import code.io.FiltersReader;
 import code.io.Filters;
 import code.io.Writer;
 import code.util.FileUtils;
+import code.filter.Filter;
+import code.filter.RegexFilter;
 
 import java.io.File;
 
@@ -18,10 +20,8 @@ public class Main {
             System.err.println("Arguments cannot be null!");
             return;
         }
-        Filters filters = null;
-        if (arguments.getFiltersPath() != null) {
-            filters = new FiltersReader(arguments.getFiltersPath()).read();
-        }
+        Filters filters = arguments.getFiltersPath() == null ? null :
+            new FiltersReader(arguments.getFiltersPath()).read();
 
         // Delete the output directory for a better decoding result.
         if (FileUtils.deleteDir(arguments.getProjectPath())) {
@@ -32,11 +32,24 @@ public class Main {
         ApkSmaliDecoderController.decode(
             arguments.getApkFilePath(), arguments.getProjectPath());
 
-        File resultFile = new File(arguments.getResultPath());
-        SmaliAnalyzer analyzer = new SmaliAnalyzer(arguments);
+        // Analyze the decoded files and create the result file.
+        Filter<String> pathFilter = filters == null ? null : getPathFilter(filters);
+        Filter<String> classFilter = filters == null ? null : getClassFilter(filters);
+        SmaliAnalyzer analyzer = new SmaliAnalyzer(arguments, pathFilter, classFilter);
         if (analyzer.run()) {
+            File resultFile = new File(arguments.getResultPath());
             new Writer(resultFile).write(analyzer.getDependencies());
             System.out.println("Success! Now open index.html in your browser.");
         }
+    }
+
+    private static Filter<String> getPathFilter(Filters inputFilters) {
+        RegexFilter pathFilter = new RegexFilter("." + inputFilters.getPackageName() + ".");
+        return pathFilter;
+    }
+
+    private static Filter<String> getClassFilter(Filters inputFilters) {
+        RegexFilter classFilter = new RegexFilter(inputFilters.getIgnoredClasses());
+        return classFilter;
     }
 }

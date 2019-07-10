@@ -5,25 +5,25 @@ public class Filters {
     public static final boolean DEFAULT_PROCESS_INNER = true;
 
     private String packageName = null;
-    private boolean processInner = DEFAULT_PROCESS_INNER;
-    private String ignoredClassesRegex = null;
+    private boolean processingInner = DEFAULT_PROCESS_INNER;
+    private String[] ignoredClasses = null;
 
-    public Filters(String packageName, boolean processInner, 
-                   String ignoredClassesRegex) {
+    public Filters(String packageName, boolean processingInner, 
+                   String[] ignoredClasses) {
         this.packageName = packageName;
-        this.processInner = processInner;
-        this.ignoredClassesRegex = ignoredClassesRegex;
+        this.processingInner = processingInner;
+        this.ignoredClasses = ignoredClasses;
     }
 
     public String getPackageName() {
         return packageName;
     }
 
-    public boolean getProcessInner() {
-        return processInner;
+    public boolean isProcessingInner() {
+        return processingInner;
     }
 
-    public String getIgnoredClassesRegex() {
-        return ignoredClassesRegex;
+    public String[] getIgnoredClasses() {
+        return ignoredClasses;
     }
 }
