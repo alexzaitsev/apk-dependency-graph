@@ -49,6 +49,7 @@ public class FiltersReader {
         }
 
         if (packageName == null || packageName.isEmpty()) {
+            packageName = null;
             System.out.println("Warning! Processing without package filter.");
         }
         if (showInnerClasses) {

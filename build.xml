@@ -7,8 +7,8 @@
     <property name="classes.dir"         value="${build.dir}/classes"/>
     <property name="jar.dir"             value="${build.dir}/jar"/>
     <property name="testclasses.dir"     value="${build.dir}/test-classes"/>
-    <property name="main-class"          value="com.alex_zaitsev.adg.Main"/>
     <property name="lib.dir"             value="lib" />
+    <property name="main-class"          value="com.alex_zaitsev.adg.Main"/>
 
     <target name="clean">
         <delete dir="${build.dir}"/>
@@ -33,11 +33,6 @@
     </target>
 
     <target name="test" depends="compileTest">
-        <!-- Required for Gradle -->
-        <taskdef name="junit"
-        classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask"
-        classpath="/usr/share/ant/lib/ant-junit.jar:/usr/share/ant/lib/ant-junit4.jar"/>
-
         <junit printsummary="on" haltonfailure="yes" fork="true">
             <classpath>
                 <path refid="classpath.test"/>
@@ -64,13 +59,9 @@
         </jar>
     </target>
 
-    <target name="run" depends="jar">
-        <java jar="${jar.dir}/${ant.project.name}.jar" fork="true"/>
-    </target>
-
     <target name="clean-build" depends="clean,jar"/>
 
-    <target name="main" depends="clean,resolve,run"/>
+    <target name="main" depends="clean,resolve,jar"/>
 
     <!-- target: resolve -->
     <property name="ivy.install.version" value="2.2.0" />

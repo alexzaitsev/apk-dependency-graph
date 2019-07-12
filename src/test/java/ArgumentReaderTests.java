@@ -42,79 +42,50 @@ public class ArgumentReaderTests {
 
     /**
      * When wrong or incomplete arguments are passed
-     * to ArgumentReader, read() must return Null.
+     * to ArgumentReader, read() must return Null and print error message.
      */
     @Test
-    public void wrongArgumentsReturnsNull() {
-        String[] args = new String[] {"-i", "/path/"};
-        ArgumentReader sut = new ArgumentReader(args);
+    public void wrongArgumentsReturnsNullAndPrintsMessage() {
+        String[] inputArgs = new String[] {"-i", "/path/"};
+        ArgumentReader sut = new ArgumentReader(inputArgs);
 
-        assertThat(sut.read(), nullValue());
-    }
+        Arguments args = sut.read();
 
-    /**
-     * When wrong or incomplete arguments are passed
-     * to ArgumentReader, read() must print error message.
-     */
-    @Test
-    public void wrongArgumentsPrintsMessage() {
-        String[] args = new String[] {"-i", "/path/"};
-        new ArgumentReader(args).read();
-
+        assertThat(args, nullValue());
         assertThat(errContent.toString(), containsString("must be provided!"));
         assertThat(errContent.toString(), containsString("Usage:"));
     }
 
     /**
      * When non-existing Apk file path is passed
-     * to ArgumentReader, read() must return Null.
+     * to ArgumentReader, read() must return Null and print error message.
      */
     @Test
-    public void nonExistingApkPathReturnsNull() {
-        String[] args = new String[] {"-i", "/path/", "-o", "/path/", "-a", "/wrong/"};
-        ArgumentReader sut = new ArgumentReader(args);
+    public void nonExistingApkPathReturnsNullAndPrintsMessage() {
+        String[] inputArgs = new String[] {"-i", "/path/", "-o", "/path/", "-a", "/wrong/"};
+        ArgumentReader sut = new ArgumentReader(inputArgs);
 
-        assertThat(sut.read(), nullValue());
-    }
+        Arguments args = sut.read();
 
-    /**
-     * When non-existing Apk file path is passed
-     * to ArgumentReader, read() must print error message.
-     */
-    @Test
-    public void nonExistingApkPathPrintsMessage() {
-        String[] args = new String[] {"-i", "/path/", "-o", "/path/", "-a", "/wrong/"};
-        new ArgumentReader(args).read();
-
+        assertThat(args, nullValue());
         String message = "/wrong is not found!";
         assertThat(errContent.toString(), containsString(message));
     }
 
     /**
-     * When wrong filter is passed
-     * to ArgumentReader, read() must return Arguments.
+     * When wrong filter is passed to ArgumentReader, 
+     * read() must return Arguments and print error message.
      */
     @Test
-    public void wrongFilterFileReturnsNull() {
+    public void wrongFilterFileReturnsNullAndPrintsMessage() {
         String[] inputArgs = new String[] {"-i", "/path/", "-o", "/path/", 
                                            "-a", apkFile.getAbsolutePath(), 
                                            "-f", "/wrong/"};
-        Arguments args = new ArgumentReader(inputArgs).read();
+        ArgumentReader sut = new ArgumentReader(inputArgs);
+
+        Arguments args = sut.read();
 
         assertThat(args, nullValue());
-    }
-
-    /**
-     * When wrong filter is passed
-     * to ArgumentReader, read() must print error message.
-     */
-    @Test
-    public void wrongFilterFilePrintsMessage() {
-        String[] inputArgs = new String[] {"-i", "/path/", "-o", "/path/", 
-                                           "-a", apkFile.getAbsolutePath(), 
-                                           "-f", "/wrong/"};
-        Arguments args = new ArgumentReader(inputArgs).read();
-
         String message = "/wrong is not found!";
         assertThat(errContent.toString(), containsString(message));
     }
@@ -130,9 +101,12 @@ public class ArgumentReaderTests {
         String apkPath = apkFile.getAbsolutePath();
         String[] inputArgs = new String[] {"-i", projectPath, "-o", resultPath, 
                                            "-a", apkPath};
-        Arguments args = new ArgumentReader(inputArgs).read();
+        ArgumentReader sut = new ArgumentReader(inputArgs);
+
+        Arguments args = sut.read();
 
         assertThat(args, notNullValue());
+        assertThat(args.getFiltersPath(), nullValue());
         assertThat(args.getProjectPath(), equalTo(projectPath));
         assertThat(args.getResultPath(), equalTo(resultPath));
         assertThat(args.getApkFilePath(), equalTo(apkPath));
@@ -150,7 +124,9 @@ public class ArgumentReaderTests {
         String filtersPath = filterFile.getAbsolutePath();
         String[] inputArgs = new String[] {"-i", projectPath, "-o", resultPath, 
                                            "-a", apkPath, "-f", filtersPath};
-        Arguments args = new ArgumentReader(inputArgs).read();
+        ArgumentReader sut = new ArgumentReader(inputArgs);
+
+        Arguments args = sut.read();
 
         assertThat(args, notNullValue());
         assertThat(args.getProjectPath(), equalTo(projectPath));
