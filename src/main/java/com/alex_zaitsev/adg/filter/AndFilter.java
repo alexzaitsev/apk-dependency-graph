@@ -1,4 +1,4 @@
-package code.filter;
+package com.alex_zaitsev.adg.filter;
 
 import java.util.List;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package code.io;
+package com.alex_zaitsev.adg.io;
 
 import java.io.IOException;
 import java.nio.file.Files;

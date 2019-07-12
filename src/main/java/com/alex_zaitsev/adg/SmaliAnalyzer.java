@@ -1,4 +1,4 @@
-package code;
+package com.alex_zaitsev.adg;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,18 +10,18 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import code.io.Arguments;
-import code.io.Filters;
-import code.filter.Filter;
+import com.alex_zaitsev.adg.io.Arguments;
+import com.alex_zaitsev.adg.io.Filters;
+import com.alex_zaitsev.adg.filter.Filter;
 
-import static code.util.CodeUtils.isClassR;
-import static code.util.CodeUtils.isClassGenerated;
-import static code.util.CodeUtils.isClassInner;
-import static code.util.CodeUtils.getOuterClass;
-import static code.util.CodeUtils.isClassAnonymous;
-import static code.util.CodeUtils.getAnonymousNearestOuter;
-import static code.util.CodeUtils.getEndGenericIndex;
-import static code.util.CodeUtils.getClassSimpleName;
+import static com.alex_zaitsev.adg.util.CodeUtils.isClassR;
+import static com.alex_zaitsev.adg.util.CodeUtils.isClassGenerated;
+import static com.alex_zaitsev.adg.util.CodeUtils.isClassInner;
+import static com.alex_zaitsev.adg.util.CodeUtils.getOuterClass;
+import static com.alex_zaitsev.adg.util.CodeUtils.isClassAnonymous;
+import static com.alex_zaitsev.adg.util.CodeUtils.getAnonymousNearestOuter;
+import static com.alex_zaitsev.adg.util.CodeUtils.getEndGenericIndex;
+import static com.alex_zaitsev.adg.util.CodeUtils.getClassSimpleName;
 
 public class SmaliAnalyzer {
 

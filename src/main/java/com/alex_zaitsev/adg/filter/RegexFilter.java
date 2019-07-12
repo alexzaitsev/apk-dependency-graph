@@ -1,4 +1,4 @@
-package code.filter;
+package com.alex_zaitsev.adg.filter;
 
 public class RegexFilter extends Filter<String> {
 

@@ -1,12 +1,14 @@
 <project xmlns:ivy="antlib:org.apache.ivy.ant"
         name="apk-dependency-graph" basedir="." default="main">
 
-    <property name="src.dir"     value="src"/>
-    <property name="build.dir"   value="build"/>
-    <property name="classes.dir" value="${build.dir}/classes"/>
-    <property name="jar.dir"     value="${build.dir}/jar"/>
-    <property name="main-class"  value="code.Main"/>
-    <property name="lib.dir"     value="lib" />
+    <property name="src.dir"             value="src/main/java"/>
+    <property name="test.dir"            value="src/test/java"/>
+    <property name="build.dir"           value="build"/>
+    <property name="classes.dir"         value="${build.dir}/classes"/>
+    <property name="jar.dir"             value="${build.dir}/jar"/>
+    <property name="testclasses.dir"     value="${build.dir}/test-classes"/>
+    <property name="main-class"          value="com.alex_zaitsev.adg.Main"/>
+    <property name="lib.dir"             value="lib" />
 
     <target name="clean">
         <delete dir="${build.dir}"/>
@@ -17,11 +19,33 @@
         <javac
             srcdir="${src.dir}"
             destdir="${classes.dir}"
-            classpathref="external-libraries-classpath"
+            classpathref="classpath.libraries"
             includeantruntime="false" />
     </target>
 
-    <target name="jar" depends="compile">
+    <target name="compileTest" depends="compile" description="Compile jUnit Test cases">
+        <mkdir dir="${testclasses.dir}"/>
+        <javac 
+            srcdir="${test.dir}" 
+            destdir="${testclasses.dir}" 
+            classpathref="classpath.test"
+            includeantruntime="false" />
+    </target>
+
+    <target name="test" depends="compileTest">
+        <junit printsummary="on" haltonfailure="yes" fork="true">
+            <classpath>
+                <path refid="classpath.test"/>
+                <pathelement location="${testclasses.dir}"/>
+            </classpath>
+            <formatter type="brief" usefile="false" />
+            <batchtest>
+                <fileset dir="${test.dir}" includes="**/*Test*.java" />
+            </batchtest>
+        </junit>
+    </target> 
+
+    <target name="jar" depends="test">
         <mkdir dir="${jar.dir}"/>
         <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
             <manifest>
@@ -71,11 +95,17 @@
     </target>
 
     <!-- path: external libraries classpath, we don't need sources and javadoc -->
-    <path id="external-libraries-classpath">
+    <path id="classpath.libraries">
         <fileset dir="${basedir}/">
             <include name="${lib.dir}/*.jar" />
             <exclude name="${lib.dir}/*sources.jar"/>
             <exclude name="${lib.dir}/*javadoc.jar"/>
         </fileset>
+    </path>
+
+    <!-- path: source classes for testing -->
+    <path id="classpath.test">
+        <pathelement location="${classes.dir}" />
+        <path refid="classpath.libraries" />
     </path>
 </project>
