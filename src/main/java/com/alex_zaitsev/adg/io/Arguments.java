@@ -9,7 +9,6 @@ public class Arguments {
 
     public Arguments(String apkPath, String projectPath, String resultPath,
             String filtersPath) {
-        super();
         this.apkFilePath = apkPath;
         this.projectPath = projectPath;
         this.resultPath = resultPath;

@@ -8,5 +8,7 @@
         <!-- It constantly gives the next error: -->
         <!-- The <classpath> or <modulepath> for <junit> must include junit.jar if not in Ant's own classpath -->
         <dependency org="junit" name="junit" rev="4.12"/>
+        <!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest -->
+        <dependency org="org.hamcrest" name="hamcrest" rev="2.1"/>
     </dependencies>
 </ivy-module>

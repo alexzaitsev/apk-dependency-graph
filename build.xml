@@ -33,6 +33,11 @@
     </target>
 
     <target name="test" depends="compileTest">
+        <!-- Required for Gradle -->
+        <taskdef name="junit"
+        classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask"
+        classpath="/usr/share/ant/lib/ant-junit.jar:/usr/share/ant/lib/ant-junit4.jar"/>
+
         <junit printsummary="on" haltonfailure="yes" fork="true">
             <classpath>
                 <path refid="classpath.test"/>
