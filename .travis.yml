@@ -4,7 +4,9 @@ jdk: openjdk8
 install: skip
 
 before_script: chmod +x ./gradlew           # Get Permissions
-script: ./gradlew jar test clean            # Compile, Test, Clean excluding .jar
+script:
+ - java --version                      # test
+ - ./gradlew jar test clean            # Compile, Test, Clean excluding .jar
 
 branches:
   only:
