@@ -1,5 +1,7 @@
 package com.alex_zaitsev.adg.util;
 
+import java.io.File;
+
 public class CodeUtils {
 
 	public static boolean isClassR(String className) {
@@ -55,5 +57,17 @@ public class CodeUtils {
 			simpleClassName = simpleClassName.substring(0, startGenericIndex);
 		}
 		return simpleClassName;
+	}
+
+	public static boolean isInstantRunEnabled(String projectPath) {
+		File unknownDir = new File(projectPath, "unknown");
+		if (unknownDir.exists() && unknownDir.isDirectory()) {
+			for (File file : unknownDir.listFiles()) {
+				if (file.getName().equals("instant-run.zip")) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

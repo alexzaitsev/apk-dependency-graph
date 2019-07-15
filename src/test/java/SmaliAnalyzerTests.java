@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import org.junit.*;
 import org.junit.rules.TemporaryFolder;
 import org.hamcrest.core.StringContains;
+import org.hamcrest.core.Is;
 
 import com.alex_zaitsev.adg.io.Arguments;
 import com.alex_zaitsev.adg.io.Filters;
@@ -67,21 +68,21 @@ public class SmaliAnalyzerTests {
     }
 
     /**
-     * Checks that `getProjectFolder` returns correct File object.
-     */
-    @Test
-    public void getProjectFolderReturnsCorrectFile() {
-
-    }
-
-    /**
-     * If project folder is absent, error message is printed
+     * If project folder does not exist, error message is printed
      * and `run` returns false.
      */
     @Test
-    public void runPrintsMessageAndReturnsFalseIfProjectFolderIsAbsent() {
+    public void runPrintsMessageAndReturnsFalseIfProjectFolderIsAbsent() throws IOException {
+        Arguments argsWihNonExistingPath = defaultArguments;
+        File nonExisting = new File("non-existing");
+        argsWihNonExistingPath.setProjectPath(nonExisting.getAbsolutePath());
+        SmaliAnalyzer sut = new SmaliAnalyzer(argsWihNonExistingPath, defaultFilters, null, null);
 
-        // String message = projectFolder + " cannot be absent!";
+        boolean result = sut.run();
+
+        String message = nonExisting + " does not exist!";
+        assertThat(errContent.toString(), containsString(message));
+        assertThat(result, is(false));
     }
 
     /**
@@ -89,7 +90,18 @@ public class SmaliAnalyzerTests {
      * and `run` returns false.
      */
     @Test
-    public void runPrintsMessageAndReturnsFalseIfApkUsesInstantRun() {
+    public void runPrintsMessageAndReturnsFalseIfApkUsesInstantRun() throws IOException {
+        File project = new File(defaultArguments.getProjectPath());
+        File unknown = new File(project, "unknown");
+        unknown.mkdir();
+        File unknownZip = new File(unknown, "instant-run.zip");
+        unknownZip.createNewFile();
+        SmaliAnalyzer sut = new SmaliAnalyzer(defaultArguments, defaultFilters, null, null);
 
+        boolean result = sut.run();
+
+        String message = "Enabled Instant Run feature detected.";
+        assertThat(errContent.toString(), containsString(message));
+        assertThat(result, is(false));
     }
 }

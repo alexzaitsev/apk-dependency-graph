@@ -22,6 +22,7 @@ import static com.alex_zaitsev.adg.util.CodeUtils.isClassAnonymous;
 import static com.alex_zaitsev.adg.util.CodeUtils.getAnonymousNearestOuter;
 import static com.alex_zaitsev.adg.util.CodeUtils.getEndGenericIndex;
 import static com.alex_zaitsev.adg.util.CodeUtils.getClassSimpleName;
+import static com.alex_zaitsev.adg.util.CodeUtils.isInstantRunEnabled;
 
 public class SmaliAnalyzer {
 
@@ -52,30 +53,17 @@ public class SmaliAnalyzer {
 	public boolean run() {
 		System.out.println("Analyzing dependencies...");
 		
-		File projectFolder = getProjectFolder();
+		File projectFolder = new File(arguments.getProjectPath());
 		if (projectFolder.exists()) {
-			traverseSmaliCode(projectFolder);
-			return true;
-		} else if (isInstantRunEnabled()){
-			System.err.println("Enabled Instant Run feature detected. We cannot decompile it. Please, disable Instant Run and rebuild your app.");
-		} else {
-			System.err.println(projectFolder + " cannot be absent!");
-		}
-		return false;
-	}
-
-	private File getProjectFolder() {
-		return new File(arguments.getProjectPath());
-	}
-
-	private boolean isInstantRunEnabled() {
-		File unknownFolder = new File(arguments.getProjectPath() + File.separator + "unknown");
-		if (unknownFolder.exists()) {
-			for (File file : unknownFolder.listFiles()) {
-				if (file.getName().equals("instant-run.zip")) {
-					return true;
-				}
+			if (isInstantRunEnabled(arguments.getProjectPath())) {
+				System.err.println("Enabled Instant Run feature detected. " +
+					"We cannot decompile it. Please, disable Instant Run and rebuild your app.");
+			} else {
+				traverseSmaliCode(projectFolder);
+				return true;
 			}
+		} else {
+			System.err.println(projectFolder + " does not exist!");
 		}
 		return false;
 	}
