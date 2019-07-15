@@ -104,4 +104,17 @@ public class SmaliAnalyzerTests {
         assertThat(errContent.toString(), containsString(message));
         assertThat(result, is(false));
     }
+
+    /**
+     * If good params were provided to `SmaliAnalyzer`,
+     * `run` returns true.
+     */
+    @Test
+    public void runWithDefaultParamsReturnsTrue() {
+        SmaliAnalyzer sut = new SmaliAnalyzer(defaultArguments, defaultFilters, null, null);
+
+        boolean result = sut.run();
+
+        assertThat(result, is(true));
+    }
 }
