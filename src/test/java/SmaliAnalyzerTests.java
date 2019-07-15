@@ -4,6 +4,6 @@ import org.junit.Test;
 import org.junit.Ignore;
 
 @Ignore
-public class WriterTests {
+public class SmaliAnalyzerTests {
 
 }

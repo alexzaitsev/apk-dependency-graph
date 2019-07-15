@@ -16,4 +16,4 @@ apk-dependency-graph-scripts-*.zip
 lib
 filters/*.json
 !filters/default.json
-
+.vscode
