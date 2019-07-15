@@ -68,7 +68,7 @@ public class ArgumentReaderTests {
         Arguments args = sut.read();
 
         assertThat(args, nullValue());
-        String message = "/wrong is not found!";
+        String message = File.separator + "wrong is not found!";
         assertThat(errContent.toString(), containsString(message));
     }
 
@@ -86,7 +86,7 @@ public class ArgumentReaderTests {
         Arguments args = sut.read();
 
         assertThat(args, nullValue());
-        String message = "/wrong is not found!";
+        String message = File.separator + "wrong is not found!";
         assertThat(errContent.toString(), containsString(message));
     }
 

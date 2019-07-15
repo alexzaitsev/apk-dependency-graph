@@ -18,6 +18,7 @@ public class FiltersReaderTests {
 
     private static final String PACKAGE_NAME = "com.example.package";
     private static final boolean SHOW_INNER_CLASSES_DEFAULT = false;
+    private static final boolean SHOW_INNER_CLASSES_TRUE = true;
     private static final String[] IGNORED_CLASSES_DEFAULT = new String[] {
         ".*Dagger.*", ".*Injector.*", ".*\\$_ViewBinding$", ".*_Factory$"
     };
@@ -28,6 +29,11 @@ public class FiltersReaderTests {
     "}";
     private static final String FILTERS_WITHOUT_PACKAGE_NAME = "{" +
         "\"show-inner-classes\": false," +
+        "\"ignored-classes\": [\".*Dagger.*\", \".*Injector.*\", \".*\\$_ViewBinding$\", \".*_Factory$\"]" +
+    "}";
+    private static final String FILTERS_SHOW_INNER_TRUE = "{" +
+        "\"package-name\": \"com.example.package\"," +
+        "\"show-inner-classes\": true," +
         "\"ignored-classes\": [\".*Dagger.*\", \".*Injector.*\", \".*\\$_ViewBinding$\", \".*_Factory$\"]" +
     "}";
     private static final String FILTERS_FULL = "{" +
@@ -158,8 +164,24 @@ public class FiltersReaderTests {
         assertThat(filters.getIgnoredClasses(), equalTo(IGNORED_CLASSES_DEFAULT));
     }
 
+    /**
+     * When `show-inner-classes` option is enabled,
+     * read() must return correct Filters and info message is printed.
+     */
     @Test
     public void correctFiltersFileWithEnabledInnerClassesPrintsMessage() throws IOException {
-        // TODO
+        FileWriter fw = new FileWriter(filterFile);    
+        fw.write(FILTERS_SHOW_INNER_TRUE);    
+        fw.close();
+        FiltersReader sut = new FiltersReader(filterFile.getAbsolutePath());
+
+        Filters filters = sut.read();
+
+        assertThat(filters, notNullValue());
+        assertThat(filters.getPackageName(), equalTo(PACKAGE_NAME));
+        assertThat(filters.isProcessingInner(), equalTo(SHOW_INNER_CLASSES_TRUE));
+        assertThat(filters.getIgnoredClasses(), equalTo(IGNORED_CLASSES_DEFAULT));
+        String message = "Warning! Processing including inner classes.";
+        assertThat(outContent.toString(), containsString(message));
     }
 }
