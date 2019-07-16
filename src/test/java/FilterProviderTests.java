@@ -21,9 +21,6 @@ import com.alex_zaitsev.adg.FilterProvider;
 
 public class FilterProviderTests {
 
-    private static final String SEARCH = Pattern.quote("/");
-    private static final String REPLACEMENT = Matcher.quoteReplacement(File.separator);
-
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
 
@@ -36,7 +33,7 @@ public class FilterProviderTests {
     private Filters defaultFilters;
 
     private String getPath(String original) {
-        return original.replaceAll(SEARCH, REPLACEMENT);
+        return original.replace('/', File.separatorChar);
     }
 
     @Before
