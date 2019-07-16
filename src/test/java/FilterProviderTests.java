@@ -6,8 +6,6 @@ import java.io.PrintStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.FileWriter;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.junit.*;
 import org.junit.rules.TemporaryFolder;

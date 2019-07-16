@@ -7,8 +7,6 @@ import com.alex_zaitsev.adg.filter.InverseRegexFilter;
 import com.alex_zaitsev.adg.filter.AndFilter;
 
 import java.io.File;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class FilterProvider {
 
@@ -23,9 +21,7 @@ public class FilterProvider {
             return null;
         }
 
-        String replacement = Matcher.quoteReplacement(File.separator);
-		String searchString = Pattern.quote(".");
-        String packageNameAsPath = inputFilters.getPackageName().replaceAll(searchString, replacement);
+        String packageNameAsPath = inputFilters.getPackageName().replace('.', File.separatorChar);
         String packageNameRegex = ".*" + packageNameAsPath + ".*";
         RegexFilter filter = new RegexFilter(packageNameRegex);
         
