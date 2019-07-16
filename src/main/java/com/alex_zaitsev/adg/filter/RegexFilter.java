@@ -1,27 +1,29 @@
 package com.alex_zaitsev.adg.filter;
 
+import java.util.regex.Pattern;
+
 public class RegexFilter extends Filter<String> {
 
-    protected String regex;
+    protected Pattern pattern;
 
     public RegexFilter(String regex) {
-        this.regex = regex;
+        this.pattern = Pattern.compile(regex);
     }
 
     public RegexFilter(String[] regex) {
-        this.regex = String.join("|", regex);
+        this(String.join("|", regex));
     }
 
     /**
      * @return true if String matches the given regex, false otherwise
      */
     public boolean filter(String obj) {
-        return obj.matches(regex);
+        return pattern.matcher(obj).matches();
     }
 
     public String toString() {
         StringBuilder builder = new StringBuilder(getClass().getSimpleName());
-        builder.append("{").append(regex).append("}");
+        builder.append("{").append(pattern.toString()).append("}");
         return builder.toString();
     }
 }

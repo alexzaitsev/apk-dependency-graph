@@ -14,6 +14,6 @@ public class InverseRegexFilter extends RegexFilter {
      * @return true if String doesn't match the given regex, false otherwise
      */
     public boolean filter(String obj) {
-        return !obj.matches(regex);
+        return !pattern.matcher(obj).matches();
     }
 }
