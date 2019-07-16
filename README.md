@@ -16,7 +16,7 @@ Class coupling is one of the significant code metrics that shows how easy is to 
 
 ## Usage
 
-I've prepared helpful scripts for you. All you need to do is to download and unpack [the latest release](https://github.com/alexzaitsev/apk-dependency-graph/releases) and type the next command in your command line:  
+Some helpful scripts are prepared for you. All you need to do is to download and unpack [the latest release](https://github.com/alexzaitsev/apk-dependency-graph/releases) and type the next command in your command line:  
 
 *For Windows*:
 
@@ -82,6 +82,6 @@ I want to say thank you to all the people who made even tiny pull request. This 
 
 ## Credits
 
-There is the same tool for iOS: <https://github.com/PaulTaykalo/objc-dependency-visualizer>
+There is the same tool for iOS: <https://github.com/PaulTaykalo/objc-dependency-visualizer>  
 I have used `gui/index.html` of that project. Thanks Paul for the great tool.
 
