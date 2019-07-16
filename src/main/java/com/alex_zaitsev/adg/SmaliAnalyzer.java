@@ -120,6 +120,7 @@ public class SmaliAnalyzer {
 						}
 					}
 				} catch (Exception e) {
+					System.err.println("Error '" + e.getMessage() + "' occured.");
 				}
 			}
 
