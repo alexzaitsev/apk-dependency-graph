@@ -45,7 +45,7 @@ Analyzing dependencies...
 Success! Now open index.html in your browser.
 ```
 
-It will decompile your apk and create `output/apk-file-name` folder in the same folder where the script is. After this it will analyze the smali code and generate `gui/analyzed.js` file which contains all dependencies.
+It will decompile your apk and create `output/apk-file-name` folder in the same folder where the script is. After this it will analyze the smali code and generate `gui/analyzed.js` file which contains all dependencies.  
 **Now open `gui/index.html` in your browser and enjoy!**
 
 ## Compile
