@@ -79,8 +79,8 @@ public class FilterProviderTests {
         Filter<String> sut = FilterProvider.makePathFilter(defaultFilters);
 
         assertThat(sut, notNullValue());
-        // RegexFilter{.*com/example/package.*}
-        String filterStringRepr = "RegexFilter{.*com" + File.separator + "example" + File.separator + "package.*}";
+        String filterStringRepr = "RegexFilter{.*com/example/package.*}"
+            .replaceAll("/", File.separator);
         assertThat(sut.toString(), equalTo(filterStringRepr));
     }
 
@@ -94,19 +94,15 @@ public class FilterProviderTests {
 
         assertThat(sut, notNullValue());
 
-        // com/example/package
-        String correctPath1 = "com" + File.separator + "example" + File.separator + "package";
+        String correctPath1 = "com/example/package".replaceAll("/", File.separator);
         assertThat(sut.filter(correctPath1), is(true));
-        // some/path/com/example/package/inner
-        String correctPath2 = "some" + File.separator + "path" + File.separator + 
-            "com" + File.separator + "example" + File.separator + "package" + File.separator + "inner";
+        String correctPath2 = "some/path/com/example/package/inner"
+            .replaceAll("/", File.separator);
         assertThat(sut.filter(correctPath2), is(true));
 
-        // com/example/wrong
-        String wrongPath1 = "com" + File.separator + "example" + File.separator + "wrong";
+        String wrongPath1 = "com/example/wrong".replaceAll("/", File.separator);
         assertThat(sut.filter(wrongPath1), is(false));
-        // com/wrong/package
-        String wrongPath2 = "com" + File.separator + "wrong" + File.separator + "package";
+        String wrongPath2 = "com/wrong/package".replaceAll("/", File.separator);
         assertThat(sut.filter(wrongPath2), is(false));
     }
 
@@ -155,8 +151,7 @@ public class FilterProviderTests {
 
         assertThat(sut, notNullValue());
         String inverseRegexFilter = "InverseRegexFilter{.*Dagger.*|.*Injector.*|.*\\$_ViewBinding$|.*_Factory$}";
-        // RegexFilter{^com/example/package}
-        String regexFilter = "RegexFilter{^com" + File.separator + "example" + File.separator + "package}";
+        String regexFilter = "RegexFilter{^com/example/package}".replaceAll("/", File.separator);
         String filterStringRepr = "AndFilter[" + inverseRegexFilter + ", " + regexFilter + "]";
         assertThat(sut.toString(), equalTo(filterStringRepr));
     }
