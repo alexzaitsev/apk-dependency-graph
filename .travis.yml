@@ -9,12 +9,12 @@ script: ./gradlew jar test clean            # Compile, Test, Clean excluding .ja
 branches:
   only:
     - master                           # master
-    - /(feature/).*/                        # for features
+    - /(feature/).*/                   # for features
     - /[0-9]+\.[0-9]+\.[0-9]+(.*)?/    # TAG
 
 before_deploy:                         # Create Archive
 # - rm -fr build/classes/              # Uncomment line if used ant for buld
- - zip -r apk-dependency-graph-scripts-$TRAVIS_TAG.zip run.bat run.sh lib/ gui/ build/
+ - zip -r apk-dependency-graph-scripts-$TRAVIS_TAG.zip run.bat run.sh lib/ gui/ build/ filters/
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN               # More options > Settings > Environment Variables
