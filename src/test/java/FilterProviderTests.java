@@ -6,6 +6,7 @@ import java.io.PrintStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.FileWriter;
+import java.util.regex.Matcher;
 
 import org.junit.*;
 import org.junit.rules.TemporaryFolder;
@@ -18,6 +19,8 @@ import com.alex_zaitsev.adg.io.Filters;
 import com.alex_zaitsev.adg.FilterProvider;
 
 public class FilterProviderTests {
+
+    private static final String REPLACEMENT = Matcher.quoteReplacement(File.separator);
 
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
@@ -79,7 +82,7 @@ public class FilterProviderTests {
         Filter<String> filter = sut.makePathFilter();
 
         assertThat(filter, notNullValue());
-        String filterStringRepr = "RegexFilter{.*com/example/package.*}".replaceAll("/", File.separator);
+        String filterStringRepr = "RegexFilter{.*com/example/package.*}".replaceAll("/", REPLACEMENT);
         assertThat(filter.toString(), equalTo(filterStringRepr));
     }
 
@@ -94,14 +97,14 @@ public class FilterProviderTests {
 
         assertThat(filter, notNullValue());
 
-        String correctPath1 = "com/example/package".replaceAll("/", File.separator);
+        String correctPath1 = "com/example/package".replaceAll("/", REPLACEMENT);
         assertThat(filter.filter(correctPath1), is(true));
-        String correctPath2 = "some/path/com/example/package/inner".replaceAll("/", File.separator);
+        String correctPath2 = "some/path/com/example/package/inner".replaceAll("/", REPLACEMENT);
         assertThat(filter.filter(correctPath2), is(true));
 
-        String wrongPath1 = "com/example/wrong".replaceAll("/", File.separator);
+        String wrongPath1 = "com/example/wrong".replaceAll("/", REPLACEMENT);
         assertThat(filter.filter(wrongPath1), is(false));
-        String wrongPath2 = "com/wrong/package".replaceAll("/", File.separator);
+        String wrongPath2 = "com/wrong/package".replaceAll("/", REPLACEMENT);
         assertThat(filter.filter(wrongPath2), is(false));
     }
 
