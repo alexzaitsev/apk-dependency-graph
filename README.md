@@ -9,19 +9,12 @@ Class coupling is one of the significant code metrics that shows how easy is to 
 **Table of contents**
 * [Project structure](#Project-structure)
 * [Compile](#Compile)
-  * [Requirements](#Requirements)
-  * [Gradle](#Gradle)
-    * [5.0 or newer](#50-or-newer)
-    * [via Wrapper](#via-Wrapper)
-  * [Ant](#Ant)
 * [Run](#Run)
 * [Usage](#Usage)
-  * [Fast way](#Fast-way)
 * [Examples](#Examples)
 * [Demo](#Demo)
-* [Credits](#Credits)
 * [Contributors](#Contributors)
-* [Dependency Injection Graph](#Dependency-Injection-Graph)
+* [Credits](#Credits)
 
 ## Project structure
 
@@ -50,8 +43,6 @@ Classes will be generated to `build/classes` folder and jar file will appear ont
 You need at least **Java 8** to run `apk-dependency-graph.jar`.
 
 ## Usage
-
-### Fast way
 
 I've prepared helpful scripts for you. All you need to do is to download and unpack [the latest release](https://github.com/alexzaitsev/apk-dependency-graph/releases) and type the next command in your command line:  
 
