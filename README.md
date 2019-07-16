@@ -8,9 +8,8 @@ Class coupling is one of the significant code metrics that shows how easy is to 
 
 **Table of contents**
 * [Project structure](#Project-structure)
-* [Compile](#Compile)
-* [Run](#Run)
 * [Usage](#Usage)
+* [Compile](#Compile)
 * [Examples](#Examples)
 * [Demo](#Demo)
 * [Contributors](#Contributors)
@@ -25,22 +24,6 @@ This project consists of the several parts:
 * src (java)
 
 ###### To get more information please check our [wiki page](https://github.com/alexzaitsev/apk-dependency-graph/wiki).
-
-## Compile
-
-At least **Java 8** is needed.
-
-Ways to compile `build/jar/apk-dependency-graph.jar`:
-
-`>> gradle build` (Gradle 5.0 or newer)  
-`>> gradlew build` (Gradle Wrapper)  
-`>> ant` (Ant)
-
-Classes will be generated to `build/classes` folder and jar file will appear onto `build/jar` folder.
-
-## Run
-
-You need at least **Java 8** to run `apk-dependency-graph.jar`.
 
 ## Usage
 
@@ -75,6 +58,18 @@ Success! Now open index.html in your browser.
 
 It will decompile your apk and create `output/apk-file-name` folder in the same folder where the script is. After this it will analyze the smali code and generate `gui/analyzed.js` file which contains all dependencies.
 **Now open `gui/index.html` in your browser and enjoy!**
+
+## Compile
+
+At least **Java 8** is needed to compile and run the `jar` file.
+
+Ways to compile `build/jar/apk-dependency-graph.jar`:
+
+`>> gradle build` (Gradle 5.0 or newer)  
+`>> gradlew build` (Gradle Wrapper)  
+`>> ant` (Ant)
+
+Classes will be generated to `build/classes` folder and jar file will appear onto `build/jar` folder.
 
 ## Examples
 
