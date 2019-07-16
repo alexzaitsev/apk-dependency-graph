@@ -17,10 +17,7 @@ public class FilterProvider {
             return null;
         }
 
-        String replacement = Matcher.quoteReplacement(File.separator);
-		String searchString = Pattern.quote(".");
-        String packageNameAsPath = inputFilters.getPackageName().replaceAll(searchString, replacement);
-        
+        String packageNameAsPath = inputFilters.getPackageName().replaceAll("\\.", File.separator);
         RegexFilter filter = new RegexFilter(".*" + packageNameAsPath + ".*");
         
         return filter;
@@ -33,7 +30,8 @@ public class FilterProvider {
         AndFilter<String> andFilter = new AndFilter(ignoredClassesFilter);
 
         if (inputFilters.getPackageName() != null) {
-            String packageNameRegex = "^" + inputFilters.getPackageName().replaceAll("\\.", "/");
+            String packageNameAsPath = inputFilters.getPackageName().replaceAll("\\.", File.separator);
+            String packageNameRegex = "^" + packageNameAsPath;
             andFilter.addFilter(new RegexFilter(packageNameRegex));
         }
 
