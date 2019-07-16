@@ -12,34 +12,30 @@ import java.util.regex.Pattern;
 
 public class FilterProvider {
 
-    public static Filter<String> makePathFilter(Filters inputFilters) {
+    private Filters inputFilters;
+
+    public FilterProvider(Filters inputFilters) {
+        this.inputFilters = inputFilters;
+    }
+
+    public Filter<String> makePathFilter() {
         if (inputFilters.getPackageName() == null || inputFilters.getPackageName().isEmpty()) {
             return null;
         }
 
-        String packageNameRegex = ".*" + packageNameToPath(inputFilters.getPackageName()) + ".*";
+        String replacement = Matcher.quoteReplacement(File.separator);
+		String searchString = Pattern.quote(".");
+        String packageNameAsPath = inputFilters.getPackageName().replaceAll(searchString, replacement);
+        String packageNameRegex = ".*" + packageNameAsPath + ".*";
         RegexFilter filter = new RegexFilter(packageNameRegex);
         
         return filter;
     }
 
-    public static Filter<String> makeClassFilter(Filters inputFilters) {
+    public Filter<String> makeClassFilter() {
         String[] ignoredClasses = inputFilters.getIgnoredClasses();
         InverseRegexFilter ignoredClassesFilter = new InverseRegexFilter(ignoredClasses);
 
-        AndFilter<String> andFilter = new AndFilter(ignoredClassesFilter);
-
-        if (inputFilters.getPackageName() != null) {
-            String packageNameRegex = "^" + packageNameToPath(inputFilters.getPackageName()) + ".*";
-            andFilter.addFilter(new RegexFilter(packageNameRegex));
-        }
-
-        return andFilter;
-    }
-
-    private static String packageNameToPath(String packageName) {
-        String replacement = Matcher.quoteReplacement(File.separator);
-		String searchString = Pattern.quote(".");
-        return packageName.replaceAll(searchString, replacement);
+        return ignoredClassesFilter;
     }
 }

@@ -52,9 +52,10 @@ public class FilterProviderTests {
     @Test
     public void makePathFilterReturnsNullIfPackageNameIsNull() {
         defaultFilters.setPackageName(null);
-        Filter<String> sut = FilterProvider.makePathFilter(defaultFilters);
+        FilterProvider sut = new FilterProvider(defaultFilters);
+        Filter<String> filter = sut.makePathFilter();
 
-        assertThat(sut, nullValue());
+        assertThat(filter, nullValue());
     }
 
     /**
@@ -63,9 +64,10 @@ public class FilterProviderTests {
     @Test
     public void makePathFilterReturnsNullIfPackageNameIsEmpty() {
         defaultFilters.setPackageName("");
-        Filter<String> sut = FilterProvider.makePathFilter(defaultFilters);
+        FilterProvider sut = new FilterProvider(defaultFilters);
+        Filter<String> filter = sut.makePathFilter();
 
-        assertThat(sut, nullValue());
+        assertThat(filter, nullValue());
     }
 
     /**
@@ -73,11 +75,12 @@ public class FilterProviderTests {
      */
     @Test
     public void makePathFilterReturnsExpectedFilter() {
-        Filter<String> sut = FilterProvider.makePathFilter(defaultFilters);
+        FilterProvider sut = new FilterProvider(defaultFilters);
+        Filter<String> filter = sut.makePathFilter();
 
-        assertThat(sut, notNullValue());
+        assertThat(filter, notNullValue());
         String filterStringRepr = "RegexFilter{.*com/example/package.*}".replaceAll("/", File.separator);
-        assertThat(sut.toString(), equalTo(filterStringRepr));
+        assertThat(filter.toString(), equalTo(filterStringRepr));
     }
 
     /**
@@ -86,56 +89,20 @@ public class FilterProviderTests {
      */
     @Test
     public void makePathFilterReturnsFilterThatFiltersAsExpected() {
-        Filter<String> sut = FilterProvider.makePathFilter(defaultFilters);
+        FilterProvider sut = new FilterProvider(defaultFilters);
+        Filter<String> filter = sut.makePathFilter();
 
-        assertThat(sut, notNullValue());
+        assertThat(filter, notNullValue());
 
         String correctPath1 = "com/example/package".replaceAll("/", File.separator);
-        assertThat(sut.filter(correctPath1), is(true));
+        assertThat(filter.filter(correctPath1), is(true));
         String correctPath2 = "some/path/com/example/package/inner".replaceAll("/", File.separator);
-        assertThat(sut.filter(correctPath2), is(true));
+        assertThat(filter.filter(correctPath2), is(true));
 
         String wrongPath1 = "com/example/wrong".replaceAll("/", File.separator);
-        assertThat(sut.filter(wrongPath1), is(false));
+        assertThat(filter.filter(wrongPath1), is(false));
         String wrongPath2 = "com/wrong/package".replaceAll("/", File.separator);
-        assertThat(sut.filter(wrongPath2), is(false));
-    }
-
-    /** 
-     * If package name is null, `makeClassFilter` returns AndFilter with
-     * InverseRegexFilter.
-     */
-    @Test
-    public void makeClassFilterReturnsFilterWithoutRegexIfPackageNameIsNull() {
-        defaultFilters.setPackageName(null);
-        Filter<String> sut = FilterProvider.makeClassFilter(defaultFilters);
-
-        assertThat(sut, notNullValue());
-        String filterStringRepr = "AndFilter[InverseRegexFilter{.*Dagger.*|.*Injector.*|.*\\$_ViewBinding$|.*_Factory$}]";
-        assertThat(sut.toString(), equalTo(filterStringRepr));
-    }
-
-    /** 
-     * If package name is null, `makeClassFilter` returns Filter
-     * that filters as expected.
-     */
-    @Test
-    public void makeClassFilterReturnsFilterWithoutRegexThatFiltersAsExpectedIfPackageNameIsNull() {
-        defaultFilters.setPackageName(null);
-        Filter<String> sut = FilterProvider.makeClassFilter(defaultFilters);
-
-        assertThat(sut, notNullValue());
-        String notPassing1 = "ClassDagger";
-        assertThat(sut.filter(notPassing1), is(false));
-        String notPassing2 = "SomeInjectorClass";
-        assertThat(sut.filter(notPassing2), is(false));
-        String notPassing3 = "QrCodeZxingMvpPresenterImpl_Factory";
-        assertThat(sut.filter(notPassing3), is(false));
-        String notPassing4 = "Some$_ViewBinding";
-        assertThat(sut.filter(notPassing4), is(false));
-
-        String passing = "SomeClass";
-        assertThat(sut.filter(passing), is(true));
+        assertThat(filter.filter(wrongPath2), is(false));
     }
 
     /** 
@@ -144,13 +111,12 @@ public class FilterProviderTests {
      */
     @Test
     public void makeClassFilterReturnsExpectedFilter() {
-        Filter<String> sut = FilterProvider.makeClassFilter(defaultFilters);
+        FilterProvider sut = new FilterProvider(defaultFilters);
+        Filter<String> filter = sut.makeClassFilter();
 
-        assertThat(sut, notNullValue());
+        assertThat(filter, notNullValue());
         String inverseRegexFilter = "InverseRegexFilter{.*Dagger.*|.*Injector.*|.*\\$_ViewBinding$|.*_Factory$}";
-        String regexFilter = "RegexFilter{^com/example/package.*}".replaceAll("/", File.separator);
-        String filterStringRepr = "AndFilter[" + inverseRegexFilter + ", " + regexFilter + "]";
-        assertThat(sut.toString(), equalTo(filterStringRepr));
+        assertThat(filter.toString(), equalTo(inverseRegexFilter));
     }
 
     /** 
@@ -159,25 +125,22 @@ public class FilterProviderTests {
      */
     @Test
     public void makeClassFilterReturnsFilterThatFiltersAsExpected() {
-        System.setOut(originalOut);
-        System.setErr(originalErr);
+        FilterProvider sut = new FilterProvider(defaultFilters);
+        Filter<String> filter = sut.makeClassFilter();
 
-        Filter<String> sut = FilterProvider.makeClassFilter(defaultFilters);
+        assertThat(filter, notNullValue());
 
-        assertThat(sut, notNullValue());
+        assertThat(filter, notNullValue());
+        String notPassing1 = "ClassDagger";
+        assertThat(filter.filter(notPassing1), is(false));
+        String notPassing2 = "SomeInjectorClass";
+        assertThat(filter.filter(notPassing2), is(false));
+        String notPassing3 = "QrCodeZxingMvpPresenterImpl_Factory";
+        assertThat(filter.filter(notPassing3), is(false));
+        String notPassing4 = "Some$_ViewBinding";
+        assertThat(filter.filter(notPassing4), is(false));
 
-        String notPassing1 = "com/example/package/ClassDagger".replaceAll("/", File.separator);
-        assertThat(sut.filter(notPassing1), is(false));
-        String notPassing2 = "com/example/package/SomeInjectorClass".replaceAll("/", File.separator);
-        assertThat(sut.filter(notPassing2), is(false));
-        String notPassing3 = "com/example/package/QrCodeZxingMvpPresenterImpl_Factory".replaceAll("/", File.separator);
-        assertThat(sut.filter(notPassing3), is(false));
-        String notPassing4 = "com/example/package/Some$_ViewBinding".replaceAll("/", File.separator);
-        assertThat(sut.filter(notPassing4), is(false));
-        String notPassing5 = "wrong/com/example/package/Test".replaceAll("/", File.separator);
-        assertThat(sut.filter(notPassing5), is(false));
-
-        String passing = "com/example/package/SomeClass".replaceAll("/", File.separator);
-        assertThat(sut.filter(passing), is(true));
+        String passing = "SomeClass";
+        assertThat(filter.filter(passing), is(true));
     }
 }

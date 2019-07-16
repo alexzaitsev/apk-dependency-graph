@@ -4,10 +4,6 @@ import java.io.File;
 
 public class CodeUtils {
 
-	public static boolean isClassR(String className) {
-		return className != null && className.equals("R") || className.startsWith("R$");
-	}
-
 	public static boolean isClassGenerated(String className) {
 		return className != null && className.contains("$$");
 	}

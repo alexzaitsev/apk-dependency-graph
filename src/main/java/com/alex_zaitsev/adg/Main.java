@@ -1,8 +1,6 @@
 package com.alex_zaitsev.adg;
 
-import static com.alex_zaitsev.adg.FilterProvider.makePathFilter;
-import static com.alex_zaitsev.adg.FilterProvider.makeClassFilter;
-
+import com.alex_zaitsev.adg.FilterProvider;
 import com.alex_zaitsev.adg.decode.ApkSmaliDecoderController;
 import com.alex_zaitsev.adg.io.ArgumentReader;
 import com.alex_zaitsev.adg.io.Arguments;
@@ -35,8 +33,9 @@ public class Main {
             arguments.getApkFilePath(), arguments.getProjectPath());
 
         // Analyze the decoded files and create the result file.
-        Filter<String> pathFilter = filters == null ? null : makePathFilter(filters);
-        Filter<String> classFilter = filters == null ? null : makeClassFilter(filters);
+        FilterProvider filterProvider = new FilterProvider(filters);
+        Filter<String> pathFilter = filters == null ? null : filterProvider.makePathFilter();
+        Filter<String> classFilter = filters == null ? null : filterProvider.makeClassFilter();
         SmaliAnalyzer analyzer = new SmaliAnalyzer(arguments, filters, 
                                                    pathFilter, classFilter);
 

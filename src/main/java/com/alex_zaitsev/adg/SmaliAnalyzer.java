@@ -14,7 +14,6 @@ import com.alex_zaitsev.adg.io.Arguments;
 import com.alex_zaitsev.adg.io.Filters;
 import com.alex_zaitsev.adg.filter.Filter;
 
-import static com.alex_zaitsev.adg.util.CodeUtils.isClassR;
 import static com.alex_zaitsev.adg.util.CodeUtils.isClassGenerated;
 import static com.alex_zaitsev.adg.util.CodeUtils.isClassInner;
 import static com.alex_zaitsev.adg.util.CodeUtils.getOuterClass;
@@ -84,7 +83,15 @@ public class SmaliAnalyzer {
 	}
 
 	private boolean isPathFilterOk(File file) {
-		return pathFilter == null || pathFilter.filter(file.getAbsolutePath());
+		return isPathFilterOk(file.getAbsolutePath());
+	}
+
+	private boolean isPathFilterOk(String filePath) {
+		return pathFilter == null || pathFilter.filter(filePath);
+	}
+
+	private boolean isClassFilterOk(String className) {
+		return classFilter == null || classFilter.filter(className);
 	}
 
 	private void processSmaliFile(File file) {
@@ -92,12 +99,12 @@ public class SmaliAnalyzer {
 
 			String fileName = file.getName().substring(0, file.getName().lastIndexOf("."));
 			
-			if (isClassR(fileName)) {
-				return;
-			}
-			
 			if (isClassAnonymous(fileName)) {
 				fileName = getAnonymousNearestOuter(fileName);
+			}
+
+			if (!isClassFilterOk(fileName)) {
+				return;
 			}
 
 			Set<String> classNames = new HashSet<>();
@@ -111,10 +118,9 @@ public class SmaliAnalyzer {
 	
 					// filtering
 					for (String fullClassName : classNames) {
-						if (fullClassName != null && classFilter.filter(fullClassName)) {
-
+						if (fullClassName != null && isPathFilterOk(fullClassName)) {
 							String simpleClassName = getClassSimpleName(fullClassName);
-							if (isClassOk(simpleClassName, fileName)) {
+							if (isClassFilterOk(simpleClassName) && isClassOk(simpleClassName, fileName)) {
 								dependencyNames.add(simpleClassName);
 							}
 						}
@@ -141,14 +147,14 @@ public class SmaliAnalyzer {
 	
 	/**
 	 * The last filter. Do not show anonymous classes (their dependencies belongs to outer class), 
-	 * generated classes, avoid circular dependencies, do not show generated R class
+	 * generated classes, avoid circular dependencies
 	 * @param simpleClassName class name to inspect
 	 * @param fileName full class name
 	 * @return true if class is good with these conditions
 	 */
 	private boolean isClassOk(String simpleClassName, String fileName) {
 		return !isClassAnonymous(simpleClassName) && !isClassGenerated(simpleClassName)
-				&& !fileName.equals(simpleClassName) && !isClassR(simpleClassName);
+				&& !fileName.equals(simpleClassName);
 	}
 	
 	private void parseAndAddClassNames(Set<String> classNames, String line) {
