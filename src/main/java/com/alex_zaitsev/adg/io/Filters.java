@@ -19,11 +19,23 @@ public class Filters {
         return packageName;
     }
 
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
     public boolean isProcessingInner() {
         return processingInner;
     }
 
+    public void setProcessingInner(boolean isProcessingInner) {
+        this.processingInner = isProcessingInner;
+    }
+
     public String[] getIgnoredClasses() {
         return ignoredClasses;
+    }
+
+    public void setIgnoredClasses(String[] ignoredClasses) {
+        this.ignoredClasses = ignoredClasses;
     }
 }
