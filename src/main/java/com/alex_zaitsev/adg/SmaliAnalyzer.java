@@ -23,6 +23,7 @@ import static com.alex_zaitsev.adg.util.CodeUtils.getAnonymousNearestOuter;
 import static com.alex_zaitsev.adg.util.CodeUtils.getEndGenericIndex;
 import static com.alex_zaitsev.adg.util.CodeUtils.getClassSimpleName;
 import static com.alex_zaitsev.adg.util.CodeUtils.isInstantRunEnabled;
+import static com.alex_zaitsev.adg.util.CodeUtils.isSmaliFile;
 
 public class SmaliAnalyzer {
 
@@ -53,33 +54,37 @@ public class SmaliAnalyzer {
 	public boolean run() {
 		System.out.println("Analyzing dependencies...");
 		
-		File projectFolder = new File(arguments.getProjectPath());
-		if (projectFolder.exists()) {
+		File projectDir = new File(arguments.getProjectPath());
+		if (projectDir.exists()) {
 			if (isInstantRunEnabled(arguments.getProjectPath())) {
 				System.err.println("Enabled Instant Run feature detected. " +
 					"We cannot decompile it. Please, disable Instant Run and rebuild your app.");
 			} else {
-				traverseSmaliCode(projectFolder);
+				traverseSmaliCodeDir(projectDir);
 				return true;
 			}
 		} else {
-			System.err.println(projectFolder + " does not exist!");
+			System.err.println(projectDir + " does not exist!");
 		}
 		return false;
 	}
 	
-	private void traverseSmaliCode(File folder) {
-		File[] listOfFiles = folder.listFiles();
+	private void traverseSmaliCodeDir(File dir) {
+		File[] listOfFiles = dir.listFiles();
 		for (int i = 0; i < listOfFiles.length; i++) {
 			File currentFile = listOfFiles[i];
-			if (currentFile.isFile() && currentFile.getName().endsWith(".smali")) {
-				if (pathFilter == null || pathFilter.filter(currentFile.getAbsolutePath())) {
+			if (isSmaliFile(currentFile)) {
+				if (isPathFilterOk(currentFile)) {
 					processSmaliFile(currentFile);
 				}
 			} else if (currentFile.isDirectory()) {
-				traverseSmaliCode(currentFile);
+				traverseSmaliCodeDir(currentFile);
 			}
 		}
+	}
+
+	private boolean isPathFilterOk(File file) {
+		return pathFilter == null || pathFilter.filter(file.getAbsolutePath());
 	}
 
 	private void processSmaliFile(File file) {

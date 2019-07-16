@@ -70,4 +70,8 @@ public class CodeUtils {
 		}
 		return false;
 	}
+
+	public static boolean isSmaliFile(File file) {
+		return file.isFile() && file.getName().endsWith(".smali");
+	}
 }
