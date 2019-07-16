@@ -7,23 +7,12 @@ Class dependency visualizer. Only `apk` file is needed.
 Class coupling is one of the significant code metrics that shows how easy is to change, maintain and test the code. This tool helps to view whole picture of the project.
 
 **Table of contents**
-* [Project structure](#Project-structure)
 * [Usage](#Usage)
 * [Compile](#Compile)
 * [Examples](#Examples)
 * [Demo](#Demo)
 * [Contributors](#Contributors)
 * [Credits](#Credits)
-
-## Project structure
-
-This project consists of the several parts:
-
-* filters (json)
-* gui (html+js)
-* src (java)
-
-###### To get more information please check our [wiki page](https://github.com/alexzaitsev/apk-dependency-graph/wiki).
 
 ## Usage
 
@@ -70,6 +59,8 @@ Ways to compile `build/jar/apk-dependency-graph.jar`:
 `>> ant` (Ant)
 
 Classes will be generated to `build/classes` folder and jar file will appear onto `build/jar` folder.
+
+###### To get more information please check our [wiki page](https://github.com/alexzaitsev/apk-dependency-graph/wiki).
 
 ## Examples
 
