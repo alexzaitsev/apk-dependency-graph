@@ -1,12 +1,10 @@
 package com.alex_zaitsev.adg;
 
-import com.alex_zaitsev.adg.io.Filters;
-import com.alex_zaitsev.adg.filter.Filter;
-import com.alex_zaitsev.adg.filter.RegexFilter;
-import com.alex_zaitsev.adg.filter.InverseRegexFilter;
-import com.alex_zaitsev.adg.filter.AndFilter;
+import com.alex_zaitsev.adg.io.*;
+import com.alex_zaitsev.adg.filter.*;
 
 import java.io.File;
+import java.util.regex.Matcher;
 
 public class FilterProvider {
 
@@ -21,7 +19,9 @@ public class FilterProvider {
             return null;
         }
 
-        String packageNameAsPath = inputFilters.getPackageName().replace('.', File.separatorChar);
+        String replacement = Matcher.quoteReplacement(File.separator);
+	    replacement = Matcher.quoteReplacement(replacement);
+        String packageNameAsPath = inputFilters.getPackageName().replaceAll("\\.", replacement);
         String packageNameRegex = ".*" + packageNameAsPath + ".*";
         RegexFilter filter = new RegexFilter(packageNameRegex);
         

@@ -58,7 +58,9 @@ public class FilterProviderTests {
         Filter<String> filter = sut.makePathFilter();
 
         assertThat(filter, notNullValue());
-        String filterStringRepr = getPath("RegexFilter{.*com/example/package.*}");
+        String filterStringRepr = File.separatorChar == '/' ?
+            "RegexFilter{.*com/example/package.*}" : // for Unix
+            "RegexFilter{.*com\\\\example\\\\package.*}"; // for Windows
         assertThat(filter.toString(), equalTo(filterStringRepr));
     }
 
