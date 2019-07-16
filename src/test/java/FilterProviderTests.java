@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.FileWriter;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.junit.*;
 import org.junit.rules.TemporaryFolder;
@@ -20,6 +21,7 @@ import com.alex_zaitsev.adg.FilterProvider;
 
 public class FilterProviderTests {
 
+    private static final String SEARCH = Pattern.quote("/");
     private static final String REPLACEMENT = Matcher.quoteReplacement(File.separator);
 
     @Rule
@@ -32,6 +34,10 @@ public class FilterProviderTests {
 
     private Arguments defaultArguments;
     private Filters defaultFilters;
+
+    private String getPath(String original) {
+        return original.replaceAll(SEARCH, REPLACEMENT);
+    }
 
     @Before
     public void setUp() throws IOException {
@@ -82,7 +88,7 @@ public class FilterProviderTests {
         Filter<String> filter = sut.makePathFilter();
 
         assertThat(filter, notNullValue());
-        String filterStringRepr = "RegexFilter{.*com/example/package.*}".replaceAll("/", REPLACEMENT);
+        String filterStringRepr = getPath("RegexFilter{.*com/example/package.*}");
         assertThat(filter.toString(), equalTo(filterStringRepr));
     }
 
@@ -97,14 +103,14 @@ public class FilterProviderTests {
 
         assertThat(filter, notNullValue());
 
-        String correctPath1 = "com/example/package".replaceAll("/", REPLACEMENT);
+        String correctPath1 = getPath("com/example/package");
         assertThat(filter.filter(correctPath1), is(true));
-        String correctPath2 = "some/path/com/example/package/inner".replaceAll("/", REPLACEMENT);
+        String correctPath2 = getPath("some/path/com/example/package/inner");
         assertThat(filter.filter(correctPath2), is(true));
 
-        String wrongPath1 = "com/example/wrong".replaceAll("/", REPLACEMENT);
+        String wrongPath1 = getPath("com/example/wrong");
         assertThat(filter.filter(wrongPath1), is(false));
-        String wrongPath2 = "com/wrong/package".replaceAll("/", REPLACEMENT);
+        String wrongPath2 = getPath("com/wrong/package");
         assertThat(filter.filter(wrongPath2), is(false));
     }
 
