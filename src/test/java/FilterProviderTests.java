@@ -148,7 +148,7 @@ public class FilterProviderTests {
 
         assertThat(sut, notNullValue());
         String inverseRegexFilter = "InverseRegexFilter{.*Dagger.*|.*Injector.*|.*\\$_ViewBinding$|.*_Factory$}";
-        String regexFilter = "RegexFilter{^com/example/package}".replaceAll("/", File.separator);
+        String regexFilter = "RegexFilter{^com/example/package.*}".replaceAll("/", File.separator);
         String filterStringRepr = "AndFilter[" + inverseRegexFilter + ", " + regexFilter + "]";
         assertThat(sut.toString(), equalTo(filterStringRepr));
     }
@@ -159,7 +159,6 @@ public class FilterProviderTests {
      */
     @Test
     public void makeClassFilterReturnsFilterThatFiltersAsExpected() {
-        /*
         System.setOut(originalOut);
         System.setErr(originalErr);
 
@@ -175,11 +174,10 @@ public class FilterProviderTests {
         assertThat(sut.filter(notPassing3), is(false));
         String notPassing4 = "com/example/package/Some$_ViewBinding".replaceAll("/", File.separator);
         assertThat(sut.filter(notPassing4), is(false));
+        String notPassing5 = "wrong/com/example/package/Test".replaceAll("/", File.separator);
+        assertThat(sut.filter(notPassing5), is(false));
 
         String passing = "com/example/package/SomeClass".replaceAll("/", File.separator);
-        boolean res = sut.filter(passing);
-        System.out.println(((AndFilter) sut).getWrongFilter().toString());
-        assertThat(res, is(true));
-        */
+        assertThat(sut.filter(passing), is(true));
     }
 }

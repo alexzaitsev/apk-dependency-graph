@@ -30,7 +30,7 @@ public class FilterProvider {
         AndFilter<String> andFilter = new AndFilter(ignoredClassesFilter);
 
         if (inputFilters.getPackageName() != null) {
-            String packageNameRegex = "^" + packageNameToPath(inputFilters.getPackageName());
+            String packageNameRegex = "^" + packageNameToPath(inputFilters.getPackageName()) + ".*";
             andFilter.addFilter(new RegexFilter(packageNameRegex));
         }
 
