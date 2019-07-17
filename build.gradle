@@ -1,8 +1,31 @@
-ant.importBuild 'build.xml'
-
-task build {
-    dependsOn resolve
-    dependsOn jar
-    // https://stackoverflow.com/a/32909428/9765252
-    tasks.findByName('jar').mustRunAfter 'resolve'
+plugins {
+    id 'java'
+    id 'com.adarshr.test-logger' version '1.7.0' // https://github.com/radarsh/gradle-test-logger-plugin
+}
+repositories {
+	mavenCentral()
+}
+jar {
+	manifest {
+		attributes(
+			'Main-Class': 'com.alex_zaitsev.adg.Main'
+		)
+	}
+}
+testlogger {
+    theme 'standard-parallel' // theme
+    slowThreshold 0           // show time
+}
+clean {
+	delete = [                   // delete anything excluding compiled jar
+		'build/classes',
+		'build/generated',
+		'build/tmp',
+		'build/test-results',
+		'build/reports']
+}
+dependencies {
+	implementation 'org.smali:baksmali:2.2.5'      // runtime dependency
+	testImplementation 'org.hamcrest:hamcrest:2.1' // test dependency
+	testImplementation 'junit:junit:4.12'          // test dependency
 }

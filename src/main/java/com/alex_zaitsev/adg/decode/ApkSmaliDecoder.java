@@ -1,6 +1,6 @@
-package code.decode;
+package com.alex_zaitsev.adg.decode;
 
-import code.util.ZipFileUtils;
+import com.alex_zaitsev.adg.util.ZipFileUtils;
 
 import org.jf.baksmali.Baksmali;
 import org.jf.baksmali.BaksmaliOptions;

@@ -1,4 +1,4 @@
-package code.decode;
+package com.alex_zaitsev.adg.decode;
 
 import java.io.IOException;
 

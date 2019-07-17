@@ -14,3 +14,6 @@ apk-dependency-graph-scripts-*.zip
 .gradle
 # lib/ directory where the dependencies are downloaded by Ivy Apache.
 lib
+filters/*.json
+!filters/default.json
+.vscode

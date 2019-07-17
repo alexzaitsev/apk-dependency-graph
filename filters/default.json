@@ -1,0 +1,5 @@
+{
+    "package-name": "",
+    "show-inner-classes": false,
+    "ignored-classes": [".*Dagger.*", ".*Inject.*", ".*ViewBinding$", ".*Factory$", ".*_.*", "^R$", "^R\\$.*"]
+}

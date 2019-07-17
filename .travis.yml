@@ -3,17 +3,18 @@ jdk: openjdk8
 
 install: skip
 
-before_script: chmod +x ./gradlew
-script: ./gradlew build
+before_script: chmod +x ./gradlew           # Get Permissions
+script: ./gradlew jar test clean            # Compile, Test, Clean excluding .jar
 
 branches:
   only:
     - master                           # master
+    - /(feature/).*/                   # for features
     - /[0-9]+\.[0-9]+\.[0-9]+(.*)?/    # TAG
 
 before_deploy:                         # Create Archive
- - rm -fr build/classes/
- - zip -r apk-dependency-graph-scripts-$TRAVIS_TAG.zip run.bat run.sh lib/ gui/ build/
+# - rm -fr build/classes/              # Uncomment line if used ant for buld
+ - zip -r apk-dependency-graph-scripts-$TRAVIS_TAG.zip run.bat run.sh lib/ gui/ build/ filters/
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN               # More options > Settings > Environment Variables

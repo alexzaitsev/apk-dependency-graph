@@ -1,12 +1,10 @@
 #!/bin/bash
-if [ $# -lt 3 ]; then
+if [ $# -lt 2 ]; then
   echo "This script requires the next parameters:";
   echo "- absolute path to apk file";
-  echo "- filter (can be a package name or 'nofilter' string)";
-  echo "- true or false (where true means that you want to see inner classes on your graph)";
-  echo "Examples:";
-  echo "./run.sh full/path/to/the/apk/app-release.apk com.example.test true";
-  echo "./run.sh full/path/to/the/apk/app-release.apk nofilter false";
+  echo "- absolute path to the filters file";
+  echo "Example:";
+  echo "./run.sh full/path/to/the/apk/app-release.apk full/path/to/the/filters.json";
   exit 1;
 fi
 fileName="$1"
@@ -17,4 +15,4 @@ dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 outPath=${dir}"/output/"${xpref}
 jsonPath=${dir}"/gui/analyzed.js"
 
-eval "java -jar ${dir}'/build/jar/apk-dependency-graph.jar' -i ${outPath} -o ${jsonPath} -f $2 -d $3 -a $1"
+eval "java -jar ${dir}'/build/jar/apk-dependency-graph.jar' -i ${outPath} -o ${jsonPath} -a $1 -f $2"

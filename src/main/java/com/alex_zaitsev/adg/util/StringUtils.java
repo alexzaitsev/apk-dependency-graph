@@ -1,4 +1,4 @@
-package code.util;
+package com.alex_zaitsev.adg.util;
 
 public class StringUtils {
     public static boolean isNumber(String str) {

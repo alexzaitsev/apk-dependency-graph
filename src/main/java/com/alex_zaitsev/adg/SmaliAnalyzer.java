@@ -1,4 +1,4 @@
-package code;
+package com.alex_zaitsev.adg;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,80 +9,89 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import code.io.Arguments;
+import com.alex_zaitsev.adg.io.Arguments;
+import com.alex_zaitsev.adg.io.Filters;
+import com.alex_zaitsev.adg.filter.Filter;
+
+import static com.alex_zaitsev.adg.util.CodeUtils.isClassGenerated;
+import static com.alex_zaitsev.adg.util.CodeUtils.isClassInner;
+import static com.alex_zaitsev.adg.util.CodeUtils.getOuterClass;
+import static com.alex_zaitsev.adg.util.CodeUtils.isClassAnonymous;
+import static com.alex_zaitsev.adg.util.CodeUtils.getAnonymousNearestOuter;
+import static com.alex_zaitsev.adg.util.CodeUtils.getEndGenericIndex;
+import static com.alex_zaitsev.adg.util.CodeUtils.getClassSimpleName;
+import static com.alex_zaitsev.adg.util.CodeUtils.isInstantRunEnabled;
+import static com.alex_zaitsev.adg.util.CodeUtils.isSmaliFile;
 
 public class SmaliAnalyzer {
 
 	private Arguments arguments;
-	private String filterAsPath;
+	private Filters filters;
+	private Filter<String> pathFilter;
+	private Filter<String> classFilter;
 
-	public SmaliAnalyzer(Arguments arguments) {
+	public SmaliAnalyzer(Arguments arguments, 
+						 Filters filters,
+						 Filter<String> pathFilter,
+						 Filter<String> classFilter) {
 		this.arguments = arguments;
+		this.filters = filters;
+		this.pathFilter = pathFilter;
+		this.classFilter = classFilter;
 	}
 
 	private Map<String, Set<String>> dependencies = new HashMap<>();
 
 	public Map<String, Set<String>> getDependencies() {
-		if (arguments.withInnerClasses()) {
+		if (filters == null || filters.isProcessingInner()) {
 			return dependencies;
 		}
 		return getFilteredDependencies();
 	}
 
 	public boolean run() {
-		String filter = arguments.getFilter();
-		if (filter == null) {
-			System.err.println("Please check your filter!");
-			return false;
-		}
-
-		String replacement = Matcher.quoteReplacement(File.separator);
-		String searchString = Pattern.quote(".");
-		filterAsPath = filter.replaceAll(searchString, replacement);
-		File projectFolder = getProjectFolder();
-		if (projectFolder.exists()) {
-			traverseSmaliCode(projectFolder);
-			return true;
-		} else if (isInstantRunEnabled()){
-			System.err.println("Enabled Instant Run feature detected. We cannot decompile it. Please, disable Instant Run and rebuild your app.");
-		} else {
-			System.err.println("Smali folder cannot be absent!");
-		}
-		return false;
-	}
-
-	private File getProjectFolder() {
-		return new File(arguments.getProjectPath());
-	}
-
-	private boolean isInstantRunEnabled() {
-		File unknownFolder = new File(arguments.getProjectPath() + File.separator + "unknown");
-		if (unknownFolder.exists()) {
-			for (File file : unknownFolder.listFiles()) {
-				if (file.getName().equals("instant-run.zip")) {
-					return true;
-				}
+		System.out.println("Analyzing dependencies...");
+		
+		File projectDir = new File(arguments.getProjectPath());
+		if (projectDir.exists()) {
+			if (isInstantRunEnabled(arguments.getProjectPath())) {
+				System.err.println("Enabled Instant Run feature detected. " +
+					"We cannot decompile it. Please, disable Instant Run and rebuild your app.");
+			} else {
+				traverseSmaliCodeDir(projectDir);
+				return true;
 			}
-			
+		} else {
+			System.err.println(projectDir + " does not exist!");
 		}
 		return false;
 	}
 	
-	private void traverseSmaliCode(File folder) {
-		File[] listOfFiles = folder.listFiles();
+	private void traverseSmaliCodeDir(File dir) {
+		File[] listOfFiles = dir.listFiles();
 		for (int i = 0; i < listOfFiles.length; i++) {
 			File currentFile = listOfFiles[i];
-			if (currentFile.isFile()) {
-				if (currentFile.getName().endsWith(".smali") && currentFile.getAbsolutePath().contains(filterAsPath)) {
+			if (isSmaliFile(currentFile)) {
+				if (isPathFilterOk(currentFile)) {
 					processSmaliFile(currentFile);
 				}
 			} else if (currentFile.isDirectory()) {
-				traverseSmaliCode(currentFile);
+				traverseSmaliCodeDir(currentFile);
 			}
 		}
+	}
+
+	private boolean isPathFilterOk(File file) {
+		return isPathFilterOk(file.getAbsolutePath());
+	}
+
+	private boolean isPathFilterOk(String filePath) {
+		return pathFilter == null || pathFilter.filter(filePath);
+	}
+
+	private boolean isClassFilterOk(String className) {
+		return classFilter == null || classFilter.filter(className);
 	}
 
 	private void processSmaliFile(File file) {
@@ -90,12 +99,12 @@ public class SmaliAnalyzer {
 
 			String fileName = file.getName().substring(0, file.getName().lastIndexOf("."));
 			
-			if (CodeUtils.isClassR(fileName)) {
-				return;
+			if (isClassAnonymous(fileName)) {
+				fileName = getAnonymousNearestOuter(fileName);
 			}
-			
-			if (CodeUtils.isClassAnonymous(fileName)) {
-				fileName = CodeUtils.getAnonymousNearestOuter(fileName);
+
+			if (!isClassFilterOk(fileName)) {
+				return;
 			}
 
 			Set<String> classNames = new HashSet<>();
@@ -109,20 +118,21 @@ public class SmaliAnalyzer {
 	
 					// filtering
 					for (String fullClassName : classNames) {
-						if (fullClassName != null && isFilterOk(fullClassName)) {
+						if (fullClassName != null && isPathFilterOk(fullClassName)) {
 							String simpleClassName = getClassSimpleName(fullClassName);
-							if (isClassOk(simpleClassName, fileName)) {
+							if (isClassFilterOk(simpleClassName) && isClassOk(simpleClassName, fileName)) {
 								dependencyNames.add(simpleClassName);
 							}
 						}
 					}
 				} catch (Exception e) {
+					System.err.println("Error '" + e.getMessage() + "' occured.");
 				}
 			}
 
 			// inner/nested class always depends on the outer class
-			if (CodeUtils.isClassInner(fileName)) {
-				dependencyNames.add(CodeUtils.getOuterClass(fileName));
+			if (isClassInner(fileName)) {
+				dependencyNames.add(getOuterClass(fileName));
 			}
 
 			if (!dependencyNames.isEmpty()) {
@@ -134,27 +144,17 @@ public class SmaliAnalyzer {
 			System.err.println("Cannot read " + file.getAbsolutePath());
 		}
 	}
-
-	private String getClassSimpleName(String fullClassName) {
-		String simpleClassName = fullClassName.substring(fullClassName.lastIndexOf("/") + 1,
-				fullClassName.length());
-		int startGenericIndex = simpleClassName.indexOf("<");
-		if (startGenericIndex != -1) {
-			simpleClassName = simpleClassName.substring(0, startGenericIndex);
-		}
-		return simpleClassName;
-	}
 	
 	/**
 	 * The last filter. Do not show anonymous classes (their dependencies belongs to outer class), 
-	 * generated classes, avoid circular dependencies, do not show generated R class
+	 * generated classes, avoid circular dependencies
 	 * @param simpleClassName class name to inspect
 	 * @param fileName full class name
 	 * @return true if class is good with these conditions
 	 */
 	private boolean isClassOk(String simpleClassName, String fileName) {
-		return !CodeUtils.isClassAnonymous(simpleClassName) && !CodeUtils.isClassGenerated(simpleClassName)
-				&& !fileName.equals(simpleClassName) && !CodeUtils.isClassR(simpleClassName);
+		return !isClassAnonymous(simpleClassName) && !isClassGenerated(simpleClassName)
+				&& !fileName.equals(simpleClassName);
 	}
 	
 	private void parseAndAddClassNames(Set<String> classNames, String line) {
@@ -186,21 +186,7 @@ public class SmaliAnalyzer {
 
 			classNames.add(className);
 		}
-	}
-
-	private int getEndGenericIndex(String line, int startGenericIndex) {
-		int endIndex = line.indexOf(">", startGenericIndex);
-		for (int i = endIndex + 2; i < line.length(); i += 2) {
-			if (line.charAt(i) == '>') {
-				endIndex = i;
-			}
-		}
-		return endIndex;
-	}
-
-	private boolean isFilterOk(String className) {
-		return arguments.getFilter() == null || className.startsWith(arguments.getFilter().replaceAll("\\.", "/"));
-	}
+	}	
 
 	private void addDependencies(String className, Set<String> dependenciesList) {
 		Set<String> depList = dependencies.get(className);
