@@ -29,7 +29,7 @@ Where:
 * `full\path\to\the\apk\app-release.apk` is a full path to the apk file you want to analize
 * `full\path\to\the\filterset.json` is a full path to the filterset file
 
-The tool is provided with the [default filterset](https://github.com/alexzaitsev/apk-dependency-graph/blob/master/filters/default.json). However, you're highly encouraged to customize it. Read [filter instructions](https://github.com/alexzaitsev/apk-dependency-graph/blob/master/filters/instructions.txt) for the details.
+The tool is provided with the [default filterset](https://github.com/alexzaitsev/apk-dependency-graph/blob/master/filters/default.json). However, you're **highly encouraged** to customize it. Read [filter instructions](https://github.com/alexzaitsev/apk-dependency-graph/blob/master/filters/instructions.txt) for the details.
 
 *For Unix*:
 
