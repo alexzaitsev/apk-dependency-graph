@@ -14,6 +14,8 @@ branches:
 
 before_deploy:                         # Create Archive
 # - rm -fr build/classes/              # Uncomment line if used ant for buld
+ - mkdir build/jar
+ - ln build/libs/apk-dependency-graph.jar build/jar/apk-dependency-graph.jar
  - zip -r apk-dependency-graph-scripts-$TRAVIS_TAG.zip build/ gui/ filters/ run.bat run.sh
 deploy:
   provider: releases
