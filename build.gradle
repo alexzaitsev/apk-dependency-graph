@@ -11,6 +11,9 @@ jar {
 			'Main-Class': 'com.alex_zaitsev.adg.Main'
 		)
 	}
+	from {
+		configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+	}
 }
 testlogger {
     theme 'standard-parallel' // theme
