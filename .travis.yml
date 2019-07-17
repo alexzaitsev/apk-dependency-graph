@@ -14,7 +14,7 @@ branches:
 
 before_deploy:                         # Create Archive
 # - rm -fr build/classes/              # Uncomment line if used ant for buld
- - zip -r apk-dependency-graph-scripts-$TRAVIS_TAG.zip run.bat run.sh lib/ gui/ build/ filters/
+ - zip -r apk-dependency-graph-scripts-$TRAVIS_TAG.zip build/ gui/ filters/ run.bat run.sh
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN               # More options > Settings > Environment Variables
