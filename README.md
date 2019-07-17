@@ -1,4 +1,4 @@
-# Apk Dependency Graph
+# Apk Dependency Graph (ADG)
 
 [![Build Status](https://travis-ci.org/alexzaitsev/apk-dependency-graph.svg?branch=master)](https://travis-ci.org/alexzaitsev/apk-dependency-graph)
 [![version](https://img.shields.io/badge/version-0.2.0-brightgreen.svg)](https://github.com/alexzaitsev/apk-dependency-graph/releases/tag/0.2.0) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-apk--dependency--graph-blue.svg?style=flat)](http://android-arsenal.com/details/1/4411)
