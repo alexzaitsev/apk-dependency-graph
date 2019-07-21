@@ -37,10 +37,12 @@ public class FiltersReader {
                     showInnerClasses = Boolean.valueOf(rawParam.trim().split(":")[1].trim().replace("\"", ""));
                 }
             }
-            String ignoredClasses = mainObject.substring(mainObject.indexOf('[') + 1, mainObject.lastIndexOf(']'));
-            ignoredClassesArr = ignoredClasses.split(",");
-            for (int i = 0; i < ignoredClassesArr.length; i++) {
-                ignoredClassesArr[i] = ignoredClassesArr[i].replace("\"", "").trim();
+            if (mainObject.contains(FILTER_IGNORED_CLASSES)) {
+                String ignoredClasses = mainObject.substring(mainObject.indexOf('[') + 1, mainObject.lastIndexOf(']'));
+                ignoredClassesArr = ignoredClasses.split(",");
+                for (int i = 0; i < ignoredClassesArr.length; i++) {
+                    ignoredClassesArr[i] = ignoredClassesArr[i].replace("\"", "").trim();
+                }
             }
 		} catch (Exception e) {
 			System.err.println("An error happened during " + filtersFilePath + " processing!");
@@ -49,11 +51,14 @@ public class FiltersReader {
         }
 
         if (packageName == null || packageName.isEmpty()) {
-            packageName = null;
-            System.out.println("Warning! Processing without package filter.");
+            System.err.println("'package-name' option cannot be empty. Check " + filtersFilePath);
+            return null;
         }
         if (showInnerClasses) {
             System.out.println("Warning! Processing including inner classes.");
+        }
+        if (ignoredClassesArr == null) {
+            System.out.println("Warning! Processing without class filtering.");
         }
 
         return new Filters(packageName, showInnerClasses, ignoredClassesArr);

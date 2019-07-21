@@ -16,33 +16,6 @@ import com.alex_zaitsev.adg.io.Filters;
 
 public class FiltersReaderTests {
 
-    private static final String PACKAGE_NAME = "com.example.package";
-    private static final boolean SHOW_INNER_CLASSES_DEFAULT = false;
-    private static final boolean SHOW_INNER_CLASSES_TRUE = true;
-    private static final String[] IGNORED_CLASSES_DEFAULT = new String[] {
-        ".*Dagger.*", ".*Injector.*", ".*\\$_ViewBinding$", ".*_Factory$"
-    };
-    private static final String FILTERS_DEFAULT = "{" +
-        "\"package-name\": \"\"," +
-        "\"show-inner-classes\": false," +
-        "\"ignored-classes\": [\".*Dagger.*\", \".*Injector.*\", \".*\\$_ViewBinding$\", \".*_Factory$\"]" +
-    "}";
-    private static final String FILTERS_WITHOUT_PACKAGE_NAME = "{" +
-        "\"show-inner-classes\": false," +
-        "\"ignored-classes\": [\".*Dagger.*\", \".*Injector.*\", \".*\\$_ViewBinding$\", \".*_Factory$\"]" +
-    "}";
-    private static final String FILTERS_SHOW_INNER_TRUE = "{" +
-        "\"package-name\": \"com.example.package\"," +
-        "\"show-inner-classes\": true," +
-        "\"ignored-classes\": [\".*Dagger.*\", \".*Injector.*\", \".*\\$_ViewBinding$\", \".*_Factory$\"]" +
-    "}";
-    private static final String FILTERS_FULL = "{" +
-        "\"package-name\": \"com.example.package\"," +
-        "\"show-inner-classes\": false," +
-        "\"ignored-classes\": [\".*Dagger.*\", \".*Injector.*\", \".*\\$_ViewBinding$\", \".*_Factory$\"]" +
-    "}";
-    private static final String FILTERS_MALFORMED = "{\"malformed\"}";
-
     @Rule
     public TemporaryFolder folder= new TemporaryFolder();
 
@@ -74,8 +47,8 @@ public class FiltersReaderTests {
     @Test
     public void wrongFileReturnsNullAndPrintsMessage() {
         String wrongFilePath = "/wrong/";
-        FiltersReader sut = new FiltersReader(wrongFilePath);
 
+        FiltersReader sut = new FiltersReader(wrongFilePath);
         Filters filters = sut.read();
 
         assertThat(filters, nullValue());
@@ -84,65 +57,50 @@ public class FiltersReaderTests {
     }
 
     /**
-     * When malformed filter file is passed to FiltersReader, 
-     * read() must return null and print error message.
+     * When file with empty 'package-name' parameter
+     * is passed to FiltersReader, read() must return null
+     * and print error message.
      */
     @Test
-    public void malformedFiltersFileReturnsNullAndPrintsMessage() throws IOException {
+    public void filtersFileWithEmptyPackageNameReturnsNullAndPrintsMessage() throws IOException {
+        String filtersEmptyPackageName = "{" +
+            "\"package-name\": \"\"," +
+            "\"show-inner-classes\": false," +
+            "\"ignored-classes\": [\".*Dagger.*\", \".*Injector.*\", \".*\\$_ViewBinding$\", \".*_Factory$\"]" +
+        "}";
         FileWriter fw = new FileWriter(filterFile);    
-        fw.write(FILTERS_MALFORMED);    
+        fw.write(filtersEmptyPackageName);    
         fw.close();
-        FiltersReader sut = new FiltersReader(filterFile.getAbsolutePath());
 
+        FiltersReader sut = new FiltersReader(filterFile.getAbsolutePath());
         Filters filters = sut.read();
 
         assertThat(filters, nullValue());
-        String message = "An error happened during " + filterFile.getAbsolutePath() + " processing!";
+        String message = "'package-name' option cannot be empty. Check " + filterFile.getAbsolutePath();
         assertThat(errContent.toString(), containsString(message));
     }
 
     /**
-     * When correct file with empty 'package-name' parameter
-     * is passed to FiltersReader, read() must return correct Filters
-     * and print info message.
-     */
-    @Test
-    public void correctFiltersFileWithEmptyPackageNameReturnsFiltersAndPrintsMessage() throws IOException {
-        FileWriter fw = new FileWriter(filterFile);    
-        fw.write(FILTERS_DEFAULT);    
-        fw.close();
-        FiltersReader sut = new FiltersReader(filterFile.getAbsolutePath());
-
-        Filters filters = sut.read();
-
-        assertThat(filters, notNullValue());
-        assertThat(filters.getPackageName(), nullValue());
-        assertThat(filters.isProcessingInner(), equalTo(SHOW_INNER_CLASSES_DEFAULT));
-        assertThat(filters.getIgnoredClasses(), equalTo(IGNORED_CLASSES_DEFAULT));
-        String message = "Warning! Processing without package filter.";
-        assertThat(outContent.toString(), containsString(message));
-    }
-
-    /**
      * When filter file without 'package-name' parameter
-     * is passed to FiltersReader, read() must return correct Filters
-     * and print info message.
+     * is passed to FiltersReader, read() must return null
+     * and print error message.
      */
     @Test
-    public void correctFiltersFileWithoutPackageNameReturnsFiltersAndPrintsMessage() throws IOException {
+    public void filtersFileWithoutPackageNameReturnsFiltersAndPrintsMessage() throws IOException {
+        String filtersWithoutPackageName = "{" +
+            "\"show-inner-classes\": false," +
+            "\"ignored-classes\": [\".*Dagger.*\", \".*Injector.*\", \".*\\$_ViewBinding$\", \".*_Factory$\"]" +
+        "}";
         FileWriter fw = new FileWriter(filterFile);    
-        fw.write(FILTERS_WITHOUT_PACKAGE_NAME);    
+        fw.write(filtersWithoutPackageName);    
         fw.close();
-        FiltersReader sut = new FiltersReader(filterFile.getAbsolutePath());
 
+        FiltersReader sut = new FiltersReader(filterFile.getAbsolutePath());
         Filters filters = sut.read();
 
-        assertThat(filters, notNullValue());
-        assertThat(filters.getPackageName(), nullValue());
-        assertThat(filters.isProcessingInner(), equalTo(SHOW_INNER_CLASSES_DEFAULT));
-        assertThat(filters.getIgnoredClasses(), equalTo(IGNORED_CLASSES_DEFAULT));
-        String message = "Warning! Processing without package filter.";
-        assertThat(outContent.toString(), containsString(message));
+        assertThat(filters, nullValue());
+        String message = "'package-name' option cannot be empty. Check " + filterFile.getAbsolutePath();
+        assertThat(errContent.toString(), containsString(message));
     }
 
     /**
@@ -151,37 +109,98 @@ public class FiltersReaderTests {
      */
     @Test
     public void correctFiltersFileReturnsFilters() throws IOException {
+        String filtersFull = "{" +
+            "\"package-name\": \"com.example.package\"," +
+            "\"show-inner-classes\": false," +
+            "\"ignored-classes\": [\".*Dagger.*\", \".*Injector.*\", \".*\\$_ViewBinding$\", \".*_Factory$\"]" +
+        "}";
         FileWriter fw = new FileWriter(filterFile);    
-        fw.write(FILTERS_FULL);    
+        fw.write(filtersFull);    
         fw.close();
-        FiltersReader sut = new FiltersReader(filterFile.getAbsolutePath());
 
+        FiltersReader sut = new FiltersReader(filterFile.getAbsolutePath());
         Filters filters = sut.read();
 
         assertThat(filters, notNullValue());
-        assertThat(filters.getPackageName(), equalTo(PACKAGE_NAME));
-        assertThat(filters.isProcessingInner(), equalTo(SHOW_INNER_CLASSES_DEFAULT));
-        assertThat(filters.getIgnoredClasses(), equalTo(IGNORED_CLASSES_DEFAULT));
+        assertThat(filters.getPackageName(), equalTo("com.example.package"));
+        assertThat(filters.isProcessingInner(), is(false));
+        assertThat(filters.getIgnoredClasses(),
+            equalTo(new String[] {".*Dagger.*", ".*Injector.*", ".*\\$_ViewBinding$", ".*_Factory$"}));
+    }
+
+    /**
+     * When filter file without `show-inner-classes` option is provided,
+     * read() must return correct Filters.
+     */
+    @Test
+    public void filtersFileWithoutInnerClassesReturnsFilters() throws IOException {
+        String filtersWithoutShowInner = "{" +
+            "\"package-name\": \"com.example.package\"," +
+            "\"ignored-classes\": [\".*Dagger.*\", \".*Injector.*\", \".*\\$_ViewBinding$\", \".*_Factory$\"]" +
+        "}";
+        FileWriter fw = new FileWriter(filterFile);    
+        fw.write(filtersWithoutShowInner);
+        fw.close();
+
+        FiltersReader sut = new FiltersReader(filterFile.getAbsolutePath());
+        Filters filters = sut.read();
+
+        assertThat(filters, notNullValue());
+        assertThat(filters.getPackageName(), equalTo("com.example.package"));
+        assertThat(filters.isProcessingInner(), is(false));
+        assertThat(filters.getIgnoredClasses(), 
+            equalTo(new String[] {".*Dagger.*", ".*Injector.*", ".*\\$_ViewBinding$", ".*_Factory$"}));
     }
 
     /**
      * When `show-inner-classes` option is enabled,
-     * read() must return correct Filters and info message is printed.
+     * read() must return correct Filters and print info message.
      */
     @Test
-    public void correctFiltersFileWithEnabledInnerClassesPrintsMessage() throws IOException {
+    public void correctFiltersFileWithEnabledInnerClassesReturnsFiltersAndPrintsMessage() throws IOException {
+        String filtersShowInnerTrue = "{" +
+            "\"package-name\": \"com.example.package\"," +
+            "\"show-inner-classes\": true," +
+            "\"ignored-classes\": [\".*Dagger.*\", \".*Injector.*\", \".*\\$_ViewBinding$\", \".*_Factory$\"]" +
+        "}";
         FileWriter fw = new FileWriter(filterFile);    
-        fw.write(FILTERS_SHOW_INNER_TRUE);    
+        fw.write(filtersShowInnerTrue);
         fw.close();
-        FiltersReader sut = new FiltersReader(filterFile.getAbsolutePath());
 
+        FiltersReader sut = new FiltersReader(filterFile.getAbsolutePath());
         Filters filters = sut.read();
 
         assertThat(filters, notNullValue());
-        assertThat(filters.getPackageName(), equalTo(PACKAGE_NAME));
-        assertThat(filters.isProcessingInner(), equalTo(SHOW_INNER_CLASSES_TRUE));
-        assertThat(filters.getIgnoredClasses(), equalTo(IGNORED_CLASSES_DEFAULT));
+        assertThat(filters.getPackageName(), equalTo("com.example.package"));
+        assertThat(filters.isProcessingInner(), is(true));
+        assertThat(filters.getIgnoredClasses(), 
+            equalTo(new String[] {".*Dagger.*", ".*Injector.*", ".*\\$_ViewBinding$", ".*_Factory$"}));
         String message = "Warning! Processing including inner classes.";
+        assertThat(outContent.toString(), containsString(message));
+    }
+
+    /**
+     * When filter file without `ignored-classes` option is provided,
+     * read() must return correct Filters and print into message.
+     */
+    @Test
+    public void filtersFileWithoutIgnoredClassesReturnsFiltersAndPrintsMessage() throws IOException {
+        String filtersWithoutIgnoredClasses = "{" +
+            "\"package-name\": \"com.example.package\"," +
+            "\"show-inner-classes\": false" +
+        "}";
+        FileWriter fw = new FileWriter(filterFile);    
+        fw.write(filtersWithoutIgnoredClasses);
+        fw.close();
+
+        FiltersReader sut = new FiltersReader(filterFile.getAbsolutePath());
+        Filters filters = sut.read();
+
+        assertThat(filters, notNullValue());
+        assertThat(filters.getPackageName(), equalTo("com.example.package"));
+        assertThat(filters.isProcessingInner(), is(false));
+        assertThat(filters.getIgnoredClasses(), nullValue());
+        String message = "Warning! Processing without class filtering.";
         assertThat(outContent.toString(), containsString(message));
     }
 }

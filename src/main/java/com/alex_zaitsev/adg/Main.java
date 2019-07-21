@@ -15,13 +15,21 @@ import java.io.File;
 public class Main {
 
     public static void main(String[] args) {
+        // parse arguments
         Arguments arguments = new ArgumentReader(args).read();
         if (arguments == null) {
             System.err.println("Arguments cannot be null!");
             return;
         }
-        Filters filters = arguments.getFiltersPath() == null ? null :
-            new FiltersReader(arguments.getFiltersPath()).read();
+        if (arguments.getFiltersPath() == null) {
+            System.err.println("Please specify path to filter.json file.");
+            return;
+        }
+        // parse filters
+        Filters filters = new FiltersReader(arguments.getFiltersPath()).read();
+        if (filters == null) {
+            return;
+        }
 
         // Delete the output directory for a better decoding result.
         if (FileUtils.deleteDir(arguments.getProjectPath())) {
@@ -34,8 +42,8 @@ public class Main {
 
         // Analyze the decoded files and create the result file.
         FilterProvider filterProvider = new FilterProvider(filters);
-        Filter<String> pathFilter = filters == null ? null : filterProvider.makePathFilter();
-        Filter<String> classFilter = filters == null ? null : filterProvider.makeClassFilter();
+        Filter<String> pathFilter = filterProvider.makePathFilter();
+        Filter<String> classFilter = filterProvider.makeClassFilter();
         SmaliAnalyzer analyzer = new SmaliAnalyzer(arguments, filters, 
                                                    pathFilter, classFilter);
 

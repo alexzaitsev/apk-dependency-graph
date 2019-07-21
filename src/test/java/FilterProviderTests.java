@@ -26,30 +26,6 @@ public class FilterProviderTests {
     }
 
     /**
-     * If package name is null, `makePathFilter` returns null.
-     */
-    @Test
-    public void makePathFilterReturnsNullIfPackageNameIsNull() {
-        defaultFilters.setPackageName(null);
-        FilterProvider sut = new FilterProvider(defaultFilters);
-        Filter<String> filter = sut.makePathFilter();
-
-        assertThat(filter, nullValue());
-    }
-
-    /**
-     * If package name is empty, `makePathFilter` returns null.
-     */
-    @Test
-    public void makePathFilterReturnsNullIfPackageNameIsEmpty() {
-        defaultFilters.setPackageName("");
-        FilterProvider sut = new FilterProvider(defaultFilters);
-        Filter<String> filter = sut.makePathFilter();
-
-        assertThat(filter, nullValue());
-    }
-
-    /**
      * If provided filters are ok, `makePathFilter` returns expected Filter.
      */
     @Test
@@ -84,6 +60,19 @@ public class FilterProviderTests {
         assertThat(filter.filter(wrongPath1), is(false));
         String wrongPath2 = getPath("com/wrong/package");
         assertThat(filter.filter(wrongPath2), is(false));
+    }
+
+    /**
+     * If ignored classes option is null, `makeClassFilter` returns null.
+     */
+    @Test
+    public void makeClassFilterReturnsNullIfIgnoredClassesAreNull() {
+        defaultFilters.setIgnoredClasses(null);
+        FilterProvider sut = new FilterProvider(defaultFilters);
+
+        Filter<String> filter = sut.makeClassFilter();
+        
+        assertThat(filter, nullValue());
     }
 
     /** 

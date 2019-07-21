@@ -15,10 +15,6 @@ public class FilterProvider {
     }
 
     public Filter<String> makePathFilter() {
-        if (inputFilters.getPackageName() == null || inputFilters.getPackageName().isEmpty()) {
-            return null;
-        }
-
         String replacement = Matcher.quoteReplacement(File.separator);
 	    replacement = Matcher.quoteReplacement(replacement);
         String packageNameAsPath = inputFilters.getPackageName().replaceAll("\\.", replacement);
@@ -30,6 +26,10 @@ public class FilterProvider {
 
     public Filter<String> makeClassFilter() {
         String[] ignoredClasses = inputFilters.getIgnoredClasses();
+        if (ignoredClasses == null) {
+            return null;
+        }
+
         InverseRegexFilter ignoredClassesFilter = new InverseRegexFilter(ignoredClasses);
 
         return ignoredClassesFilter;
