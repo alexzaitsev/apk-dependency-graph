@@ -106,7 +106,6 @@ text {
 form {
   position: absolute;
   right: 10px;
-  top: 60px;
   color: white;
   width: 370px;
 }
@@ -122,14 +121,13 @@ form input::placeholder {
 #form-background {
   position: absolute;
   right: 0px;
-  top: 60px;
   width: 390px;
-  height: 350px;
+  height: 330px;
   background-color: #000;
   filter: alpha(opacity=40);
-  -moz-opacity: 0.4;
-  -khtml-opacity: 0.4;
-  opacity: 0.4;
+  -moz-opacity: 0.5;
+  -khtml-opacity: 0.5;
+  opacity: 0.5;
 }
 
 #simple-menu {
