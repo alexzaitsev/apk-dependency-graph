@@ -39,7 +39,6 @@
     </style>
 </head>
 <body>
-<!--script type="text/javascript" src="Scripts/jquery/jquery-2.1.4.min.js"></script-->
 
 <script type="text/javascript" src="analyzed.js"></script>
 
@@ -61,8 +60,8 @@
         <p class="range-field"><input type="range" id="link_strength" name="link_strength" min="1" max="100" value="7"/>
         <label for="link_strength">Link strength</label></p>
         
-        <input type="checkbox" name="show_texts_near_circles" id="show_texts_near_circles"/>
-        <label for="show_texts_near_circles">Show names</label><br/>
+        <input type="checkbox" name="show_names" id="show_names" checked="true"/>
+        <label for="show_names">Show names</label><br/>
 
         <input type="checkbox" name="show_inactive_elements" id="show_inactive_elements" checked="true"/>
         <label for="show_inactive_elements">Show inactive elements</label> <span class="tooltipped " data-position="left" data-delay="50" data-html="true" data-tooltip="If this is active, you will see every node and link.<br>If this is not active, you will see no links when no<br> node is selected and when a node is selected you<br>will only see direct links from and to that selected node"><i class="material-icons" style="vertical-align: middle;font-size:18px">help</i></span>
@@ -161,7 +160,7 @@ force.start();
     var default_circle_radius = 15;
 
     // you can set it to true, but this will not help to understanf what's going on
-    var show_texts_near_circles = false;
+    var show_names = true;
     var show_inactive_elements = true;
     var default_max_texts_length = 100;
 
@@ -347,8 +346,9 @@ force.start();
         svg.selectAll(".node").attr("r", radius);
         link.attr("d", link_line);
         node.attr("transform", transform);
-        if (show_texts_near_circles) {
+        if (show_names) {
             text.attr("transform", transform);
+            text.attr("visibility", "visible");
         }
         updateLinkVisibilities();
         updateNodeVisibilities();
@@ -416,9 +416,9 @@ force.start();
             force.linkStrength(default_link_strength);
         }
 
-        if (this.name == "show_texts_near_circles") {
+        if (this.name == "show_names") {
             text.attr("visibility", this.checked ? "visible" : "hidden");
-            show_texts_near_circles = this.checked;
+            show_names = this.checked;
         }
 
         if (this.name == "show_inactive_elements") {
