@@ -48,7 +48,6 @@
 
         <input type="checkbox" name="show_inactive_elements" id="show_inactive_elements" checked="true"/>
         <label for="show_inactive_elements">Show inactive elements</label> <span class="tooltipped " data-position="left" data-delay="50" data-html="true" data-tooltip="If this is active, you will see every node and link.<br>If this is not active, you will see no links when no<br> node is selected and when a node is selected you<br>will only see direct links from and to that selected node"><i class="material-icons" style="vertical-align: middle;font-size:18px">help</i></span>
-        <input id="search_input" placeholder="Type regexp to filter nodes" style="width:100%;"><br>
     </form>
 </div>
 
@@ -341,53 +340,5 @@
             show_inactive_elements = this.checked;
         }
         force.start();
-    });
-</script>
-
-
-<script>
-    //  ===================================================
-    //  =============== LIVE FILTERING      ==============
-    //  ===================================================
-
-    function live_filter_graph(regexp, classname, invert) {
-        classname = typeof classname !== 'undefined' ? classname : "filtered";
-        invert = typeof invert !== 'undefined' ? invert : false;
-
-        var re = new RegExp(regexp, "i");
-        svg.selectAll('circle, text')
-                .classed(classname, function (node) {
-                    var filtered = !node.name.match(re);
-                    filtered = invert ? !filtered : filtered;
-                    node.filtered = filtered;
-                    node.neighbours = !filtered;
-                    return filtered;
-                })
-                .transition();
-
-        svg.selectAll('.link')
-                .classed(classname, function (l) {
-                    var filtered = !(l.sourceNode.name.match(re) && l.targetNode.name.match(re));
-                    filtered = invert ? !filtered : filtered;
-                    return filtered;
-                })
-                .attr("marker-end", function (l) {
-                    var filtered = !(l.sourceNode.name.match(re) && l.targetNode.name.match(re));
-                    filtered = invert ? !filtered : filtered;
-                    return filtered ? "" : "url(#default)"
-                })
-                .transition()
-    }
-
-
-    d3.select("#search_input").on("input", function () {
-        // Filter all items
-        console.log("Input changed to" + this.value);
-        actions.deselect_selected_node();
-
-        if (this.value && this.value.length) {
-            live_filter_graph(this.value, "filtered");
-            force.start();
-        }
     });
 </script>
