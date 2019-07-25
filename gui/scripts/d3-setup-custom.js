@@ -10,10 +10,8 @@ var default_link_distance = 10;
 // 1   - One does not change default_link_distance
 var default_link_strength = 0.7;
 
-// Should I comment this?
 var default_circle_radius = 15;
 
-// you can set it to true, but this will not help to understanf what's going on
 var show_names = true;
 var show_inactive_elements = true;
 var default_max_texts_length = 100;
