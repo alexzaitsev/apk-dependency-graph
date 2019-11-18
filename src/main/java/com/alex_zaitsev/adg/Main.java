@@ -44,13 +44,13 @@ public class Main {
         FilterProvider filterProvider = new FilterProvider(filters);
         Filter<String> pathFilter = filterProvider.makePathFilter();
         Filter<String> classFilter = filterProvider.makeClassFilter();
-        SmaliAnalyzer analyzer = new SmaliAnalyzer(arguments, filters, 
+        SmaliAnalyzer analyzer = new SmaliAnalyzer(arguments, filters,
                                                    pathFilter, classFilter);
 
         if (analyzer.run()) {
             File resultFile = new File(arguments.getResultPath());
             new Writer(resultFile).write(analyzer.getDependencies());
-            System.out.println("Success! Now open index.html in your browser.");
+            System.out.println("Success! Now open gui/index.html in your browser.");
         }
     }
 }
