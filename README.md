@@ -56,9 +56,8 @@ Ways to compile `build/jar/apk-dependency-graph.jar`:
 
 `>> gradle build` (Gradle 5.0 or newer)  
 `>> gradlew build` (Gradle Wrapper)  
-`>> ant` (Ant)
 
-Classes will be generated to `build/classes` folder and jar file will appear onto `build/jar` folder.
+Classes will be generated to `build/classes` folder and jar file will appear onto `build/libs` folder.
 
 ###### To get more information please check our [wiki page](https://github.com/alexzaitsev/apk-dependency-graph/wiki).
 
