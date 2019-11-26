@@ -50,7 +50,7 @@ public class Main {
         if (analyzer.run()) {
             File resultFile = new File(arguments.getResultPath());
             new Writer(resultFile).write(analyzer.getDependencies());
-            System.out.println("Success! Now open index.html in your browser.");
+            System.out.println("Success! Now open gui/index.html in your browser.");
         }
     }
 }

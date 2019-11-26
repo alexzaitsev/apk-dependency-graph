@@ -15,4 +15,4 @@ dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 outPath=${dir}"/output/"${xpref}
 jsonPath=${dir}"/gui/analyzed.js"
 
-eval "java -jar ${dir}'/build/jar/apk-dependency-graph.jar' -i ${outPath} -o ${jsonPath} -a $1 -f $2"
+eval "java -jar ${dir}'/build/libs/apk-dependency-graph.jar' -i ${outPath} -o ${jsonPath} -a $1 -f $2"

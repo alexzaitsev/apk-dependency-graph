@@ -20,12 +20,7 @@ testlogger {
     slowThreshold 0           // show time
 }
 clean {
-	delete = [                   // delete anything excluding compiled jar
-		'build/classes',
-		'build/generated',
-		'build/tmp',
-		'build/test-results',
-		'build/reports']
+	delete = ['build']
 }
 dependencies {
 	implementation 'org.smali:baksmali:2.2.5'      // runtime dependency
