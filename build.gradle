@@ -23,7 +23,8 @@ clean {
 	delete = ['build']
 }
 dependencies {
-	implementation 'org.smali:baksmali:2.2.5'      // runtime dependency
-	testImplementation 'org.hamcrest:hamcrest:2.1' // test dependency
-	testImplementation 'junit:junit:4.12'          // test dependency
+	implementation 'org.smali:baksmali:2.2.5'      			// runtime dependency
+	testImplementation 'org.hamcrest:hamcrest:2.1' 			// test dependency
+	testImplementation 'junit:junit:4.12'          			// test dependency
+	implementation 'org.apache.commons:commons-lang3:3.11'	// used to determine OS
 }
