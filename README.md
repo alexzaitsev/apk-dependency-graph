@@ -3,6 +3,8 @@
 [![Build Status](https://travis-ci.org/alexzaitsev/apk-dependency-graph.svg?branch=master)](https://travis-ci.org/alexzaitsev/apk-dependency-graph)
 [![version](https://img.shields.io/github/tag/alexzaitsev/apk-dependency-graph.svg?color=brightgreen&label=version)](https://github.com/alexzaitsev/apk-dependency-graph/releases) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-apk--dependency--graph-blue.svg?style=flat)](http://android-arsenal.com/details/1/4411)
 
+# The repo is not supported anymore
+
 Class dependency visualizer. Only `apk` file is needed.  
 Class coupling is one of the significant code metrics that shows how easy is to change, maintain and test the code. This tool helps to view whole picture of the project.
 
