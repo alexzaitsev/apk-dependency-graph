@@ -36,7 +36,7 @@ public class FilterProviderTests {
         assertThat(filter, notNullValue());
         String filterStringRepr = File.separatorChar == '/' ?
             "RegexFilter{.*com/example/package.*}" : // for Unix
-            "RegexFilter{.*com\\\\example\\\\package.*}"; // for Windows
+            "RegexFilter{.*com.example.package.*}"; // for Windows
         assertThat(filter.toString(), equalTo(filterStringRepr));
     }
 
